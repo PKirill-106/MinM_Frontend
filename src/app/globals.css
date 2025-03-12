@@ -26,13 +26,6 @@ body {
 	margin: 0;
 }
 
-section {
-	display: flex;
-	align-items: center;
-	margin: 90px auto 0 auto;
-	max-width: 600px;
-}
-
 h1,
 h2,
 h3,
@@ -42,11 +35,17 @@ h6 {
 	font-family: var(--font-heading);
 }
 
-.button-text {
-	font-size: 1rem;
-	font-weight: 500;
-}
-
-.navbar {
-	margin: 0;
+@layer components {
+	.button-text {
+		@apply text-lg font-semibold;
+	}
+	.container {
+		@apply w-full max-w-[1400px] px-4 mx-auto;
+	}
+	.link-hover {
+		@apply hover:text-accent duration-300 hover:scale-125;
+	}
+	.section {
+		@apply py-16;
+	}
 }

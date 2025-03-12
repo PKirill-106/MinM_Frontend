@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Roboto, Montserrat } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -16,8 +17,17 @@ const roboto = Roboto({
 export const metadata: Metadata = {
 	title: 'M in M',
 	description: 'Premium nail care services for flawless results',
-	keywords:
-		'nail care, manicure, pedicure, beauty, M in M, M-in-M, MinM, minm, m-in-m',
+	keywords: [
+		'nail care',
+		'manicure',
+		'pedicure',
+		'beauty',
+		'M in M',
+		'M-in-M',
+		'MinM',
+		'minm',
+		'm-in-m',
+	],
 }
 
 export default function RootLayout({
@@ -30,6 +40,7 @@ export default function RootLayout({
 			<body className={`${montserrat.variable} ${roboto.variable} antialiased`}>
 				<Navbar />
 				{children}
+				<Footer />
 			</body>
 		</html>
 	)
