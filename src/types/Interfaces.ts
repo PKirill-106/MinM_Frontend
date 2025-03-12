@@ -6,3 +6,9 @@ export interface ICategory {
 	creationAt: string
 	updatedAt: string
 }
+
+export interface ILogoProps {
+	width: number
+	height: number
+	isFooter: boolean
+}

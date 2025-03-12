@@ -1,21 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import CatalogDropdown from './UI/CatalogDropdown'
 import { Heart, Instagram, Search, ShoppingBag, User } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import Image from 'next/image'
+import CatalogDropdown from './UI/CatalogDropdown'
+import Logo from './UI/Logo'
 
 export default function Navbar() {
-	const pathname = usePathname()
-	const [currentPath, setCurrentPath] = useState('')
-
-	useEffect(() => {
-		setCurrentPath(pathname)
-	}, [pathname])
-
-
-	const isHome = currentPath === '/'
+	
 
 	return (
 		<header className='bg-white p-3'>
@@ -28,32 +18,7 @@ export default function Navbar() {
 						</Link>
 					</div>
 
-					<div className='w-[250px] flex justify-center'>
-						{isHome ? (
-							<Image
-								src='/logo.svg'
-								alt='logo'
-								className='object-contain'
-								width={250}
-								height={100}
-							/>
-						) : (
-							<Link
-								href='/'
-								className={`items-center ${
-									isHome ? '' : `hover:scale-110 duration-300 hover:text-accent`
-								} `}
-							>
-								<Image
-									src='/logo.svg'
-									alt='logo'
-									className='object-contain'
-									width={250}
-									height={100}
-								/>
-							</Link>
-						)}
-					</div>
+					<Logo width={250} height={100} isFooter={false}/>
 
 					<div className='flex gap-[30px] items-center justify-end translate-x-[10px] flex-1'>
 						<Link href=''>
