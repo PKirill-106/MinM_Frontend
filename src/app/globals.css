@@ -1,8 +1,14 @@
 @import 'tailwindcss';
 
+html {
+	overflow-y: scroll;
+}
+
 :root {
-	--background: #eeedf0;
-	--foreground: #333333;
+	--background: #eeedf0 !important;
+	--foreground: #333333 !important;
+	--font-sans: 'Roboto', sans-serif;
+	--font-heading: 'Montserrat', sans-serif;
 }
 
 @theme inline {
@@ -19,11 +25,18 @@
 }
 
 body {
+	overflow-x: hidden;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 	background: var(--background);
 	color: var(--foreground);
 	font-family: var(--font-sans);
 	padding: 0;
 	margin: 0;
+	min-width: 360px;
+	width: 100%;
+	position: relative;
 }
 
 h1,
@@ -33,11 +46,27 @@ h4,
 h5,
 h6 {
 	font-family: var(--font-heading);
+	padding: 0;
+}
+
+@layer base {
+	h1 {
+		@apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold;
+	}
+	h2 {
+		@apply text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold;
+	}
+	p {
+		@apply text-base md:text-lg lg:text-xl;
+	}
+	hr {
+		@apply border-b w-full opacity-20;
+	}
 }
 
 @layer components {
 	.button-text {
-		@apply text-lg font-semibold;
+		@apply text-2xl font-normal;
 	}
 	.container {
 		@apply w-full max-w-[1400px] px-4 mx-auto;
@@ -45,7 +74,13 @@ h6 {
 	.link-hover {
 		@apply hover:text-accent duration-300 hover:scale-125;
 	}
+	.link-size {
+		@apply h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9;
+	}
 	.section {
-		@apply py-16;
+		@apply py-16 px-2 lg:px-15 xl:px-30;
+	}
+	.li-hover {
+		@apply hover:text-accent cursor-pointer transition-colors;
 	}
 }

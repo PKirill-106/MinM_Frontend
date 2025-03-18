@@ -3,36 +3,40 @@ import { ILogoProps } from '@/types/Interfaces'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 export default function Logo({ width, height, isFooter }: ILogoProps) {
 	const pathname = usePathname()
-	const [currentPath, setCurrentPath] = useState('')
 
-	useEffect(() => {
-		setCurrentPath(pathname)
-	}, [pathname])
+	const isHome: boolean = pathname === '/'
 
-	const isHome = currentPath === '/'
+	const logoSrc: string = isFooter ? '/inverse-logo.svg' : '/logo.svg'
+
+	const responsiveFooterLogo: string =
+		'w-28 h-12 md:w-37 md:h-16 lg:w-42 lg:h-18'
+	const responsiveNavLogo: string =
+		'w-30 h-14 md:w-34 md:h-15 lg:w-46 lg:h-20 xl:w-50 xl:h-22'
 
 	const logo = (
 		<Image
-			src={`${isFooter ? `/inverse-logo.svg` : `/logo.svg`}`}
+			src={logoSrc}
 			alt='logo'
-			className='object-contain'
+			className={`object-contain ${
+				isFooter ? responsiveFooterLogo : responsiveNavLogo
+			}`}
 			width={width}
 			height={height}
 		/>
 	)
 
 	return (
-		<div className='flex justify-center'>
+		<div className='flex items-center'>
 			{isHome ? (
 				logo
 			) : (
 				<Link
 					href='/'
-					className={`items-center ${
+					className={`${
 						isHome ? '' : `hover:scale-110 duration-300 hover:text-accent`
 					} `}
 				>

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Roboto, Montserrat } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
@@ -30,16 +30,20 @@ export const metadata: Metadata = {
 	],
 }
 
+export const viewport: Viewport = {
+	colorScheme: 'light',
+}
+
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='ua'>
-			<body className={`${montserrat.variable} ${roboto.variable} antialiased`}>
+		<html lang='ua' className='h-full' >
+			<body className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}>
 				<Navbar />
-				{children}
+				<main className='flex-1 pt-[70px]'>{children}</main>
 				<Footer />
 			</body>
 		</html>

@@ -1,0 +1,82 @@
+[
+	{
+		"id": 1,
+		"name": "NIU",
+		"slug": "niu",
+		"description": "Maternal care for anti-D [Rh] antibodies, third trimester, other fetus",
+		"image": "https://i.imgur.com/QkIa5tT.jpeg",
+    "creationAt": "2025-03-09T23:14:26.000Z",
+    "updatedAt": "2025-03-09T23:14:26.000Z",
+		"ParentCategoryId": 0
+	},
+	{
+		"id": 2,
+		"name": "Coolpad",
+		"slug": "soolpad",
+		"description": "Unspecified enthesopathy, lower limb, excluding foot",
+		"image": "https://i.imgur.com/ZANVnHE.jpeg",
+    "creationAt": "2025-03-09T23:14:26.000Z",
+    "updatedAt": "2025-03-10T15:21:17.000Z",
+		"ParentCategoryId": 0
+	},
+	{
+		"id": 3,
+		"name": "Samsung",
+		"slug": "samsung",
+		"description": "Anemia in neoplastic disease",
+		"image": "https://i.imgur.com/Qphac99.jpeg",
+    "creationAt": "2025-03-09T23:14:26.000Z",
+    "updatedAt": "2025-03-10T15:22:05.000Z",
+		"ParentCategoryId": 1
+	},
+	{
+		"id": 4,
+		"name": "alcatel",
+		"slug": "alcatel",
+		"description": "Other nondisplaced fracture of second cervical vertebra, subsequent encounter for fracture with nonunion",
+		"image": "https://i.imgur.com/qNOjJje.jpeg",
+    "creationAt": "2025-03-09T23:14:26.000Z",
+    "updatedAt": "2025-03-09T23:14:26.000Z",
+		"ParentCategoryId": 1
+	},
+	{
+		"id": 5,
+		"name": "Samsung",
+		"slug": "samsung",
+		"description": "Nonexudative age-related macular degeneration",
+		"image": "https://i.imgur.com/BG8J0Fj.jpg",
+    "creationAt": "2025-03-09T23:14:26.000Z",
+    "updatedAt": "2025-03-09T23:14:26.000Z",
+		"ParentCategoryId": 0
+	},
+	{
+		"id": 6,
+		"name": "Lava",
+		"slug": "lava",
+		"description": "Toxic effect of arsenic and its compounds, undetermined",
+		"image": "https://media.istockphoto.com/id/1414159406/es/vector/multicolor-abstracto-rojo-naranja-verde-púrpura-amarillo-colorido-ondulado-papelcut.jpg?s=612x612&w=0&k=20&c=UNjQErYytEZGkh72OyyN0XvryBi_G7_NUmQGwmK34jg=",
+    "creationAt": "2025-03-10T08:45:25.000Z",
+    "updatedAt": "2025-03-10T15:54:34.000Z",
+		"ParentCategoryId": 0
+	},
+	{
+		"id": 7,
+		"name": "Nokia",
+		"slug": "nokia",
+		"description": "Corrosion of unspecified degree of unspecified shoulder, subsequent encounter",
+		"image": "https://placeimg.com/640/480/any",
+    "creationAt": "2025-03-10T13:03:23.000Z",
+    "updatedAt": "2025-03-10T13:03:23.000Z",
+		"ParentCategoryId": 3
+	},
+	{
+		"id": 8,
+		"name": "Icemobile",
+		"slug": "Icemobile",
+		"description": "Other fracture of lower end of unspecified ulna, initial encounter for closed fracture",
+		"image": "https://loremflickr.com/g/320/240/paris,girl/all",
+    "creationAt": "2025-03-10T15:00:38.000Z",
+    "updatedAt": "2025-03-10T15:00:38.000Z",
+		"ParentCategoryId": 3
+	}
+]

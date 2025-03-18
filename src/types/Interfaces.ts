@@ -5,10 +5,24 @@ export interface ICategory {
 	image: string
 	creationAt: string
 	updatedAt: string
+	ParentCategoryId?: number
 }
 
 export interface ILogoProps {
 	width: number
 	height: number
-	isFooter: boolean
+	isFooter?: boolean
+	priority?: boolean
+}
+
+export interface IButtonProps {
+	text: string
+	variant: 'cart' | 'checkout' | 'instagram'
+	onClick?: () => void
+	href?: string
+}
+
+export interface CategoryListProps {
+	className?: string
+	isFooter?: boolean
 }
