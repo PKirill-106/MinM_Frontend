@@ -22,7 +22,7 @@ export interface IButtonProps {
 	href?: string
 }
 
-export interface CategoryListProps {
+export interface ICategoryListProps {
 	className?: string
 	isFooter?: boolean
 }

@@ -2,7 +2,7 @@
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import CategoryList from './CategoryList'
+import CategoryList from './category-lists/CategoryList'
 
 function CatalogDropdown() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)

@@ -10,10 +10,10 @@ import {
 	X,
 } from 'lucide-react'
 import Link from 'next/link'
-import CatalogDropdown from './UI/CatalogDropdown'
-import Logo from './UI/Logo'
-import { useState } from 'react'
-import CategoryList from './UI/CategoryList'
+import CatalogDropdown from '../CatalogDropdown'
+import Logo from '../UI/Logo'
+import { useEffect, useState } from 'react'
+import CategoryList from '../category-lists/CategoryList'
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)

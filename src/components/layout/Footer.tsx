@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
-import Logo from './UI/Logo'
-import Button from './UI/Button'
+import Logo from '../UI/Logo'
+import Button from '../UI/Button'
 import useCategories from '@/hooks/useCategories'
 import Link from 'next/link'
-import CategoryList from './UI/CategoryList'
+import CategoryList from '@/components/category-lists/CategoryList'
 
 export default function Footer() {
 	const { categories, loading, error } = useCategories()
@@ -42,7 +42,7 @@ export default function Footer() {
 							href='https://www.instagram.com/minmchik_/'
 						/>
 					</div>
-					<div className='flex-1 hidden sm:block'>
+					<div className='flex-1 hidden md:block'>
 						<h1>Каталог</h1>
 						<CategoryList
 							className='flex flex-col gap-5 py-4 font-light text-sm md:text-base lg:text-lg xl:text-xl'
