@@ -9,7 +9,7 @@ export default function Breadcrumbs() {
 	const pathSegments = pathname.split('/').filter(Boolean)
 
 	return (
-		<section className='px-2 lg:px-15 xl:px-30 mt-[110px]'>
+		<section className='px-2 lg:px-15 xl:px-30 mt-[87px] md:mt-[91px] lg:mt-[111px] xl:mt-[119px]'>
 			<div className='flex container items-center gap-2 text-gray-500'>
 				<Link href='/'>
 					<Home className='h-5 w-5 text-pink-400 hover:text-pink-600' />
