@@ -12,11 +12,30 @@ import {
 import Link from 'next/link'
 import CatalogDropdown from '../CatalogDropdown'
 import Logo from '../UI/Logo'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const menuRef = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+				setIsOpen(false)
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside)
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [isOpen])
 
 	return (
 		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
@@ -63,7 +82,7 @@ export default function Navbar() {
 					isOpen ? 'translate-x-0' : 'translate-x-full'
 				}`}
 			>
-				<div className='p-5 flex flex-col gap-6'>
+				<div ref={menuRef} className='p-5 flex flex-col gap-6'>
 					<button onClick={() => setIsOpen(false)} className='self-end pr-2'>
 						<X className='h-6 w-6' />
 					</button>
