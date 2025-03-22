@@ -65,7 +65,7 @@ export default function Navbar() {
 						</Link>
 					</Tooltip>
 
-					<Tooltip content='Обране' className='hidden md:flex'>
+					<Tooltip content='Обране' className='hidden group md:flex'>
 						<Link href=''>
 							<Heart className='link-size link-hover' />
 						</Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
 					<Tooltip content='Кошик' isShoppingBag={true}>
 						<Link
 							href=''
-							className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:text-button-text md:bg-button rounded-md hover:bg-accent hover:text-button group'
+							className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:text-button-text md:bg-button md:hover:bg-accent rounded-md hover-active-bg hover:text-button group'
 						>
 							<ShoppingBag className='link-size cursor-pointer transition-transform group-hover:scale-110' />
 						</Link>
@@ -92,11 +92,12 @@ export default function Navbar() {
 				</div>
 			</nav>
 			<div
+				ref={menuRef}
 				className={`fixed top-0 right-0 w-3/4 max-w-xs h-screen bg-white shadow-lg transform transition-transform duration-300 md:hidden ${
 					isOpen ? 'translate-x-0' : 'translate-x-full'
 				}`}
 			>
-				<div ref={menuRef} className='p-5 flex flex-col gap-6'>
+				<div className='p-5 flex flex-col gap-6'>
 					<button onClick={() => setIsOpen(false)} className='self-end pr-2'>
 						<X className='h-6 w-6' />
 					</button>
@@ -107,13 +108,19 @@ export default function Navbar() {
 					/>
 					<hr />
 					<div className='flex flex-col gap-8'>
-						<Link href='' className='flex items-center gap-3'>
-							<User className='h-6 w-6 link-hover' />
+						<Link
+							href=''
+							className='flex items-center gap-3 active:underline hover-active-text group'
+						>
+							<User className='h-6 w-6' />
 							<span>Мій профіль</span>
 						</Link>
 
-						<Link href='' className='flex items-center gap-3'>
-							<Heart className='h-6 w-6 link-hover' />
+						<Link
+							href=''
+							className='flex items-center gap-3 active:underline hover-active-text group'
+						>
+							<Heart className='h-6 w-6' />
 							<span>Збережене</span>
 						</Link>
 					</div>

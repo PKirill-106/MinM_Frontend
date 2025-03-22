@@ -39,7 +39,7 @@ export default function Logo({ width, height, isFooter }: ILogoProps) {
 					<Link
 						href='/'
 						className={`${
-							isHome ? '' : `hover:scale-110 duration-300 hover:text-accent`
+							isHome ? '' : `hover:scale-110 duration-300`
 						} `}
 					>
 						{logo}

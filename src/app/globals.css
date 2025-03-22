@@ -72,7 +72,7 @@ h6 {
 		@apply w-full max-w-[1400px] px-4 mx-auto;
 	}
 	.link-hover {
-		@apply hover:text-accent duration-300 hover:scale-125;
+		@apply hover:text-accent active:text-accent hover:scale-125 duration-300 transition-all;
 	}
 	.link-size {
 		@apply h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9;
@@ -80,22 +80,28 @@ h6 {
 	.section {
 		@apply py-16 px-2 lg:px-15 xl:px-30;
 	}
+	.hover-active-text {
+		@apply hover:text-accent active:text-accent ease-out duration-300 transition-all;
+	}
+	.hover-active-bg {
+		@apply hover:bg-accent active:bg-accent duration-300 ease-out transition-colors;
+	}
 	.li-hover {
-		@apply hover:text-accent cursor-pointer transition-colors;
+		@apply hover:text-accent active:text-accent cursor-pointer duration-300 ease-out transition-all;
 	}
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px) scale(1);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(-5px) scale(1);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.2s ease-out forwards;
+	animation: fadeIn 0.2s ease-out forwards;
 }

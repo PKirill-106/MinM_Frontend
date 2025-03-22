@@ -10,7 +10,8 @@ export default function Button({ text, variant, onClick, href }: IButtonProps) {
 	const variantClasses: Record<'cart' | 'checkout' | 'instagram', string> = {
 		cart: 'bg-button hover:bg-accent text-button',
 		checkout: 'bg-green-500 hover:bg-green-600 text-white',
-		instagram: 'bg-accent text-white hover:bg-button hover:text-button-text',
+		instagram:
+			'bg-accent text-white hover:bg-button hover:text-button-text active:bg-button active:text-button-text',
 	}
 
 	if (href) {

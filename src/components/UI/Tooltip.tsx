@@ -19,7 +19,7 @@ export default function Tooltip({
 
 			{isVisible && (
 				<div
-					className={`absolute z-50 bg-foreground text-white text-xs text-center p-2 rounded-md top-full left-1/2 transform -translate-x-1/2 mt-2 shadow-lg animate-fadeIn min-w-max ${
+					className={`hidden md:block absolute z-50 bg-foreground text-white text-xs text-center p-2 rounded-md top-full left-1/2 transform -translate-x-1/2 mt-2 shadow-lg animate-fadeIn min-w-max ${
 						isShoppingBag ? 'md:-translate-x-8' : ''
 					} `}
 				>

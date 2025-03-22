@@ -8,7 +8,7 @@ export default function NotFound() {
 				<p className='mt-4 text-lg'>Сторінку не знайдено</p>
 				<Link
 					href='/'
-					className='mt-6 inline-block text-accent hover:underline'
+					className='mt-6 inline-block text-accent hover:underline active:underline'
 				>
 					Повернутися на головну
 				</Link>

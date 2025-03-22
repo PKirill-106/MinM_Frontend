@@ -3,6 +3,7 @@ import { Roboto, Montserrat } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import Breadcrumbs from '@/components/layout/Breadcrumbs'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -45,7 +46,8 @@ export default function RootLayout({
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
 				<Navbar />
-				<main className='flex-1 mt-[70px]'>{children}</main>
+				<Breadcrumbs />
+				<main className='section flex-1 mt-[70px]'>{children}</main>
 				<Footer />
 			</body>
 		</html>

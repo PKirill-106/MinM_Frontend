@@ -11,7 +11,6 @@ interface Props {
 
 export default function MobileCategoryList({
 	categories,
-	className,
 	isFooter,
 }: Props) {
 	const [mobileOpenCategory, setMobileOpenCategory] = useState<number | null>(
@@ -40,9 +39,7 @@ export default function MobileCategoryList({
 							<div className='flex justify-between items-center'>
 								<Link
 									href={`/catalog/${category.slug}`}
-									className={`block px-3 py-2 flex-grow ${
-										isFooter ? 'li-hover' : ''
-									}`}
+									className='block px-3 py-2 flex-grow li-hover'
 								>
 									{category.name}
 								</Link>
@@ -74,7 +71,7 @@ export default function MobileCategoryList({
 											<li key={sub.id}>
 												<Link
 													href={`/catalog/${sub.slug}`}
-													className='block px-3 py-2 hover:text-accent transition-colors'
+													className='block px-3 py-2 hover-active-text transition-colors'
 												>
 													{sub.name}
 												</Link>

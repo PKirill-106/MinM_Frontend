@@ -2,12 +2,10 @@
 import React from 'react'
 import Logo from '../UI/Logo'
 import Button from '../UI/Button'
-import useCategories from '@/hooks/useCategories'
 import Link from 'next/link'
 import CategoryList from '@/components/category-lists/CategoryList'
 
 export default function Footer() {
-	const { categories, loading, error } = useCategories()
 	const year: number = new Date().getFullYear()
 
 	return (
@@ -21,7 +19,7 @@ export default function Footer() {
 							<h2>
 								<a
 									href='tel:+380935412030'
-									className='hover:text-accent transition'
+									className='hover-active-text transition'
 								>
 									093 541 20 30
 								</a>
@@ -29,7 +27,7 @@ export default function Footer() {
 							<p>
 								<a
 									href='mailto:m.in.m.nails@gmail.com'
-									className='hover:text-accent transition'
+									className='hover-active-text transition'
 								>
 									m.in.m.nails@gmail.com
 								</a>
