@@ -70,7 +70,7 @@ export default function DesktopCategoryList({
 										{subcategories.map(sub => (
 											<li key={sub.id}>
 												<Link
-													href={`/catalog/${sub.slug}`}
+													href={`/catalog/${category.slug}/${sub.slug}`}
 													className='block px-3 py-2 hover:text-accent transition-colors'
 												>
 													{sub.name}
