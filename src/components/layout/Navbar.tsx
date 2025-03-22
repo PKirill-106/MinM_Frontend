@@ -14,6 +14,7 @@ import CatalogDropdown from '../CatalogDropdown'
 import Logo from '../UI/Logo'
 import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
+import Tooltip from '../UI/Tooltip'
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -42,30 +43,43 @@ export default function Navbar() {
 			<nav className='container flex items-center justify-between md:gap-[15px] w-full'>
 				<div className='hidden md:flex items-center gap-5 xl:gap-7 md:flex-1'>
 					<CatalogDropdown />
-					<Link href='https://www.instagram.com/minmchik_/' target='_blank'>
-						<Instagram className='link-size link-hover' />
-					</Link>
+					<Tooltip content='Instagram'>
+						<Link href='https://www.instagram.com/minmchik_/' target='_blank'>
+							<Instagram className='link-size link-hover' />
+						</Link>
+					</Tooltip>
 				</div>
 
 				<Logo width={250} height={100} isFooter={false} priority />
 
 				<div className='flex gap-5 xl:gap-7 items-center justify-end md:translate-x-2 md:flex-1'>
-					<Link href=''>
-						<Search className='link-size link-hover' />
-					</Link>
-					<Link href='' className='hidden md:flex'>
-						<User className='link-size link-hover' />
-					</Link>
-					<Link href='' className='hidden md:flex'>
-						<Heart className='link-size link-hover' />
-					</Link>
+					<Tooltip content='Пошук'>
+						<Link href=''>
+							<Search className='link-size link-hover' />
+						</Link>
+					</Tooltip>
 
-					<Link
-						href=''
-						className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:bg-button rounded-md hover:bg-accent hover:text-button group'
-					>
-						<ShoppingBag className='link-size cursor-pointer transition-transform group-hover:scale-110' />
-					</Link>
+					<Tooltip content='Мій профіль' className='hidden md:flex'>
+						<Link href=''>
+							<User className='link-size link-hover' />
+						</Link>
+					</Tooltip>
+
+					<Tooltip content='Обране' className='hidden md:flex'>
+						<Link href=''>
+							<Heart className='link-size link-hover' />
+						</Link>
+					</Tooltip>
+
+					<Tooltip content='Кошик' isShoppingBag={true}>
+						<Link
+							href=''
+							className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:text-button-text md:bg-button rounded-md hover:bg-accent hover:text-button group'
+						>
+							<ShoppingBag className='link-size cursor-pointer transition-transform group-hover:scale-110' />
+						</Link>
+					</Tooltip>
+
 					<div className='md:hidden flex items-center'>
 						<button onClick={() => setIsOpen(!isOpen)}>
 							{isOpen ? (

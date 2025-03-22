@@ -26,3 +26,10 @@ export interface ICategoryListProps {
 	className?: string
 	isFooter?: boolean
 }
+
+export interface ITooltipProps {
+	content: string | React.ReactNode 
+	children: React.ReactNode
+	isShoppingBag?: boolean
+	className?: string
+}

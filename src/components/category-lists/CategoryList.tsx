@@ -1,4 +1,3 @@
-'use client'
 import useCategories from '@/hooks/useCategories'
 import { ICategoryListProps } from '@/types/Interfaces'
 import DesktopCategoryList from './DesktopCategoryList'

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import Tooltip from './Tooltip'
 
 export default function Logo({ width, height, isFooter }: ILogoProps) {
 	const pathname = usePathname()
@@ -34,14 +35,16 @@ export default function Logo({ width, height, isFooter }: ILogoProps) {
 			{isHome ? (
 				logo
 			) : (
-				<Link
-					href='/'
-					className={`${
-						isHome ? '' : `hover:scale-110 duration-300 hover:text-accent`
-					} `}
-				>
-					{logo}
-				</Link>
+				<Tooltip content='Головна сторінка'>
+					<Link
+						href='/'
+						className={`${
+							isHome ? '' : `hover:scale-110 duration-300 hover:text-accent`
+						} `}
+					>
+						{logo}
+					</Link>
+				</Tooltip>
 			)}
 		</div>
 	)
