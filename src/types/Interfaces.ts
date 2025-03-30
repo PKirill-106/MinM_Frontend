@@ -33,3 +33,15 @@ export interface ITooltipProps {
 	isShoppingBag?: boolean
 	className?: string
 }
+
+export interface CategoryItemProps {
+	category: ICategory
+	subcategories: ICategory[]
+	isFooter?: boolean
+	isHovered?: boolean
+	isOpen?: boolean
+	onMouseEnter?: () => void
+	onMouseLeave?: () => void
+	onToggle?: (event: React.MouseEvent) => void
+	isMobile?: boolean
+}

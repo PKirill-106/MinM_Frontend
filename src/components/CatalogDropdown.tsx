@@ -11,7 +11,7 @@ function CatalogDropdown() {
 		<div
 			onMouseEnter={() => setIsOpen(true)}
 			onMouseLeave={() => setIsOpen(false)}
-			className='relative inline-block	'
+			className='relative inline-block'
 		>
 			<Link
 				href='/catalog'

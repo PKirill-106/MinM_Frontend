@@ -47,7 +47,7 @@ export default function RootLayout({
 			>
 				<Navbar />
 				<Breadcrumbs />
-				<main className='section flex-1 mt-[70px]'>{children}</main>
+				<main className='section flex-1'>{children}</main>
 				<Footer />
 			</body>
 		</html>
