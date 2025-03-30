@@ -3,13 +3,27 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function Breadcrumbs() {
 	const pathname = usePathname()
 	const pathSegments = pathname.split('/').filter(Boolean)
 	const isHomePage = pathname === '/'
+	const [isNotFound, setIsNotFound] = useState(false)
 
-	// На главной не показываем крошки
+	// check if user is currently on not-found(404) page
+	useEffect(() => {
+		fetch(pathname, { method: 'HEAD' })
+			.then(response => {
+				if (response.status === 404) {
+					setIsNotFound(true)
+				} else {
+					setIsNotFound(false)
+				}
+			})
+			.catch(() => setIsNotFound(true)) // If the request failed, consider that 404
+	}, [pathname])
+
 	if (isHomePage) return null
 
 	return (
@@ -19,7 +33,7 @@ export default function Breadcrumbs() {
 					<Home className='h-5 w-5 text-accent hover:text-pink-600 ease-out duration-300 transition-all' />
 				</Link>
 
-				{pathSegments.length > 0 && pathname !== '/not-found' ? (
+				{pathSegments.length > 0 && !isNotFound ? (
 					pathSegments.map((segment, index) => {
 						const href = '/' + pathSegments.slice(0, index + 1).join('/')
 						const isLast = index === pathSegments.length - 1
@@ -43,7 +57,7 @@ export default function Breadcrumbs() {
 						)
 					})
 				) : (
-					// Если страница не найдена
+					// if page is not found
 					<span className='text-gray-500'>{'>'} Сторінку не знайдено</span>
 				)}
 			</div>
