@@ -45,10 +45,10 @@ export default function RootLayout({
 			<body
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
-				<Navbar />
-				<Breadcrumbs />
-				<main className='section flex-1'>{children}</main>
-				<Footer />
+					<Navbar />
+					<Breadcrumbs />
+					<main className='section flex-1'>{children}</main>
+					<Footer />
 			</body>
 		</html>
 	)
