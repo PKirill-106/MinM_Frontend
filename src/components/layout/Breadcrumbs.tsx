@@ -28,7 +28,7 @@ export default function Breadcrumbs() {
 
 	return (
 		<section className='px-2 lg:px-15 xl:px-30 mt-[87px] md:mt-[91px] lg:mt-[111px] xl:mt-[119px]'>
-			<div className='flex container items-center gap-2 text-gray-500'>
+			<div className='flex container items-center gap-2 text-transparent-text'>
 				<Link href='/'>
 					<Home className='h-5 w-5 text-accent hover:text-pink-600 hover:scale-125 ease-out duration-300 transition-all' />
 				</Link>
@@ -58,7 +58,7 @@ export default function Breadcrumbs() {
 					})
 				) : (
 					// if page is not found
-					<span className='text-gray-500'>{'>'} Сторінку не знайдено</span>
+					<span className='text-transparent-text'>{'>'} Сторінку не знайдено</span>
 				)}
 			</div>
 		</section>

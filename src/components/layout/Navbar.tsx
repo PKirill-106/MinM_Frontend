@@ -15,19 +15,28 @@ import Logo from '../UI/Logo'
 import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 import Tooltip from '../UI/Tooltip'
+import SearchBar from '../SearchBar'
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
+	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
+	const searchRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
 				setIsOpen(false)
 			}
+			if (
+				searchRef.current &&
+				!searchRef.current.contains(event.target as Node)
+			) {
+				setIsSearchOpen(false)
+			}
 		}
 
-		if (isOpen) {
+		if (isOpen || isSearchOpen) {
 			document.addEventListener('mousedown', handleClickOutside)
 		} else {
 			document.removeEventListener('mousedown', handleClickOutside)
@@ -36,7 +45,7 @@ export default function Navbar() {
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside)
 		}
-	}, [isOpen])
+	}, [isOpen, isSearchOpen])
 
 	return (
 		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
@@ -54,9 +63,12 @@ export default function Navbar() {
 
 				<div className='flex gap-5 xl:gap-7 items-center justify-end md:translate-x-2 md:flex-1'>
 					<Tooltip content='Пошук'>
-						<Link href=''>
+						<button
+							className='cursor-pointer'
+							onClick={() => setIsSearchOpen(true)}
+						>
 							<Search className='link-size link-hover' />
-						</Link>
+						</button>
 					</Tooltip>
 
 					<Tooltip content='Мій профіль' className='hidden md:flex'>
@@ -91,6 +103,11 @@ export default function Navbar() {
 					</div>
 				</div>
 			</nav>
+
+			<div ref={searchRef}>
+				<SearchBar isOpen={isSearchOpen} />
+			</div>
+
 			<div
 				ref={menuRef}
 				className={`fixed top-0 right-0 w-3/4 max-w-xs h-screen bg-white shadow-lg transform transition-transform duration-300 md:hidden ${

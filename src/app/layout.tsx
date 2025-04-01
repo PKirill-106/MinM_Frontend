@@ -40,15 +40,16 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+
 	return (
 		<html lang='ua' className='h-full'>
 			<body
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
-					<Navbar />
-					<Breadcrumbs />
-					<main className='section flex-1'>{children}</main>
-					<Footer />
+				<Navbar />
+				<Breadcrumbs />
+				<main className='section flex-1'>{children}</main>
+				<Footer />
 			</body>
 		</html>
 	)
