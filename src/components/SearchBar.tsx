@@ -1,5 +1,6 @@
 'use client'
 import { Search } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 type Search = {
@@ -9,8 +10,18 @@ type Search = {
 
 export default function SearchBar({ isOpen, onClose }: Search) {
 	const searchRef = useRef<HTMLDivElement>(null)
+	const inputRef = useRef<HTMLInputElement>(null)
 	const [inputValue, setInputValue] = useState('')
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+	const pathname = usePathname()
+
+	const clearSearchInput = () => {
+		if (inputRef.current) {
+			inputRef.current.value = ''
+		}
+	}
+
+
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -32,6 +43,24 @@ export default function SearchBar({ isOpen, onClose }: Search) {
 		}
 	}, [isOpen, onClose])
 
+	useEffect(() => {
+		if (!isOpen) {
+			timeoutRef.current = setTimeout(() => {
+				clearSearchInput()
+			}, 3000) 
+		} else {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current)
+				timeoutRef.current = null
+			}
+		}
+	}, [isOpen])
+
+	useEffect(() => {
+		clearSearchInput()
+	}, [pathname])
+
+
 	return (
 		<div
 			ref={searchRef}
@@ -42,6 +71,7 @@ export default function SearchBar({ isOpen, onClose }: Search) {
 			}`}
 		>
 			<input
+				ref={inputRef}
 				type='text'
 				placeholder='Що шукаєте?'
 				className='w-full bg-transparent outline-none placeholder:transparent-text text-lg peer transition-opacity duration-300'
