@@ -1,13 +1,36 @@
 'use client'
 import { Search } from 'lucide-react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Search = {
 	isOpen: boolean
+	onClose: () => void
 }
 
-export default function SearchBar({ isOpen }: Search) {
+export default function SearchBar({ isOpen, onClose }: Search) {
 	const searchRef = useRef<HTMLDivElement>(null)
+	const [inputValue, setInputValue] = useState('')
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				searchRef.current &&
+				!searchRef.current.contains(event.target as Node) &&
+				!(event.target as HTMLElement).closest('button.search-toggle')
+			) {
+				onClose()
+			}
+		}
+
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside)
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [isOpen, onClose])
 
 	return (
 		<div

@@ -21,18 +21,11 @@ export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
-	const searchRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
 				setIsOpen(false)
-			}
-			if (
-				searchRef.current &&
-				!searchRef.current.contains(event.target as Node)
-			) {
-				setIsSearchOpen(false)
 			}
 		}
 
@@ -64,8 +57,10 @@ export default function Navbar() {
 				<div className='flex gap-5 xl:gap-7 items-center justify-end md:translate-x-2 md:flex-1'>
 					<Tooltip content='Пошук'>
 						<button
-							className='cursor-pointer'
-							onClick={() => setIsSearchOpen(true)}
+							className='cursor-pointer search-toggle'
+							onClick={e => {
+								setIsSearchOpen(prev => !prev)
+							}}
 						>
 							<Search className='link-size link-hover' />
 						</button>
@@ -103,10 +98,7 @@ export default function Navbar() {
 					</div>
 				</div>
 			</nav>
-
-			<div ref={searchRef}>
-				<SearchBar isOpen={isSearchOpen} />
-			</div>
+			<SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
 			<div
 				ref={menuRef}
