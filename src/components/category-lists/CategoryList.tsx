@@ -11,7 +11,7 @@ export default function CategoryList({
 
 	if (loading) return <p>Загрузка...</p>
 	if (error) return <p className='text-red-500'>{error}</p>
-	if (!categories.length) return <p>Категорії не знайдені</p>
+	if (!categories.length) return <p className='p-4'>Категорії не знайдені</p>
 
 	return (
 		<div className={className}>

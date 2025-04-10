@@ -15,7 +15,7 @@ import Logo from '../UI/Logo'
 import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 import Tooltip from '../UI/Tooltip'
-import SearchBar from '../SearchBar'
+import SearchBar from './search/SearchBar'
 
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState<boolean>(false)

@@ -10,13 +10,13 @@ function useCategories() {
 		const fetchCategories = async () => {
 			try {
 				const response = await fetch(
-					// 'https://api.escuelajs.co/api/v1/categories'
 					'/MOCK_DATA.json'
 				)
 				if (!response.ok)
 					throw new Error(`HTTP error! Status: ${response.status}`)
 
-				const data: ICategory[] = await response.json()
+				const json = await response.json()
+				const data: ICategory[] = json.categories
 
 				setCategories(data)
 			} catch (error) {

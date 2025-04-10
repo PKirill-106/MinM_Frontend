@@ -24,10 +24,12 @@ export default function Breadcrumbs() {
 			.catch(() => setIsNotFound(true)) // If the request failed, consider that 404
 	}, [pathname])
 
-	if (isHomePage) return null
+	if (isHomePage) return (
+		<section className='mt-18 md:mt-19 lg:mt-24 xl:mt-26'></section>
+	)
 
 	return (
-		<section className='px-2 lg:px-15 xl:px-30 mt-[87px] md:mt-[91px] lg:mt-[111px] xl:mt-[119px]'>
+		<section className='px-2 lg:px-15 xl:px-30 mt-21 md:mt-23 lg:mt-28 xl:mt-30'>
 			<div className='flex container items-center gap-2 text-transparent-text'>
 				<Link href='/'>
 					<Home className='h-5 w-5 text-accent hover:text-pink-600 hover:scale-125 ease-out duration-300 transition-all' />

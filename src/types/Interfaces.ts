@@ -2,10 +2,24 @@ export interface ICategory {
 	id: number
 	name: string
 	slug: string
+	description: string
 	image: string
 	creationAt: string
 	updatedAt: string
 	ParentCategoryId?: number
+}
+
+export interface IProduct {
+	id: number
+	name: string
+	slug: string
+	description: string
+	price: number
+	images: string[]
+	categoryId: number
+	brand: string
+	stock: number
+	rating: number
 }
 
 export interface ILogoProps {

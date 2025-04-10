@@ -21,8 +21,6 @@ export default function SearchBar({ isOpen, onClose }: Search) {
 		}
 	}
 
-
-
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -47,7 +45,7 @@ export default function SearchBar({ isOpen, onClose }: Search) {
 		if (!isOpen) {
 			timeoutRef.current = setTimeout(() => {
 				clearSearchInput()
-			}, 3000) 
+			}, 3000)
 		} else {
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current)
@@ -60,11 +58,10 @@ export default function SearchBar({ isOpen, onClose }: Search) {
 		clearSearchInput()
 	}, [pathname])
 
-
 	return (
 		<div
 			ref={searchRef}
-			className={`fixed z-9 top-30 left-1/2 transform -translate-x-1/2 flex items-center w-full max-w-lg bg-white px-4 py-2 rounded-md shadow-lg focus-within:scale-105 transition-all duration-300 ${
+			className={`fixed z-9 top-21 md:top-23 lg:top-28 xl:top-30 left-1/2 transform -translate-x-1/2 flex items-center w-full max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl  bg-white px-4 py-2 rounded-md shadow-lg focus-within:scale-105 transition-all duration-300 ${
 				isOpen
 					? 'opacity-100 translate-y-0 scale-100'
 					: 'opacity-0 -translate-y-5 scale-85 pointer-events-none'

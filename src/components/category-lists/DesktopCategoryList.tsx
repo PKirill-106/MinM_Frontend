@@ -1,6 +1,4 @@
-import { ICategory, ICategoryListProps } from '@/types/Interfaces'
-import { ChevronRight } from 'lucide-react'
-import Link from 'next/link'
+import { ICategory } from '@/types/Interfaces'
 import { useState } from 'react'
 import { CategoryItem } from './CategoryItem'
 

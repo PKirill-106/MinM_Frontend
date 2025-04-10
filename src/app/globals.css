@@ -9,6 +9,12 @@ html {
 	--foreground: #333333 !important;
 	--font-sans: 'Roboto', sans-serif;
 	--font-heading: 'Montserrat', sans-serif;
+	--swiper-pagination-color: var(--color-accent);
+	--swiper-pagination-bullet-size: 12px;
+	--swiper-pagination-bullet-inactive-color: var(--color-accent);
+	--swiper-pagination-bullet-inactive-opacity: 0.3;
+	--swiper-pagination-bullet-horizontal-gap: 8px;
+	--swiper-pagination-bottom: 30px;
 }
 
 @theme inline {
@@ -22,6 +28,20 @@ html {
 	--color-white-text: #eeedf0;
 	--color-accent-text: #4b2d9f;
 	--color-transparent-text: rgba(0, 0, 0, 0.4);
+}
+.swiper-pagination {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	transition: all 0.4s ease !important;
+}
+.swiper-pagination-bullet {
+	transition: all 0.3s cubic-bezier(0.22, 0.61, 0.3, 1) !important;
+}
+.swiper-pagination-bullet-active {
+	height: 16px !important;
+	width: 16px !important;
+	transform: scale(1.1);
 }
 
 body {
@@ -41,12 +61,14 @@ body {
 
 h1,
 h2,
-h3,
 h4,
 h5,
 h6 {
 	font-family: var(--font-heading);
 	padding: 0;
+}
+h3 {
+	font-family: var(--font-sans);
 }
 
 @layer base {
@@ -56,9 +78,13 @@ h6 {
 	h2 {
 		@apply text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold;
 	}
+	h3 {
+		@apply text-sm/4 sm:text-base/5 md:text-lg/6 lg:text-xl/6 xl:text-2xl/7 font-medium;
+	}
 	p {
 		@apply text-base md:text-lg lg:text-xl;
 	}
+
 	hr {
 		@apply border-b w-full opacity-20;
 	}
@@ -88,6 +114,12 @@ h6 {
 	}
 	.li-hover {
 		@apply hover:text-accent active:text-accent cursor-pointer duration-300 ease-out transition-all;
+	}
+	.caption {
+		@apply text-[10px] md:text-xs lg:text-sm xl:text-base font-medium text-transparent-text;
+	}
+	.price {
+		@apply text-xl md:text-2xl lg:text-3xl xl:text-3xl font-medium;
 	}
 }
 

@@ -1,82 +1,183 @@
-[
-	{
-		"id": 1,
-		"name": "NIU",
-		"slug": "niu",
-		"description": "Maternal care for anti-D [Rh] antibodies, third trimester, other fetus",
-		"image": "https://i.imgur.com/QkIa5tT.jpeg",
-    "creationAt": "2025-03-09T23:14:26.000Z",
-    "updatedAt": "2025-03-09T23:14:26.000Z",
-		"ParentCategoryId": 0
-	},
-	{
-		"id": 2,
-		"name": "Coolpad",
-		"slug": "soolpad",
-		"description": "Unspecified enthesopathy, lower limb, excluding foot",
-		"image": "https://i.imgur.com/ZANVnHE.jpeg",
-    "creationAt": "2025-03-09T23:14:26.000Z",
-    "updatedAt": "2025-03-10T15:21:17.000Z",
-		"ParentCategoryId": 0
-	},
-	{
-		"id": 3,
-		"name": "Samsung",
-		"slug": "samsung",
-		"description": "Anemia in neoplastic disease",
-		"image": "https://i.imgur.com/Qphac99.jpeg",
-    "creationAt": "2025-03-09T23:14:26.000Z",
-    "updatedAt": "2025-03-10T15:22:05.000Z",
-		"ParentCategoryId": 1
-	},
-	{
-		"id": 4,
-		"name": "alcatel",
-		"slug": "alcatel",
-		"description": "Other nondisplaced fracture of second cervical vertebra, subsequent encounter for fracture with nonunion",
-		"image": "https://i.imgur.com/qNOjJje.jpeg",
-    "creationAt": "2025-03-09T23:14:26.000Z",
-    "updatedAt": "2025-03-09T23:14:26.000Z",
-		"ParentCategoryId": 1
-	},
-	{
-		"id": 5,
-		"name": "Samsung",
-		"slug": "samsung",
-		"description": "Nonexudative age-related macular degeneration",
-		"image": "https://i.imgur.com/BG8J0Fj.jpg",
-    "creationAt": "2025-03-09T23:14:26.000Z",
-    "updatedAt": "2025-03-09T23:14:26.000Z",
-		"ParentCategoryId": 0
-	},
-	{
-		"id": 6,
-		"name": "Lava",
-		"slug": "lava",
-		"description": "Toxic effect of arsenic and its compounds, undetermined",
-		"image": "https://media.istockphoto.com/id/1414159406/es/vector/multicolor-abstracto-rojo-naranja-verde-púrpura-amarillo-colorido-ondulado-papelcut.jpg?s=612x612&w=0&k=20&c=UNjQErYytEZGkh72OyyN0XvryBi_G7_NUmQGwmK34jg=",
-    "creationAt": "2025-03-10T08:45:25.000Z",
-    "updatedAt": "2025-03-10T15:54:34.000Z",
-		"ParentCategoryId": 0
-	},
-	{
-		"id": 7,
-		"name": "Nokia",
-		"slug": "nokia",
-		"description": "Corrosion of unspecified degree of unspecified shoulder, subsequent encounter",
-		"image": "https://placeimg.com/640/480/any",
-    "creationAt": "2025-03-10T13:03:23.000Z",
-    "updatedAt": "2025-03-10T13:03:23.000Z",
-		"ParentCategoryId": 3
-	},
-	{
-		"id": 8,
-		"name": "Icemobile",
-		"slug": "Icemobile",
-		"description": "Other fracture of lower end of unspecified ulna, initial encounter for closed fracture",
-		"image": "https://loremflickr.com/g/320/240/paris,girl/all",
-    "creationAt": "2025-03-10T15:00:38.000Z",
-    "updatedAt": "2025-03-10T15:00:38.000Z",
-		"ParentCategoryId": 3
-	}
-]
+{
+	"categories": [
+		{
+			"id": 1,
+			"name": "Electronics",
+			"slug": "electronics",
+			"description": "Cutting-edge electronic devices and gadgets",
+			"image": "https://i.imgur.com/QkIa5tT.jpeg",
+			"creationAt": "2025-03-09T23:14:26.000Z",
+			"updatedAt": "2025-03-09T23:14:26.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 2,
+			"name": "Clothing",
+			"slug": "clothing",
+			"description": "Fashion for all seasons",
+			"image": "https://i.imgur.com/ZANVnHE.jpeg",
+			"creationAt": "2025-03-09T23:14:26.000Z",
+			"updatedAt": "2025-03-10T15:21:17.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 3,
+			"name": "Home & Kitchen",
+			"slug": "home-kitchen",
+			"description": "Everything for your household",
+			"image": "https://i.imgur.com/Qphac99.jpeg",
+			"creationAt": "2025-03-09T23:14:26.000Z",
+			"updatedAt": "2025-03-10T15:22:05.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 4,
+			"name": "Sports & Outdoors",
+			"slug": "sports-outdoors",
+			"description": "Gear for active lifestyles",
+			"image": "https://i.imgur.com/qNOjJje.jpeg",
+			"creationAt": "2025-03-09T23:14:26.000Z",
+			"updatedAt": "2025-03-09T23:14:26.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 5,
+			"name": "Beauty & Personal Care",
+			"slug": "beauty-care",
+			"description": "Products for self-care and grooming",
+			"image": "https://i.imgur.com/BG8J0Fj.jpg",
+			"creationAt": "2025-03-09T23:14:26.000Z",
+			"updatedAt": "2025-03-09T23:14:26.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 6,
+			"name": "Books & Media",
+			"slug": "books-media",
+			"description": "Entertainment and knowledge",
+			"image": "https://i.imgur.com/ocRZHx4.jpeg",
+			"creationAt": "2025-03-10T08:45:25.000Z",
+			"updatedAt": "2025-03-10T15:54:34.000Z",
+			"ParentCategoryId": 0
+		},
+		{
+			"id": 7,
+			"name": "Smartphones",
+			"slug": "smartphones",
+			"description": "Latest mobile devices",
+			"image": "https://i.imgur.com/ap47IpS.jpeg",
+			"creationAt": "2025-03-10T13:03:23.000Z",
+			"updatedAt": "2025-03-10T13:03:23.000Z",
+			"ParentCategoryId": 1
+		},
+		{
+			"id": 8,
+			"name": "Men's Fashion",
+			"slug": "mens-fashion",
+			"description": "Clothing for men",
+			"image": "https://i.imgur.com/kNzbK3h.jpeg",
+			"creationAt": "2025-03-10T15:00:38.000Z",
+			"updatedAt": "2025-03-10T15:00:38.000Z",
+			"ParentCategoryId": 2
+		},
+		{
+			"id": 9,
+			"name": "Cookware",
+			"slug": "cookware",
+			"description": "Tools for your kitchen",
+			"image": "https://placeimg.com/640/480/kitchen",
+			"creationAt": "2025-03-10T15:00:38.000Z",
+			"updatedAt": "2025-03-10T15:00:38.000Z",
+			"ParentCategoryId": 3
+		}
+	],
+	"products": [
+		{
+			"id": 1,
+			"name": "Samsung Galaxy S24 Ultra",
+			"slug": "samsung-galaxy-s24-ultra",
+			"description": "6.8\" AMOLED, 200MP camera, S Pen included",
+			"price": 300,
+			"images": [
+				"https://i.imgur.com/5iuELkF.jpeg",
+				"https://i.imgur.com/UmjlH9i.jpeg"
+			],
+			"categoryId": 7,
+			"brand": "Samsung",
+			"stock": 150,
+			"rating": 4.8
+		},
+		{
+			"id": 2,
+			"name": "Apple iPhone 15 Pro",
+			"slug": "iphone-15-pro",
+			"description": "6.1\" Super Retina XDR, A17 Pro chip",
+			"price": 125,
+			"images": ["https://i.imgur.com/2mXryqK.jpeg"],
+			"categoryId": 7,
+			"brand": "Apple",
+			"stock": 2000,
+			"rating": 4.7
+		},
+		{
+			"id": 13,
+			"name": "Men's Slim Fit Jeans Men's Slim Fit Jeans Men's Slim Fit Jeans Men's Slim Fit Jeans",
+			"slug": "mens-slim-fit-jeans",
+			"description": "Stretch denim with modern fit",
+			"price": 60,
+			"images": ["https://i.imgur.com/YBLELlN.jpeg"],
+			"categoryId": 8,
+			"brand": "Levi's",
+			"stock": 300,
+			"rating": 4.5
+		},
+		{
+			"id": 28,
+			"name": "Non-Stick Cookware Set",
+			"slug": "non-stick-cookware-set",
+			"description": "10-piece set with ceramic coating",
+			"price": 180,
+			"images": ["https://i.imgur.com/YOAvGpW.jpeg"],
+			"categoryId": 9,
+			"brand": "T-fal",
+			"stock": 120,
+			"rating": 4.6
+		},
+		{
+			"id": 40,
+			"name": "Yoga Mat",
+			"slug": "yoga-mat",
+			"description": "Eco-friendly 6mm thick mat",
+			"price": 249,
+			"images": ["https://i.imgur.com/hCZdWnc.jpeg"],
+			"categoryId": 4,
+			"brand": "Gaiam",
+			"stock": 180,
+			"rating": 4.4
+		},
+		{
+			"id": 50,
+			"name": "Electric Toothbrush",
+			"slug": "electric-toothbrush",
+			"description": "Sonic technology with 3 modes",
+			"price": 349,
+			"images": ["https://i.imgur.com/2GanzkS.jpeg"],
+			"categoryId": 5,
+			"brand": "Oral-B",
+			"stock": 250,
+			"rating": 4.7
+		},
+		{
+			"id": 60,
+			"name": "The Silent Patient",
+			"slug": "the-silent-patient",
+			"description": "Psychological thriller novel",
+			"price": 250,
+			"images": ["https://i.imgur.com/UBcIp4N.jpeg"],
+			"categoryId": 6,
+			"brand": "Penguin",
+			"stock": 90,
+			"rating": 4.6
+		}
+	]
+}
