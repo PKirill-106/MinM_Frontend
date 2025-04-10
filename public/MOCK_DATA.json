@@ -112,11 +112,11 @@
 			"name": "Apple iPhone 15 Pro",
 			"slug": "iphone-15-pro",
 			"description": "6.1\" Super Retina XDR, A17 Pro chip",
-			"price": 125,
+			"price": 1250,
 			"images": ["https://i.imgur.com/2mXryqK.jpeg"],
 			"categoryId": 7,
 			"brand": "Apple",
-			"stock": 2000,
+			"stock": 200,
 			"rating": 4.7
 		},
 		{

@@ -79,7 +79,7 @@ h3 {
 		@apply text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold;
 	}
 	h3 {
-		@apply text-sm/4 sm:text-base/5 md:text-lg/6 lg:text-xl/6 xl:text-2xl/7 font-medium;
+		@apply text-lg/5 sm:text-lg/5 md:text-xl/6 lg:text-2xl/7 xl:text-2xl/7 font-medium;
 	}
 	p {
 		@apply text-base md:text-lg lg:text-xl;
@@ -116,10 +116,10 @@ h3 {
 		@apply hover:text-accent active:text-accent cursor-pointer duration-300 ease-out transition-all;
 	}
 	.caption {
-		@apply text-[10px] md:text-xs lg:text-sm xl:text-base font-medium text-transparent-text;
+		@apply text-xs md:text-sm lg:text-base xl:text-lg font-medium text-transparent-text;
 	}
 	.price {
-		@apply text-xl md:text-2xl lg:text-3xl xl:text-3xl font-medium;
+		@apply text-xl md:text-xl lg:text-[22px] xl:text-[26px] 2xl:text-3xl font-bold;
 	}
 }
 
