@@ -16,8 +16,9 @@ import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 import Tooltip from '../UI/Tooltip'
 import SearchBar from './search/SearchBar'
+import { ICategory } from '@/types/Interfaces'
 
-export default function Navbar() {
+export default function Navbar({ categories }: {categories: ICategory[]}) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
@@ -44,7 +45,7 @@ export default function Navbar() {
 		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
 			<nav className='container flex items-center justify-between md:gap-[15px] w-full'>
 				<div className='hidden md:flex items-center gap-5 xl:gap-7 md:flex-1'>
-					<CatalogDropdown />
+					<CatalogDropdown categories={categories} />
 					<Tooltip content='Instagram'>
 						<Link href='https://www.instagram.com/minmchik_/' target='_blank'>
 							<Instagram className='link-size link-hover' />
@@ -112,6 +113,7 @@ export default function Navbar() {
 					</button>
 					<hr />
 					<CategoryList
+						categories={categories}
 						className='flex flex-col gap-5 text-base'
 						isFooter={false}
 					/>

@@ -14,13 +14,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 	const category = categories.find(cat => cat.id === product.categoryId)
 	const parentCategory =
-		category && category.ParentCategoryId !== 0
-			? categories.find(cat => cat.id === category.ParentCategoryId)
+		category && category.parentCategoryId !== null
+			? categories.find(cat => cat.id === category.parentCategoryId)
 			: null
 
 	const productUrl = parentCategory
-		? `/${parentCategory.slug}/${category?.slug}/${product.slug}`
-		: `/${category?.slug}/${product.slug}`
+		? `/${parentCategory.name.toLowerCase()}/${category?.name.toLowerCase()}/${
+				product.slug
+		  }`
+		: `/${category?.name.toLowerCase()}/${product.slug}`
 
 	return (
 		<div className='relative flex flex-col bg-white max-w-90 overflow-hidden rounded-lg shadow-sm hover:scale-105 hover:shadow-lg transition-all duration-300'>

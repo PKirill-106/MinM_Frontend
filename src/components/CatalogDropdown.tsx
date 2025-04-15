@@ -3,8 +3,9 @@ import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import CategoryList from './category-lists/CategoryList'
+import { ICategory } from '@/types/Interfaces'
 
-function CatalogDropdown() {
+function CatalogDropdown({ categories }: { categories : ICategory[]}) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	return (
@@ -33,6 +34,7 @@ function CatalogDropdown() {
 				}`}
 			>
 				<CategoryList
+					categories={categories}
 					className='py-2 text-xs md:text-sm lg:text-base xl:text-lg'
 					isFooter={false}
 				/>

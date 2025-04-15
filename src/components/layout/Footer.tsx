@@ -4,8 +4,9 @@ import Logo from '../UI/Logo'
 import Button from '../UI/Button'
 import Link from 'next/link'
 import CategoryList from '@/components/category-lists/CategoryList'
+import { ICategory } from '@/types/Interfaces'
 
-export default function Footer() {
+export default function Footer({ categories }: {categories: ICategory[]}) {
 	const year: number = new Date().getFullYear()
 
 	return (
@@ -43,6 +44,7 @@ export default function Footer() {
 					<div className='flex-1 hidden md:block'>
 						<h1>Каталог</h1>
 						<CategoryList
+							categories={categories}
 							className='flex flex-col gap-5 py-4 font-light text-sm md:text-base lg:text-lg xl:text-xl'
 							isFooter={true}
 						/>

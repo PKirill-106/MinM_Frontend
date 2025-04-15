@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { CategoryItemProps } from '@/types/Interfaces'
+import { ICategoryItem } from '@/types/Interfaces'
 
 export function CategoryItem({
 	category,
@@ -12,7 +12,7 @@ export function CategoryItem({
 	onMouseLeave,
 	onToggle,
 	isMobile,
-}: CategoryItemProps) {
+}: ICategoryItem) {
 	const hasSubcategories = subcategories.length > 0
 	const footer: string = 'li-hover py-2'
 	const nav: string =
@@ -38,7 +38,7 @@ export function CategoryItem({
 		>
 			<div className='flex md:block justify-between'>
 				<Link
-					href={`/catalog/${category.slug}`}
+					href={`/catalog/${category.name.toLowerCase()}`}
 					className={`flex items-center justify-between ${
 						isMobile
 							? ' flex-grow py-2 px-3 li-hover'
@@ -76,7 +76,7 @@ export function CategoryItem({
 						{subcategories.map(sub => (
 							<li key={sub.id}>
 								<Link
-									href={`/catalog/${category.slug}/${sub.slug}`}
+									href={`/catalog/${category.name.toLowerCase()}/${sub.name.toLowerCase()}`}
 									className='block px-3 py-2 hover-active-text transition-colors'
 								>
 									{sub.name}

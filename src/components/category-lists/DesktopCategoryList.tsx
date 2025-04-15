@@ -1,32 +1,26 @@
-import { ICategory } from '@/types/Interfaces'
+'use client'
+import { ICategoryList } from '@/types/Interfaces'
 import { useState } from 'react'
 import { CategoryItem } from './CategoryItem'
-
-interface Props {
-	categories: ICategory[]
-	className?: string
-	isFooter?: boolean
-}
 
 export default function DesktopCategoryList({
 	categories,
 	className,
 	isFooter,
-}: Props) {
-	const [hoveredCategory, setHoveredCategory] = useState<number | null>(null)
+}: ICategoryList) {
+	const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
-	const getSubcategories = (parentId: number) =>
-		categories.filter(category => category.ParentCategoryId === parentId)
+	if (!categories || categories.length === 0) return null
 
 	return (
 		<ul className={`flex flex-col ${className}`}>
 			{categories
-				.filter(category => category.ParentCategoryId === 0)
+				.filter(category => category.parentCategoryId == null)
 				.map(category => (
 					<CategoryItem
 						key={category.id}
 						category={category}
-						subcategories={getSubcategories(category.id)}
+						subcategories={category.subCategories ?? []}
 						isFooter={isFooter}
 						isHovered={hoveredCategory === category.id}
 						onMouseEnter={() => setHoveredCategory(category.id)}

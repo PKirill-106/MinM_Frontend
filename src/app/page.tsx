@@ -10,7 +10,6 @@ export default function Home() {
 
 	const topProducts = products.sort((a, b) => b.rating - a.rating).slice(0, 8)
 
-	const newProducts = products.sort((a, b) => b.id - a.id).slice(0, 8)
 
 	return (
 		<div className='container -mt-16 flex flex-col gap-8 md:gap-10 lg:gap-16 xl:gap-20'>
@@ -26,7 +25,7 @@ export default function Home() {
 			<ProductSection
 				title='Новинки магазину'
 				highlight='Новинки'
-				products={newProducts}
+				products={topProducts}
 				linkLabel='Всі новинки'
 				linkHref='/products/new'
 			/>

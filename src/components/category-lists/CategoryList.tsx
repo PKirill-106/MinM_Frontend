@@ -1,18 +1,12 @@
-import useCategories from '@/hooks/useCategories'
-import { ICategoryListProps } from '@/types/Interfaces'
+import { ICategoryList } from '@/types/Interfaces'
 import DesktopCategoryList from './DesktopCategoryList'
 import MobileCategoryList from './MobileCategoryList'
 
 export default function CategoryList({
+	categories,
 	className,
 	isFooter,
-}: ICategoryListProps) {
-	const { categories, loading, error } = useCategories()
-
-	if (loading) return <p>Загрузка...</p>
-	if (error) return <p className='text-red-500'>{error}</p>
-	if (!categories.length) return <p className='p-4'>Категорії не знайдені</p>
-
+}: ICategoryList) {
 	return (
 		<div className={className}>
 			{/* Render different components based on screen size */}

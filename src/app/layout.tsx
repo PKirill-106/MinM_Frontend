@@ -4,6 +4,8 @@ import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
+import { getAllCategories } from '@/lib/services/categoryServices'
+import { ICategory } from '@/types/Interfaces'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -35,21 +37,22 @@ export const viewport: Viewport = {
 	colorScheme: 'light',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const categories: ICategory[] = await getAllCategories()
 
 	return (
 		<html lang='ua' className='h-full'>
 			<body
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
-				<Navbar />
+				<Navbar categories={categories} />
 				<Breadcrumbs />
 				<main className='section flex-1'>{children}</main>
-				<Footer />
+				<Footer categories={categories} />
 			</body>
 		</html>
 	)

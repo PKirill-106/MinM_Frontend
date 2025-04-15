@@ -1,22 +1,19 @@
 export interface ICategory {
-	id: number
+	id: string
 	name: string
-	slug: string
 	description: string
-	image: string
-	creationAt: string
-	updatedAt: string
-	ParentCategoryId?: number
+	parentCategoryId?: string
+	subCategories?: ICategory[]
 }
 
 export interface IProduct {
-	id: number
+	id: string
 	name: string
 	slug: string
 	description: string
 	price: number
 	images: string[]
-	categoryId: number
+	categoryId: string
 	brand: string
 	stock: number
 	rating: number
@@ -36,7 +33,8 @@ export interface IButtonProps {
 	href?: string
 }
 
-export interface ICategoryListProps {
+export interface ICategoryList {
+	categories: ICategory[]
 	className?: string
 	isFooter?: boolean
 }
@@ -48,7 +46,7 @@ export interface ITooltipProps {
 	className?: string
 }
 
-export interface CategoryItemProps {
+export interface ICategoryItem {
 	category: ICategory
 	subcategories: ICategory[]
 	isFooter?: boolean
