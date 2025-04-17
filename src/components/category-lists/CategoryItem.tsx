@@ -25,8 +25,8 @@ export function CategoryItem({
 		: `absolute left-full top-0 ml-4 bg-white shadow-lg rounded-md p-2 transition-all duration-300 ease-out
 										${
 											isHovered
-												? 'opacity-100 translate-x-0 scale-100'
-												: 'opacity-0 -translate-x-6 scale-80'
+												? 'visible opacity-100 translate-x-0 scale-100'
+												: 'invisible opacity-0 -translate-x-2 scale-80'
 										}
 										before:absolute before:-left-4 before:top-0 before:w-4 before:h-full before:bg-transparent`
 
@@ -38,7 +38,7 @@ export function CategoryItem({
 		>
 			<div className='flex md:block justify-between'>
 				<Link
-					href={`/catalog/${category.name.toLowerCase()}`}
+					href={`/catalog/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
 					className={`flex items-center justify-between ${
 						isMobile
 							? ' flex-grow py-2 px-3 li-hover'
@@ -76,8 +76,12 @@ export function CategoryItem({
 						{subcategories.map(sub => (
 							<li key={sub.id}>
 								<Link
-									href={`/catalog/${category.name.toLowerCase()}/${sub.name.toLowerCase()}`}
-									className='block px-3 py-2 hover-active-text transition-colors'
+									href={`/catalog/${category.name
+										.toLowerCase()
+										.replace(/\s+/g, '-')}/${sub.name
+										.toLowerCase()
+										.replace(/\s+/g, '-')}`}
+									className='block px-3 py-2 hover-active-text transition-colors whitespace-nowrap'
 								>
 									{sub.name}
 								</Link>
