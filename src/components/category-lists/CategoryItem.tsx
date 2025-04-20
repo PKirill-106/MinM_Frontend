@@ -35,6 +35,7 @@ export function CategoryItem({
 			key={category.id}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
+			className='relative'
 		>
 			<div className='flex md:block justify-between'>
 				<Link
