@@ -3,20 +3,36 @@ export interface ICategory {
 	name: string
 	description: string
 	parentCategoryId?: string
-	subCategories?: ICategory[]
 }
 
 export interface IProduct {
 	id: string
 	name: string
-	slug: string
 	description: string
 	price: number
-	images: string[]
+	discountId: string
+	discountPrice: string
+	unitsInStock: string
+	isStock: string
 	categoryId: string
-	brand: string
-	stock: number
-	rating: number
+	sku: string
+	productVariant: string
+	isSeasonal: string
+	seasonId: string
+}
+
+export interface IProductSection {
+	title: string
+	highlight?: string
+	products: IProduct[]
+	categories: ICategory[]
+	linkLabel: string
+	linkHref: string
+}
+
+export interface IProductCard {
+	product: IProduct
+	categories: ICategory[]
 }
 
 export interface ILogoProps {
@@ -40,7 +56,7 @@ export interface ICategoryList {
 }
 
 export interface ITooltipProps {
-	content: string | React.ReactNode 
+	content: string | React.ReactNode
 	children: React.ReactNode
 	isShoppingBag?: boolean
 	className?: string

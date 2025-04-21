@@ -1,24 +1,16 @@
-'use client'
-import { IProduct } from '@/types/Interfaces'
+import { IProductSection } from '@/types/Interfaces'
 import Link from 'next/link'
 import ProductCard from './ProductCard'
 import { ChevronRight } from 'lucide-react'
 
-interface Props {
-	title: string
-	highlight?: string
-	products: IProduct[]
-	linkLabel: string
-	linkHref: string
-}
-
-export default function ProductSection({
+export default async function ProductSection({
 	title,
 	highlight,
 	products,
+	categories,
 	linkLabel,
 	linkHref,
-}: Props) {
+}: IProductSection) {
 	return (
 		<div>
 			<h2 className='max-w-[320px] mx-auto text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 lg:mb-12 xl:mb-15'>
@@ -34,7 +26,11 @@ export default function ProductSection({
 
 			<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6'>
 				{products.map(product => (
-					<ProductCard key={product.id} product={product} />
+					<ProductCard
+						key={product.id}
+						product={product}
+						categories={categories}
+					/>
 				))}
 
 				<Link

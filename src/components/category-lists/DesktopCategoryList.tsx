@@ -12,6 +12,9 @@ export default function DesktopCategoryList({
 
 	if (!categories || categories.length === 0) return null
 
+	const getSubcategories = (parentId: string) =>
+		categories.filter(cat => cat.parentCategoryId === parentId)
+
 	return (
 		<ul className={`flex flex-col ${className}`}>
 			{categories
@@ -20,7 +23,7 @@ export default function DesktopCategoryList({
 					<CategoryItem
 						key={category.id}
 						category={category}
-						subcategories={category.subCategories ?? []}
+						subcategories={getSubcategories(category.id)}
 						isFooter={isFooter}
 						isHovered={hoveredCategory === category.id}
 						onMouseEnter={() => setHoveredCategory(category.id)}

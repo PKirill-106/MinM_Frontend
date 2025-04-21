@@ -30,16 +30,17 @@ export function CategoryItem({
 										}
 										before:absolute before:-left-4 before:top-0 before:w-4 before:h-full before:bg-transparent`
 
+	const formatName = (name: string) => name.toLowerCase().replace(/\s+/g, '-')
+
 	return (
 		<li
-			key={category.id}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
 			className='relative'
 		>
 			<div className='flex md:block justify-between'>
 				<Link
-					href={`/catalog/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+					href={`/catalog/${formatName(category.name)}`}
 					className={`flex items-center justify-between ${
 						isMobile
 							? ' flex-grow py-2 px-3 li-hover'
@@ -77,11 +78,9 @@ export function CategoryItem({
 						{subcategories.map(sub => (
 							<li key={sub.id}>
 								<Link
-									href={`/catalog/${category.name
-										.toLowerCase()
-										.replace(/\s+/g, '-')}/${sub.name
-										.toLowerCase()
-										.replace(/\s+/g, '-')}`}
+									href={`/catalog/${formatName(category.name)}/${formatName(
+										sub.name
+									)}`}
 									className='block px-3 py-2 hover-active-text transition-colors whitespace-nowrap'
 								>
 									{sub.name}

@@ -2,13 +2,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-export async function getAllCategories() {
-	const res = await fetch(`${API_URL}/Category/GetAll`, {
+export async function getAllProducts() {
+	const res = await fetch(`${API_URL}/Product/GetAll`, {
 		method: 'GET',
 	})
 
 	if (!res.ok) {
-		throw new Error(`Failed to fetch categories: ${res.status}`)
+		throw new Error(`Failed to fetch products: ${res.status}`)
 	}
 
 	const { data } = await res.json()
