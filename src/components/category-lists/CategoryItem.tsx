@@ -81,7 +81,7 @@ export function CategoryItem({
 									href={`/catalog/${formatName(category.name)}/${formatName(
 										sub.name
 									)}`}
-									className='block px-3 py-2 hover-active-text transition-colors whitespace-nowrap'
+									className='block px-2 pr-3 py-2 hover-active-text transition-colors whitespace-nowrap'
 								>
 									{sub.name}
 								</Link>

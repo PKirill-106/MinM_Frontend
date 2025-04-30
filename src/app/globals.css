@@ -84,6 +84,9 @@ h3 {
 	p {
 		@apply text-base md:text-lg lg:text-xl;
 	}
+	label {
+		@apply text-sm md:text-base lg:text-lg;
+	}
 
 	hr {
 		@apply border-b w-full opacity-20;
