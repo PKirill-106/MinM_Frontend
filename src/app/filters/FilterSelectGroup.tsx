@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function FilterSelectGroup({ categories }: IFilterSelectGroup) {
 	return (
-		<div className='flex gap-4 mb-6'>
+		<div className='flex items-center gap-5 mb-6'>
 			<Select
 				variant='cat'
 				options={categories}
@@ -16,7 +16,13 @@ export default function FilterSelectGroup({ categories }: IFilterSelectGroup) {
 				defaultValue='Виберіть підкатегорію'
 			/>
 			<input type='color' className='color-picker border rounded' />
-			<Select variant='sort' options={categories} defaultValue='Від дешевих' />
+			<div className='ml-auto'>
+				<Select
+					variant='sort'
+					options={categories}
+					defaultValue='Рекомендовані'
+				/>
+			</div>
 		</div>
 	)
 }

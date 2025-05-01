@@ -36,6 +36,7 @@ export default function Select({
 		selectOptions = options.filter(option => option.parentCategoryId !== null)
 	} else if (variant === 'sort') {
 		selectOptions = [
+			{ id: 'suggested', name: 'Рекомендовані' },
 			{ id: 'cheap', name: 'Від дешевих' },
 			{ id: 'expensive', name: 'Від дорогих' },
 			{ id: 'popular', name: 'Популярні' },
@@ -45,7 +46,7 @@ export default function Select({
 	return (
 		<div
 			ref={selectRef}
-			className='relative p-2 border-1 rounded-md w-[220px] cursor-pointer'
+			className='relative p-2 border-1 rounded-md w-60 cursor-pointer'
 			onClick={() => setIsOpen(prev => !prev)}
 		>
 			<div className='flex items-center justify-between'>
