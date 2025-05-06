@@ -46,7 +46,7 @@ export default async function ProductCard({
 				</div>
 
 				<div className='flex justify-between items-center pt-2 md:pt-3 lg:pt-4 xl:pt-6'>
-					<p className='price '>{product.price} грн</p>
+					<p className='price '>{product.productVariants[0].price} грн</p>
 					<div className='flex gap-3 lg:gap:4 xl:gap-5'>
 						<button className='absolute top-0 right-0 p-2 md:p-3 lg:p-4 hover:text-red-600 transition cursor-pointer'>
 							<Heart className='h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9 2xl:h-10 2xl:w-10' />
