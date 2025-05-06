@@ -5,7 +5,8 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import { getAllCategories } from '@/lib/services/categoryServices'
-import { ICategory } from '@/types/Interfaces'
+import { ICategory, IProduct } from '@/types/Interfaces'
+import { getAllProducts } from '@/lib/services/productServices'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -43,6 +44,7 @@ export default async function RootLayout({
 	children: React.ReactNode
 }>) {
 	const categories: ICategory[] = await getAllCategories()
+	const products: IProduct[] = await getAllProducts()
 
 	return (
 		<html lang='ua' className='h-full'>
@@ -50,7 +52,7 @@ export default async function RootLayout({
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
 				<Navbar categories={categories} />
-				<Breadcrumbs />
+				<Breadcrumbs categories={categories} products={products} />
 				<main className='section flex-1'>{children}</main>
 				<Footer categories={categories} />
 			</body>
