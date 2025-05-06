@@ -24,21 +24,24 @@ export interface ICategoryItem {
 	isMobile?: boolean
 }
 
+export interface IProductVariant {
+	name: string
+	price: number
+	unitsInStock: number
+}
+
 export interface IProduct {
 	id: string
 	name: string
 	slug: string
 	description: string
-	price: number
+	productVariants: IProductVariant[]
 	discountId: string
-	discountPrice: string
-	unitsInStock: string
-	isStock: string
-	categoryId: string
-	sku: string
-	productVariant: string
 	isSeasonal: string
-	seasonId: string
+	categoryId: string
+	categoryName: string
+	sku: string
+	imageUrls: string[]
 }
 
 export interface IProductSection {
@@ -52,10 +55,14 @@ export interface IProductSection {
 
 export interface IProductFilters {
 	categories: ICategory[]
+	activeCategory: string
+	activeSubcategory: string
 }
 
 export interface IFilterSelectGroup {
 	categories: ICategory[]
+	activeCategory: string
+	activeSubcategory: string
 }
 
 export interface IProductGrid {
@@ -66,6 +73,11 @@ export interface IProductGrid {
 export interface IProductCard {
 	product: IProduct
 	categories: ICategory[]
+}
+
+export interface IBreadcrumbs {
+	categories: ICategory[]
+	products: IProduct[]
 }
 
 export interface ILogoProps {
@@ -90,6 +102,9 @@ export interface ISelectProps {
 	options: ICategory[]
 	variant: 'cat' | 'subcat' | 'sort'
 	defaultValue: string
+	onSelect?: (id: string) => void
+	activeSlug?: string
+	activeId?: string
 }
 
 export interface ITooltipProps {

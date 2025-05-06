@@ -3,11 +3,19 @@ import FilterCheckboxGroup from './FilterCheckboxGroup'
 import { IProductFilters } from '@/types/Interfaces'
 import FilterSelectGroup from './FilterSelectGroup'
 
-export default function ProductFilters({ categories } : IProductFilters) {
+export default function ProductFilters({
+	categories,
+	activeCategory,
+	activeSubcategory,
+}: IProductFilters) {
 	return (
 		<div className='mb-6'>
 			<FilterCheckboxGroup />
-			<FilterSelectGroup categories={categories} />
+			<FilterSelectGroup
+				categories={categories}
+				activeCategory={activeCategory}
+				activeSubcategory={activeSubcategory}
+			/>
 		</div>
 	)
 }

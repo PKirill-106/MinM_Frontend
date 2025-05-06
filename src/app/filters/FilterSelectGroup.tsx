@@ -1,26 +1,86 @@
+'use client'
 import Select from '@/components/UI/Select'
 import { IFilterSelectGroup } from '@/types/Interfaces'
-import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { slugify } from 'transliteration'
 
-export default function FilterSelectGroup({ categories }: IFilterSelectGroup) {
+export default function FilterSelectGroup({
+	categories,
+	activeCategory,
+	activeSubcategory,
+}: IFilterSelectGroup) {
+	const router = useRouter()
+	const searchParams = useSearchParams()
+	const currentSort = searchParams.get('sort') || 'suggested'
+
+	const handleSortSelect = (sortId: string) => {
+		const currentPath = window.location.pathname
+		const url = new URLSearchParams(window.location.search)
+		url.set('sort', sortId)
+		router.push(`${currentPath}?${url.toString()}`)
+	}
+	
+	const activeCategoryObj = categories.find(
+		c => c.parentCategoryId === null && slugify(c.name) === activeCategory
+	)
+
+	const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+		activeCategoryObj?.id ?? null
+	)
+
+	useEffect(() => {
+		if (activeCategoryObj) {
+			setSelectedCategoryId(activeCategoryObj.id)
+		}
+	}, [activeCategoryObj?.id])
+
+	const handleCategorySelect = (categoryId: string) => {
+		const category = categories.find(c => c.id === categoryId)
+		if (category) {
+			router.push(`/catalog/${category.slug}`)
+		}
+	}
+
+	const handleSubcategorySelect = (subcategoryId: string) => {
+		const subcat = categories.find(c => c.id === subcategoryId)
+		const parent = categories.find(c => c.id === subcat?.parentCategoryId)
+
+		if (subcat && parent) {
+			router.push(`/catalog/${parent.slug}/${subcat.slug}`)
+		}
+	}
+
+	const filteredSubcategories = selectedCategoryId
+		? categories.filter(cat => cat.parentCategoryId === selectedCategoryId)
+		: []
+
 	return (
 		<div className='flex items-center gap-5 mb-6'>
 			<Select
 				variant='cat'
 				options={categories}
 				defaultValue='Виберіть категорію'
+				onSelect={handleCategorySelect}
+				activeSlug={activeCategory}
 			/>
-			<Select
-				variant='subcat'
-				options={categories}
-				defaultValue='Виберіть підкатегорію'
-			/>
+			{selectedCategoryId && (
+				<Select
+					variant='subcat'
+					options={filteredSubcategories}
+					defaultValue='Виберіть підкатегорію'
+					onSelect={handleSubcategorySelect}
+					activeSlug={activeSubcategory}
+				/>
+			)}
 			<input type='color' className='color-picker border rounded' />
 			<div className='ml-auto'>
 				<Select
 					variant='sort'
 					options={categories}
 					defaultValue='Рекомендовані'
+					onSelect={handleSortSelect}
+					activeId={currentSort}
 				/>
 			</div>
 		</div>

@@ -8,13 +8,22 @@ import { slugify } from 'transliteration'
 
 export default async function CategoryPage({
 	params,
+	searchParams,
 }: {
 	params: Promise<{ slug?: string[] }>
+	searchParams: Promise<{
+		sort?: string
+		season?: string
+		sale?: string
+		new?: string
+	}>
 }) {
 	const products: IProduct[] = await getAllProducts()
 	const categories: ICategory[] = await getAllCategories()
 
 	const { slug = [] } = await params
+	const { sort = 'suggested', season, sale, new: isNew } = await searchParams
+
 	const categorySlug = slug[1] ?? null
 	const subcategorySlug = slug[2] ?? null
 
@@ -39,13 +48,49 @@ export default async function CategoryPage({
 		)
 	}
 
+	if (season === 'true') {
+		filteredProducts = filteredProducts.filter(p => p.isSeasonal)
+	}
+
+	if (sale === 'true') {
+		filteredProducts = filteredProducts.filter(p => !!p.discountId)
+	}
+
+	if (isNew) {
+		//filteredProducts = filteredProducts.filter(p => p.tags?.includes('new'))
+	}
+
+	const sortProducts = (products: IProduct[], sort: string): IProduct[] => {
+		switch (sort) {
+			case 'price-desc':
+				return [...products].sort(
+					(a, b) => b.productVariants[0].price - a.productVariants[0].price
+				)
+			case 'price-asc':
+				return [...products].sort(
+					(a, b) => a.productVariants[0].price - b.productVariants[0].price
+				)
+			case 'popular':
+				return [...products].sort(
+					(a, b) => b.productVariants[0].price - a.productVariants[0].price
+				)
+			default:
+				return products // suggested
+		}
+	}
+	filteredProducts = sortProducts(filteredProducts, sort)
+
 	return (
 		<div className='container'>
 			<h2 className='mb-6'>
 				{activeSubcategory?.name || activeCategory?.name || 'Каталог'}
 			</h2>
 
-			<ProductFilters categories={categories} />
+			<ProductFilters
+				categories={categories}
+				activeCategory={categorySlug}
+				activeSubcategory={subcategorySlug}
+			/>
 
 			<ProductGrid categories={categories} products={filteredProducts} />
 

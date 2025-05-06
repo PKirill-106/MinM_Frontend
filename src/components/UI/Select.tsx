@@ -7,7 +7,11 @@ export default function Select({
 	options,
 	variant,
 	defaultValue,
+	onSelect,
+	activeSlug,
+	activeId,
 }: ISelectProps) {
+	const [selected, setSelected] = useState<string | null>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const selectRef = useRef<HTMLDivElement>(null)
 
@@ -28,6 +32,26 @@ export default function Select({
 		}
 	}, [isOpen])
 
+	useEffect(() => {
+		if (activeSlug) {
+			const match = options.find(opt => opt.slug === activeSlug)
+			if (match) {
+				setSelected(match.name)
+			}
+		} else if (activeId && variant === 'sort') {
+			const sortOptions = [
+				{ id: 'suggested', name: 'Рекомендовані' },
+				{ id: 'price-asc', name: 'Від дешевих' },
+				{ id: 'price-desc', name: 'Від дорогих' },
+				{ id: 'popular', name: 'Популярні' },
+			]
+			const match = sortOptions.find(opt => opt.id == activeId)
+			if (match) {
+				setSelected(match.name)
+			}
+		}
+	}, [activeSlug, activeId, options, variant])
+
 	let selectOptions: { id: string; name: string }[] = []
 
 	if (variant === 'cat') {
@@ -37,8 +61,8 @@ export default function Select({
 	} else if (variant === 'sort') {
 		selectOptions = [
 			{ id: 'suggested', name: 'Рекомендовані' },
-			{ id: 'cheap', name: 'Від дешевих' },
-			{ id: 'expensive', name: 'Від дорогих' },
+			{ id: 'price-asc', name: 'Від дешевих' },
+			{ id: 'price-desc', name: 'Від дорогих' },
 			{ id: 'popular', name: 'Популярні' },
 		]
 	}
@@ -50,7 +74,7 @@ export default function Select({
 			onClick={() => setIsOpen(prev => !prev)}
 		>
 			<div className='flex items-center justify-between'>
-				<span>{defaultValue}</span>
+				<span>{selected || defaultValue}</span>
 				<ChevronRight
 					className={`h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-7 xl:w-7 transform transition-transform duration-300 ease-out ${
 						isOpen ? 'rotate-90' : 'rotate-0'
@@ -67,7 +91,8 @@ export default function Select({
 							onClick={e => {
 								e.stopPropagation()
 								setIsOpen(false)
-								console.log('Selected:', option.name)
+								setSelected(option.name)
+								onSelect?.(option.id)
 							}}
 						>
 							{option.name}
