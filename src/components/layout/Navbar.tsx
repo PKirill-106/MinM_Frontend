@@ -16,12 +16,14 @@ import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 import Tooltip from '../UI/Tooltip'
 import SearchBar from './search/SearchBar'
-import { ICategory, INavbarProps } from '@/types/Interfaces'
+import { INavbarProps } from '@/types/Interfaces'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar({categories, products}: INavbarProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
+	const pathname = usePathname()
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -40,6 +42,10 @@ export default function Navbar({categories, products}: INavbarProps) {
 			document.removeEventListener('mousedown', handleClickOutside)
 		}
 	}, [isOpen, isSearchOpen])
+
+	useEffect(() => {
+		setIsOpen(false)
+	}, [pathname])
 
 	return (
 		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
@@ -120,7 +126,7 @@ export default function Navbar({categories, products}: INavbarProps) {
 					<hr />
 					<div className='flex flex-col gap-8'>
 						<Link
-							href=''
+							href='/profile'
 							className='flex items-center gap-3 active:underline hover-active-text group'
 						>
 							<User className='h-6 w-6' />
@@ -128,7 +134,7 @@ export default function Navbar({categories, products}: INavbarProps) {
 						</Link>
 
 						<Link
-							href=''
+							href='favorites'
 							className='flex items-center gap-3 active:underline hover-active-text group'
 						>
 							<Heart className='h-6 w-6' />

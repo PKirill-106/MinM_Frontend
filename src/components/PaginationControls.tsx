@@ -26,7 +26,7 @@ export default function PaginationControls({ totalPages }: IPaginationControlsPr
 						className={`w-8 h-8 flex items-center justify-center border rounded text-sm transition ${
 							page === currentPage
 								? 'bg-accent text-white'
-								: 'hover:bg-accent hover:text-white'
+								: 'hover:bg-accent active:bg-accent hover:text-white duration-300 ease-out transition-all'
 						}`}
 					>
 						{page}

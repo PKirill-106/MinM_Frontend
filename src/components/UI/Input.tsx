@@ -23,22 +23,25 @@ export default function Input({ text }: IInputProps) {
 	}
 
 	return (
-		<label htmlFor={id} className='flex gap-2 items-center cursor-pointer'>
-			<div className='relative w-5 h-5'>
+		<label
+			htmlFor={id}
+			className='flex gap-2 items-center active:text-accent duration-300 ease-out transition-all cursor-pointer pointer-events-none'
+		>
+			<div className='relative w-5 h-5 cursor-pointer pointer-events-auto'>
 				<input
 					id={id}
 					type='checkbox'
-					className={`appearance-none w-full h-full border-1 rounded-xs li-hover peer checked:invisible`}
+					className={`appearance-none w-full h-full border-1 rounded-xs li-hover peer checked:invisible active:bg-accent`}
 					checked={isChecked}
 					onChange={handleChange}
 				/>
 				<Check
-					className='absolute top-0 left-0 bg-accent text-white-text rounded-xs invisible peer-checked:visible'
+					className='absolute top-0 left-0 bg-accent text-white-text rounded-xs invisible peer-checked:visible pointer-events-auto active:bg-button active:text-button-text duration-300 ease-out transition-all'
 					strokeWidth={3}
 					size={20}
 				/>
 			</div>
-			{text}
+			<p className='text-[18px] pointer-events-auto'>{text}</p>
 		</label>
 	)
 }

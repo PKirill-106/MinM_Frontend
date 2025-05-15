@@ -53,7 +53,7 @@ export default async function RootLayout({
 			>
 				<Navbar categories={categories} products={products} />
 				<Breadcrumbs categories={categories} products={products} />
-				<main className='section flex-1'>{children}</main>
+				<main className='main-section flex-1'>{children}</main>
 				<Footer categories={categories} />
 			</body>
 		</html>

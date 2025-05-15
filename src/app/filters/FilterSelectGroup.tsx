@@ -56,7 +56,7 @@ export default function FilterSelectGroup({
 		: []
 
 	return (
-		<div className='flex items-center gap-5 mb-6'>
+		<div className='flex flex-col md:flex-row md:items-center gap-5 mb-6'>
 			<Select
 				variant='cat'
 				options={categories}
@@ -74,7 +74,7 @@ export default function FilterSelectGroup({
 				/>
 			)}
 			<input type='color' className='color-picker border rounded' />
-			<div className='ml-auto'>
+			<div className='md:ml-auto'>
 				<Select
 					variant='sort'
 					options={categories}

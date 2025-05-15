@@ -109,6 +109,9 @@ h3 {
 	.section {
 		@apply py-16 px-2 lg:px-15 xl:px-30;
 	}
+	.main-section {
+		@apply py-4 md:py-8 lg:py-12 xl:py-16 px-2 lg:px-15 xl:px-30;
+	}
 	.hover-active-text {
 		@apply hover:text-accent active:text-accent ease-out duration-300 transition-all;
 	}
