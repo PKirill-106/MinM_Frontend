@@ -16,10 +16,14 @@ export default async function CategoryPage({
 		season?: string
 		sale?: string
 		new?: string
+		page?: string
 	}>
 }) {
 	const products: IProduct[] = await getAllProducts()
 	const categories: ICategory[] = await getAllCategories()
+
+	const PRODUCTS_PER_PAGE = 12
+	const page = parseInt((await searchParams).page || '1', 10)
 
 	const { slug = [] } = await params
 	const { sort = 'suggested', season, sale, new: isNew } = await searchParams
@@ -80,6 +84,12 @@ export default async function CategoryPage({
 	}
 	filteredProducts = sortProducts(filteredProducts, sort)
 
+	const startIndex = (page - 1) * PRODUCTS_PER_PAGE
+	const endIndex = startIndex + PRODUCTS_PER_PAGE
+	const paginatedProducts = filteredProducts.slice(startIndex, endIndex)
+	const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
+
+
 	return (
 		<div className='container'>
 			<h2 className='mb-6'>
@@ -92,9 +102,9 @@ export default async function CategoryPage({
 				activeSubcategory={subcategorySlug}
 			/>
 
-			<ProductGrid categories={categories} products={filteredProducts} />
+			<ProductGrid categories={categories} products={paginatedProducts} />
 
-			<PaginationControls />
+			<PaginationControls totalPages={totalPages} />
 		</div>
 	)
 }

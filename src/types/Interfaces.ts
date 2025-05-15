@@ -124,3 +124,6 @@ export interface ISearchBarProps {
 	isOpen: boolean
 	onClose: () => void
 }
+export interface IPaginationControlsProps {
+	totalPages: number
+}
