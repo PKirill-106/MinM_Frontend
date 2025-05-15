@@ -27,6 +27,8 @@ export default function Breadcrumbs({ categories, products }: IBreadcrumbs) {
 		checkout: 'Оформлення',
 		login: 'Вхід',
 		register: 'Реєстрація',
+		catalog: 'Каталог',
+		product: 'Продукт',
 	}
 
 	const findOriginalName = (slug: string): string | null => {
@@ -35,8 +37,8 @@ export default function Breadcrumbs({ categories, products }: IBreadcrumbs) {
 
 		// dynamic routes(categories, products)
 		const match =
-			categories.find(c => slugify(c.name) === slug) ||
-			products.find(p => slugify(p.name) === slug)
+			categories.find(c => c.slug === slug) ||
+			products.find(p => p.slug === slug)
 		return match ? match.name : null
 	}
 	// check if user is currently on not-found(404) page
