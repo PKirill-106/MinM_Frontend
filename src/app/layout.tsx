@@ -51,7 +51,7 @@ export default async function RootLayout({
 			<body
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
-				<Navbar categories={categories} />
+				<Navbar categories={categories} products={products} />
 				<Breadcrumbs categories={categories} products={products} />
 				<main className='section flex-1'>{children}</main>
 				<Footer categories={categories} />

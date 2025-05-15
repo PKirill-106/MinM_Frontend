@@ -3,7 +3,7 @@ import { getAllCategories } from '@/lib/services/categoryServices'
 import { getAllProducts } from '@/lib/services/productServices'
 import { ICategory, IProduct } from '@/types/Interfaces'
 import ProductFilters from '../filters/ProductFilters'
-import PaginationControls from '../PaginationControls'
+import PaginationControls from '../../components/PaginationControls'
 import { slugify } from 'transliteration'
 
 export default async function CategoryPage({

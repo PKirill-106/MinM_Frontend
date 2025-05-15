@@ -16,9 +16,9 @@ import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
 import Tooltip from '../UI/Tooltip'
 import SearchBar from './search/SearchBar'
-import { ICategory } from '@/types/Interfaces'
+import { ICategory, INavbarProps } from '@/types/Interfaces'
 
-export default function Navbar({ categories }: {categories: ICategory[]}) {
+export default function Navbar({categories, products}: INavbarProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
@@ -99,7 +99,7 @@ export default function Navbar({ categories }: {categories: ICategory[]}) {
 					</div>
 				</div>
 			</nav>
-			<SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+			<SearchBar products={products} isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
 			<div
 				ref={menuRef}

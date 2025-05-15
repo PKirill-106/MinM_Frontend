@@ -18,13 +18,7 @@ export default async function ProductCard({
 			? categories.find(cat => cat.id === category.parentCategoryId)
 			: null
 
-	const formatName = (name: string) => name.toLowerCase().replace(/\s+/g, '-')
-
-	const productUrl = parentCategory
-		? `/catalog/${formatName(parentCategory.name)}/${formatName(
-				category.name
-		  )}/${formatName(product.name)}`
-		: `/catalog/${formatName(category.name)}/${formatName(product.name)}`
+	const productUrl = `/product/${product.slug}`
 
 	return (
 		<div className='relative flex flex-col bg-white max-w-90 overflow-hidden rounded-lg shadow-sm hover:scale-105 hover:shadow-lg transition-all duration-300'>

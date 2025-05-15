@@ -113,3 +113,14 @@ export interface ITooltipProps {
 	isShoppingBag?: boolean
 	className?: string
 }
+
+export interface INavbarProps {
+	categories: ICategory[]
+	products: IProduct[]
+}
+
+export interface ISearchBarProps {
+	products: IProduct[]
+	isOpen: boolean
+	onClose: () => void
+}
