@@ -13,24 +13,20 @@ export default async function ProductCard({
 		return <div className=''>Product unavailable</div>
 	}
 
-	const parentCategory =
-		category && category.parentCategoryId !== null
-			? categories.find(cat => cat.id === category.parentCategoryId)
-			: null
-
 	const productUrl = `/product/${product.slug}`
 
 	return (
 		<div className='relative flex flex-col bg-white max-w-90 overflow-hidden rounded-lg shadow-sm hover:scale-105 hover:shadow-lg transition-all duration-300'>
-			<div className='mb-1'>
-				<Image
-					src='/M-in-M-GP-7.5.jpg'
-					alt={product.name}
-					width={267}
-					height={267}
-					className='w-full h-full aspect-square object-cover'
-				/>
-			</div>
+			<Link href={productUrl} className='mb-1'>
+				<div className='relative w-full aspect-square'>
+					<Image
+						src='/M-in-M-GP-7.5.jpg'
+						alt={product.name}
+						fill
+						className='object-cover'
+					/>
+				</div>
+			</Link>
 			<div className=' flex flex-col flex-1 p-2 pt-0 md:p-2 md:pt-0 lg:p-3 lg:pt-0 justify-between'>
 				<div className='h-15 md:h-17 lg:h-18 xl:h-21'>
 					<p className='caption mb-1'>{category.name || ''}</p>
