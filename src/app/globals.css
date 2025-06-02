@@ -143,3 +143,20 @@ h3 {
 .animate-fadeIn {
 	animation: fadeIn 0.2s ease-out forwards;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* For touch devices */
+@media (pointer: coarse) {
+  [class*="scroll-smooth"] {
+    -webkit-overflow-scrolling: touch;
+  }
+}

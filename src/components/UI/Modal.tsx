@@ -35,22 +35,20 @@ export default function Modal({ isOpen, onClose, children }: IModal) {
 	return (
 		<div
 			className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 text-white ${
-				isOpen
-					? 'visible'
-					: 'invisible pointer-events-none'
+				isOpen ? 'visible' : 'invisible pointer-events-none'
 			}`}
 		>
 			<div
 				ref={modalRef}
-				className={`max-w-3xl w-full z-10 duration-300 ease-out transition-all ${
+				className={`max-w-sm md:max-w-xl lg:max-w-2xl xl:max-w-3xl w-full z-10 duration-300 ease-out transition-all ${
 					isOpen
-						? 'opacity-100 scale-100 translate-x-0 translate-y-0 visible'
-						: 'opacity-0 scale-80 -translate-x-20 -translate-y-20 invisible'
+						? 'opacity-100 scale-100 md:translate-x-0 translate-y-0 visible'
+						: 'opacity-0 scale-80 md:-translate-x-20 -translate-y-20 invisible'
 				}`}
 			>
 				<button
 					onClick={onClose}
-					className='absolute z-20 -top-25 -right-20 p-9 li-hover cursor-pointer'
+					className='absolute z-20 -top-25 -right-7 md:-right-20 p-9 li-hover cursor-pointer'
 				>
 					<X className='link-size' />
 				</button>

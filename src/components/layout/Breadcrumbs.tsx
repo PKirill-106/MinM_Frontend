@@ -1,11 +1,10 @@
 'use client'
 
+import { IBreadcrumbs } from '@/types/Interfaces'
+import { Home } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { IBreadcrumbs } from '@/types/Interfaces'
-import { slugify } from 'transliteration'
 
 export default function Breadcrumbs({ categories, products }: IBreadcrumbs) {
 	const pathname = usePathname()
@@ -59,41 +58,43 @@ export default function Breadcrumbs({ categories, products }: IBreadcrumbs) {
 
 	return (
 		<section className='px-2 lg:px-15 xl:px-30 mt-21 md:mt-23 lg:mt-28 xl:mt-30'>
-			<div className='flex container items-center gap-2 text-transparent-text'>
-				<Link href='/'>
-					<Home className='h-5 w-5 text-accent hover:text-pink-600 hover:scale-125 ease-out duration-300 transition-all' />
-				</Link>
+			<div className='container overflow-x-auto whitespace-nowrap'>
+				<div className='flex items-center gap-2 text-transparent-text '>
+					<Link href='/'>
+						<Home className='h-5 w-5 text-accent hover:text-pink-600 hover:scale-125 ease-out duration-300 transition-all' />
+					</Link>
 
-				{pathSegments.length > 0 && !isNotFound ? (
-					pathSegments.map((segment, index) => {
-						const href = '/' + pathSegments.slice(0, index + 1).join('/')
-						const isLast = index === pathSegments.length - 1
-						const originalName = findOriginalName(segment)
+					{pathSegments.length > 0 && !isNotFound ? (
+						pathSegments.map((segment, index) => {
+							const href = '/' + pathSegments.slice(0, index + 1).join('/')
+							const isLast = index === pathSegments.length - 1
+							const originalName = findOriginalName(segment)
 
-						return (
-							<div key={href} className='flex items-center gap-2'>
-								<span>{'>'}</span>
-								{isLast ? (
-									<span className='capitalize'>
-										{originalName || decodeURIComponent(segment)}
-									</span>
-								) : (
-									<Link
-										href={href}
-										className='hover:text-accent hover:scale-110 ease-out duration-300 transition-all capitalize'
-									>
-										{originalName || decodeURIComponent(segment)}
-									</Link>
-								)}
-							</div>
-						)
-					})
-				) : (
-					// if page is not found
-					<span className='text-transparent-text'>
-						{'>'} Сторінку не знайдено
-					</span>
-				)}
+							return (
+								<div key={href} className='flex items-center gap-2'>
+									<span>{'>'}</span>
+									{isLast ? (
+										<span className='capitalize'>
+											{originalName || decodeURIComponent(segment)}
+										</span>
+									) : (
+										<Link
+											href={href}
+											className='hover:text-accent hover:scale-110 ease-out duration-300 transition-all capitalize'
+										>
+											{originalName || decodeURIComponent(segment)}
+										</Link>
+									)}
+								</div>
+							)
+						})
+					) : (
+						// if page is not found
+						<span className='text-transparent-text'>
+							{'>'} Сторінку не знайдено
+						</span>
+					)}
+				</div>
 			</div>
 		</section>
 	)

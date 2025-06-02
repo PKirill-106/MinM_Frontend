@@ -10,7 +10,7 @@ export default async function Home() {
 	const categories: ICategory[] = await getAllCategories()
 
 	return (
-		<div className='container -mt-16 flex flex-col gap-8 md:gap-10 lg:gap-16 xl:gap-20'>
+		<div className='container md:-mt-10 flex flex-col gap-8 md:gap-10 lg:gap-16 xl:gap-20'>
 			<BannerSlider />
 			<ProductSection
 				title='Топові товари для майстрів манікюру'

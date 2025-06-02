@@ -1,8 +1,11 @@
-import { IProductTopProps } from "@/types/Interfaces";
+import { IProductTopProps } from '@/types/Interfaces'
 
-export default function ProductTopRight({ product, category }: IProductTopProps) {
+export default function ProductTopRight({
+	product,
+	category,
+}: IProductTopProps) {
 	return (
-		<div>
+		<div className='col-span-2'>
 			<h2 className='mb-4'>{product?.name}</h2>
 		</div>
 	)
