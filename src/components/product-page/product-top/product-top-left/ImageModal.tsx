@@ -1,10 +1,10 @@
 import Modal from '@/components/UI/Modal'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Thumbnail from './Thumbnail'
 import { IImageModal } from '../../interfaces'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 
 export default function ImageModal({
 	isOpen,
@@ -16,6 +16,14 @@ export default function ImageModal({
 	onPrev,
 	onNext,
 }: IImageModal) {
+	const swiperRef = useRef<SwiperRef>(null)
+
+	useEffect(() => {
+		if (swiperRef.current?.swiper && isOpen) {
+			swiperRef.current.swiper.slideTo(selectedImageIndex)
+		}
+	}, [selectedImageIndex, isOpen])
+
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<div className='relative flex flex-col items-center gap-4 px-4'>
@@ -23,7 +31,7 @@ export default function ImageModal({
 					<button
 						onClick={onPrev}
 						disabled={selectedImageIndex === 0}
-						className={`absolute -left-5 md:-left-20 top-0 bottom-0 z-20 px-6 h-full disabled:opacity-30  ${
+						className={`absolute -left-5 md:-left-20 top-0 bottom-0 z-50 px-6 h-full disabled:opacity-30  ${
 							selectedImageIndex !== 0 ? 'li-hover' : ''
 						}`}
 					>
@@ -31,6 +39,7 @@ export default function ImageModal({
 					</button>
 
 					<Swiper
+						ref={swiperRef}
 						className='w-full aspect-square'
 						slidesPerView={1}
 						initialSlide={selectedImageIndex}

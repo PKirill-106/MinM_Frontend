@@ -47,42 +47,44 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 	const circleArrowClass = 'h-8 w-8 md:h-6 md:w-6 lg:h-7 lg:w-7 xl:h-8 xl:w-8'
 
 	return (
-		<div className='flex flex-col gap-4 md:gap-3'>
-			<MainImage
-				images={images}
-				selectedImageIndex={selectedImageIndex}
-				onClick={() => openModal(selectedImageIndex)}
-				productName={product.name}
-			/>
-
-			<div className='relative flex gap-1 xl:gap-2 justify-between items-center'>
-				<button
-					onClick={handlePrev}
-					disabled={selectedImageIndex === 0}
-					className={`shrink-0 disabled:opacity-30 ${
-						selectedImageIndex !== 0 ? 'li-hover' : ''
-					}`}
-				>
-					<CircleArrowLeft className={circleArrowClass} />
-				</button>
-
-				<ThumbnailScroller
+		<div>
+			<div className='md:sticky md:top-28 md:self-start flex flex-col gap-4 md:gap-3'>
+				<MainImage
 					images={images}
-					productName={product.name}
 					selectedImageIndex={selectedImageIndex}
-					onSelect={setSelectedImageIndex}
-					setSwiperRef={swiper => (swiperRef.current = swiper)}
+					onClick={() => openModal(selectedImageIndex)}
+					productName={product.name}
 				/>
 
-				<button
-					onClick={handleNext}
-					disabled={selectedImageIndex >= images.length - 1}
-					className={`shrink-0 disabled:opacity-30 ${
-						selectedImageIndex < images.length - 1 ? 'li-hover' : ''
-					}`}
-				>
-					<CircleArrowRight className={circleArrowClass} />
-				</button>
+				<div className='relative flex gap-1 xl:gap-2 justify-between items-center'>
+					<button
+						onClick={handlePrev}
+						disabled={selectedImageIndex === 0}
+						className={`shrink-0 disabled:opacity-30 ${
+							selectedImageIndex !== 0 ? 'li-hover' : ''
+						}`}
+					>
+						<CircleArrowLeft className={circleArrowClass} />
+					</button>
+
+					<ThumbnailScroller
+						images={images}
+						productName={product.name}
+						selectedImageIndex={selectedImageIndex}
+						onSelect={setSelectedImageIndex}
+						setSwiperRef={swiper => (swiperRef.current = swiper)}
+					/>
+
+					<button
+						onClick={handleNext}
+						disabled={selectedImageIndex >= images.length - 1}
+						className={`shrink-0 disabled:opacity-30 ${
+							selectedImageIndex < images.length - 1 ? 'li-hover' : ''
+						}`}
+					>
+						<CircleArrowRight className={circleArrowClass} />
+					</button>
+				</div>
 			</div>
 
 			<ImageModal
