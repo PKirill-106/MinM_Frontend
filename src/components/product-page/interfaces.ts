@@ -1,5 +1,6 @@
+import { IProduct, IProductVariant } from '@/types/Interfaces'
 import { Swiper as SwiperType } from 'swiper/types'
-
+// Top Left / Images
 export interface IMainImage {
 	images: string[]
 	selectedImageIndex: number
@@ -30,4 +31,21 @@ export interface IImageModal {
 	onSelect: (i: number) => void
 	onPrev: () => void
 	onNext: () => void
+}
+
+// Top Right / Description
+export interface IRating {
+	rating: number
+}
+export interface IProductCart {
+	amount: number
+}
+export interface IProductVariants {
+	product: IProduct
+	current: IProductVariant
+	onSelect: (i: number) => void
+}
+export interface IShippingPayment {
+	variant: 'shipment' | 'payment'
+	className: string
 }

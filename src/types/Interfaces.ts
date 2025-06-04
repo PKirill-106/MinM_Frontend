@@ -27,9 +27,12 @@ export interface ICategoryItem {
 }
 
 export interface IProductVariant {
+	id: string
 	name: string
 	price: number
+	discountPrice: number
 	unitsInStock: number
+	isStock: boolean
 }
 
 export interface IProduct {
@@ -40,6 +43,7 @@ export interface IProduct {
 	productVariants: IProductVariant[]
 	discountId: string
 	isSeasonal: string
+	isDiscounted: string
 	categoryId: string
 	categoryName: string
 	sku: string
@@ -91,7 +95,7 @@ export interface ILogoProps {
 
 export interface IButtonProps {
 	text: string
-	variant: 'cart' | 'checkout' | 'instagram'
+	variant: 'cart' | 'instagram'
 	onClick?: () => void
 	href?: string
 }

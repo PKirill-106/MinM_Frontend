@@ -1,6 +1,6 @@
 import { IProductTopProps } from '@/types/Interfaces'
 import ProductTopLeft from './product-top-left/ProductTopLeft'
-import ProductTopRight from './ProductTopRight'
+import ProductTopRight from './product-top-right/ProductTopRight'
 
 export default function ProductTop({ product, category }: IProductTopProps) {
 	return (

@@ -3,7 +3,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export async function getAllProducts() {
-	const res = await fetch(`${API_URL}/Product/GetAll`, {
+	const res = await fetch(`${API_URL}/api/Product/GetAll`, {
 		method: 'GET',
 	})
 

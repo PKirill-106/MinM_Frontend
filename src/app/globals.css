@@ -27,6 +27,7 @@ html {
 	--color-accent: #d85a7f;
 	--color-white-text: #eeedf0;
 	--color-accent-text: #4b2d9f;
+	--color-stars: #EA9558;
 	--color-transparent-text: rgba(0, 0, 0, 0.4);
 }
 .swiper-pagination {
