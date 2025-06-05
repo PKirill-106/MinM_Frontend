@@ -15,3 +15,16 @@ export async function getAllProducts() {
 
 	return data
 }
+export async function getProductsBySlug(slug: string) {
+	const res = await fetch(`${API_URL}/api/Product/${slug}`, {
+		method: 'GET',
+	})
+
+	if (!res.ok) {
+		throw new Error(`Failed to fetch products: ${res.status}`)
+	}
+
+	const { data } = await res.json()
+
+	return data
+}
