@@ -61,6 +61,25 @@ export interface IShippingPayment {
 }
 
 // Description
+export interface QuillDelta {
+  ops: QuillOp[];
+}
+export interface QuillOp {
+  insert?: string | object;
+  delete?: number;
+  retain?: number;
+  attributes?: {
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    strike?: boolean;
+    link?: string;
+    list?: 'bullet' | 'ordered';
+    header?: number;
+    [key: string]: any;
+  };
+}
+
 export interface IDescription {
-	description: any[]
+	description: string
 }

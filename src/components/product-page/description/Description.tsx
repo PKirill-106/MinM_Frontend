@@ -4,11 +4,22 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
 import './description.css'
 
 export default function Description({ description }: IDescription) {
-	const ops = description
-	const converter = new QuillDeltaToHtmlConverter(ops, {
-		inlineStyles: true,
-	})
-	const html = converter.convert()
+	let html = ''
+	try {
+		const parsed = JSON.parse(description)
+
+		const ops = Array.isArray(parsed) ? parsed : parsed.ops
+
+		if (Array.isArray(ops)) {
+			const converter = new QuillDeltaToHtmlConverter(ops, {
+				inlineStyles: true,
+			})
+			html = converter.convert()
+		}
+	} catch (err) {
+		console.warn('Invalid description format:', err)
+	}
+
 
 	return (
 		<div className='flex flex-col'>
