@@ -6,7 +6,7 @@ export default function ProductVariants({
 	onSelect,
 }: IProductVariants) {
 	return (
-		<div className='grid grid-cols-2 sm:flex sm:justify-between md:grid md:grid-cols-2 gap-2 sm:gap-2'>
+		<div className='grid grid-cols-2 sm:flex sm:justify-between md:grid md:grid-cols-2 gap-2 sm:gap-2 h-full'>
 			{product.productVariants.map((variant, index) => {
 				const isSelected = current.id === variant.id
 
@@ -14,7 +14,7 @@ export default function ProductVariants({
 					<button
 						key={variant.id}
 						onClick={() => onSelect(index)}
-						className={`rounded-lg p-2 md:p-3 lg:p-3 text-lg min-w-20 w-auto sm:w-full md:w-auto ${
+						className={`h-full rounded-lg p-2 md:p-3 lg:p-3 text-lg min-w-20 w-auto sm:w-full md:w-auto ${
 							isSelected
 								? 'bg-button'
 								: 'border border-transparent-text li-hover'

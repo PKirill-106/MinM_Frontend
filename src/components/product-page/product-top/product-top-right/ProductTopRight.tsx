@@ -34,7 +34,7 @@ export default function ProductTopRight({
 						</span>
 					)}
 				</div>
-				<div className='flex gap-3 md:gap-5 items-center flex-wrap text-sm md:text-xs xl:text-md'>
+				<div className='flex gap-3 md:gap-5 items-center flex-wrap text-sm md:text-xs xl:text-md 2xl:text-lg'>
 					{!!product.isDiscounted && (
 						<div className='bg-accent text-white-text py-1 px-3 md:px-4 rounded-full'>
 							<span>Акція</span>
@@ -70,9 +70,9 @@ export default function ProductTopRight({
 					<ProductCart amount={currentVariant.unitsInStock} />
 				</div>
 
-				<div className='mt-4'>
+				<div className='mt-4 lg:mt-8'>
 					<p className='!text-xl mb-3 md:mb-4'>Варіант товару</p>
-					<div className='flex flex-col xl:flex-row items-start justify-between gap-5'>
+					<div className='flex flex-col xl:flex-row  justify-between gap-5'>
 						<div className='w-full xl:w-auto shrink-0'>
 							<ProductVariants
 								product={product}
