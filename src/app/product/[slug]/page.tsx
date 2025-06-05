@@ -1,3 +1,4 @@
+import Description from '@/components/product-page/description/Description'
 import ProductTop from '@/components/product-page/product-top/ProductTop'
 import { getAllCategories } from '@/lib/services/categoryServices'
 import { getAllProducts } from '@/lib/services/productServices'
@@ -27,6 +28,7 @@ export default async function ProductPage({
 	return (
 		<div className='container'>
 			<ProductTop product={product} category={category} />
+			<Description description={product.description} />
 		</div>
 	)
 }

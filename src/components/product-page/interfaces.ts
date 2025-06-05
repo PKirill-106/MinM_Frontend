@@ -1,5 +1,15 @@
-import { IProduct, IProductVariant } from '@/types/Interfaces'
+import { ICategory, IProduct, IProductVariant } from '@/types/Interfaces'
 import { Swiper as SwiperType } from 'swiper/types'
+
+// Top
+export interface IProductTopProps {
+	product: IProduct
+	category: ICategory
+}
+export interface IProductTopLeftProps {
+	product: IProduct
+}
+
 // Top Left / Images
 export interface IMainImage {
 	images: string[]
@@ -33,7 +43,7 @@ export interface IImageModal {
 	onNext: () => void
 }
 
-// Top Right / Description
+// Top Right / Product Info Panel
 export interface IRating {
 	rating: number
 }
@@ -48,4 +58,9 @@ export interface IProductVariants {
 export interface IShippingPayment {
 	variant: 'shipment' | 'payment'
 	className: string
+}
+
+// Description
+export interface IDescription {
+	description: any[]
 }

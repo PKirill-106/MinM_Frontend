@@ -135,15 +135,6 @@ export interface IPaginationControlsProps {
 	totalPages: number
 }
 
-export interface IProductTopProps {
-	product: IProduct
-	category: ICategory
-}
-
-export interface IProductTopLeftProps {
-	product: IProduct
-}
-
 export interface IModal {
 	isOpen: boolean
 	onClose: () => void
