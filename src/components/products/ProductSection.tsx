@@ -11,9 +11,11 @@ export default async function ProductSection({
 	linkLabel,
 	linkHref,
 }: IProductSection) {
+	const displayedProducts = products.slice(0, 7)
+
 	return (
 		<div>
-			<h2 className='max-w-[320px] mx-auto text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 lg:mb-12 xl:mb-15'>
+			<h2 className='max-w-95 mx-auto text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 lg:mb-12 xl:mb-15'>
 				{highlight ? (
 					<>
 						<span className='text-accent font-bold'>{highlight}</span>{' '}
@@ -25,7 +27,7 @@ export default async function ProductSection({
 			</h2>
 
 			<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6'>
-				{products.map(product => (
+				{displayedProducts.map(product => (
 					<ProductCard
 						key={product.id}
 						product={product}
