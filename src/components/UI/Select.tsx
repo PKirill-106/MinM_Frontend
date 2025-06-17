@@ -70,7 +70,7 @@ export default function Select({
 	return (
 		<div
 			ref={selectRef}
-			className='relative p-2 border-1 rounded-md md:w-60 cursor-pointer hover:border-transparent-text active:border-accent duration-300 ease-out transition-colors'
+			className='relative p-2 border-1 rounded-md md:w-60 cursor-pointer border-transparent-text hover:border-accent active:border-accent duration-300 ease-out transition-colors'
 			onClick={() => setIsOpen(prev => !prev)}
 		>
 			<div className='flex items-center justify-between'>
