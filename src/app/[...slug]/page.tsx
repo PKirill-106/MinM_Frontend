@@ -13,9 +13,9 @@ export default async function CategoryPage({
 	params: Promise<{ slug?: string[] }>
 	searchParams: Promise<{
 		sort?: string
-		season?: string
-		sale?: string
-		new?: string
+		sezon?: string
+		akciya?: string
+		novinki?: string
 		page?: string
 	}>
 }) {
@@ -26,7 +26,7 @@ export default async function CategoryPage({
 	const page = parseInt((await searchParams).page || '1', 10)
 
 	const { slug = [] } = await params
-	const { sort = 'suggested', season, sale, new: isNew } = await searchParams
+	const { sort = 'suggested', sezon, akciya, novinki } = await searchParams
 
 	const categorySlug = slug[1] ?? null
 	const subcategorySlug = slug[2] ?? null
@@ -52,16 +52,16 @@ export default async function CategoryPage({
 		)
 	}
 
-	if (season === 'true') {
+	if (sezon === 'true') {
 		filteredProducts = filteredProducts.filter(p => p.isSeasonal)
 	}
 
-	if (sale === 'true') {
-		filteredProducts = filteredProducts.filter(p => !!p.discountId)
+	if (akciya === 'true') {
+		filteredProducts = filteredProducts.filter(p => p.isDiscounted)
 	}
 
-	if (isNew) {
-		//filteredProducts = filteredProducts.filter(p => p.tags?.includes('new'))
+	if (novinki) {
+		//filteredProducts = filteredProducts.filter(p => p.isNew)
 	}
 
 	const sortProducts = (products: IProduct[], sort: string): IProduct[] => {
@@ -88,7 +88,6 @@ export default async function CategoryPage({
 	const endIndex = startIndex + PRODUCTS_PER_PAGE
 	const paginatedProducts = filteredProducts.slice(startIndex, endIndex)
 	const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
-
 
 	return (
 		<div className='container'>

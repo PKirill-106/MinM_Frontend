@@ -1,11 +1,11 @@
 'use client'
-import { IProductTopProps } from '@/types/Interfaces'
 import { Check, Heart, X } from 'lucide-react'
 import { useState } from 'react'
 import ProductCart from './ProductCart'
 import ProductVariants from './ProductVariants'
 import GetRating from './Rating'
 import ShippingPayment from './ShippingPayment'
+import { IProductTopProps } from '../../interfaces'
 
 export default function ProductTopRight({
 	product,

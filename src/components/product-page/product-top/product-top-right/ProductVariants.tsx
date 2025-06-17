@@ -6,7 +6,7 @@ export default function ProductVariants({
 	onSelect,
 }: IProductVariants) {
 	return (
-		<div className='grid grid-cols-2 sm:flex sm:justify-between md:grid md:grid-cols-2 gap-2 sm:gap-2 h-full'>
+		<div className='grid grid-cols-2 sm:flex sm:justify-between md:grid md:grid-cols-2 md:grid-rows-2 gap-2 sm:gap-2 h-full'>
 			{product.productVariants.map((variant, index) => {
 				const isSelected = current.id === variant.id
 

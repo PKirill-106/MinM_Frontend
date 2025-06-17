@@ -4,7 +4,9 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import React from 'react'
 
-export default function PaginationControls({ totalPages }: IPaginationControlsProps) {
+export default function PaginationControls({
+	totalPages,
+}: IPaginationControlsProps) {
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
 
@@ -23,10 +25,10 @@ export default function PaginationControls({ totalPages }: IPaginationControlsPr
 					<Link
 						key={page}
 						href={createPageLink(page)}
-						className={`w-8 h-8 flex items-center justify-center border rounded text-sm transition ${
+						className={`w-8 h-8 flex items-center justify-center border  rounded text-sm transition ${
 							page === currentPage
-								? 'bg-accent text-white'
-								: 'hover:bg-accent active:bg-accent hover:text-white duration-300 ease-out transition-all'
+								? 'bg-accent text-white '
+								: 'hover:border-accent active:border-accent border-transparent-text duration-300 ease-out transition-all'
 						}`}
 					>
 						{page}

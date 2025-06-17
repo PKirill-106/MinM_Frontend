@@ -2,9 +2,24 @@ import { IProductGrid } from '@/types/Interfaces'
 import React from 'react'
 import ProductCard from './ProductCard'
 
-export default function ProductGrid({ products, categories }: IProductGrid) {
+export default function ProductGrid({
+	products,
+	categories,
+	type,
+}: IProductGrid) {
 	if (products.length === 0) {
-		return <h3 className='flex justify-center my-30'>Відсутні продукти у вибраній категорії</h3>
+		if (type) {
+			return (
+				<h3 className='flex justify-center my-30'>
+					Відсутні товари в обраному
+				</h3>
+			)
+		}
+		return (
+			<h3 className='flex justify-center my-30'>
+				Відсутні продукти у вибраній категорії
+			</h3>
+		)
 	}
 
 	return (
