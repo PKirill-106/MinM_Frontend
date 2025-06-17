@@ -7,6 +7,12 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import { getAllCategories } from '@/lib/services/categoryServices'
 import { ICategory, IProduct } from '@/types/Interfaces'
 import { getAllProducts } from '@/lib/services/productServices'
+import { Toaster } from 'react-hot-toast'
+import CookiesConsent from '@/components/layout/CookiesConsent'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import AuthSessionProvider from '@/providers/SessionProvider'
+import { FavoritesProvider } from '@/providers/FavoritesProvider'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -45,16 +51,23 @@ export default async function RootLayout({
 }>) {
 	const categories: ICategory[] = await getAllCategories()
 	const products: IProduct[] = await getAllProducts()
+	const session = await getServerSession(authOptions)
 
 	return (
 		<html lang='ua' className='h-full'>
 			<body
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
-				<Navbar categories={categories} products={products} />
-				<Breadcrumbs categories={categories} products={products} />
-				<main className='main-section flex-1'>{children}</main>
-				<Footer categories={categories} />
+				<AuthSessionProvider session={session}>
+					<FavoritesProvider>
+						<Navbar categories={categories} products={products} />
+						<Breadcrumbs categories={categories} products={products} />
+						<Toaster position='top-center' />
+						<main className='main-section flex-1'>{children}</main>
+						<Footer categories={categories} />
+						<CookiesConsent />
+					</FavoritesProvider>
+				</AuthSessionProvider>
 			</body>
 		</html>
 	)

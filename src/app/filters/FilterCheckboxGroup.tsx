@@ -1,6 +1,6 @@
 'use client'
 
-import Input from '@/components/UI/Input'
+import Input from '@/components/UI/MyInput'
 
 export default function FilterCheckboxGroup() {
 	return (

@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
 import Logo from '../UI/Logo'
-import Button from '../UI/Button'
+import Button from '../UI/MyButton'
 import Link from 'next/link'
 import CategoryList from '@/components/category-lists/CategoryList'
 import { ICategory } from '@/types/Interfaces'
 
-export default function Footer({ categories }: {categories: ICategory[]}) {
+export default function Footer({ categories }: { categories: ICategory[] }) {
 	const year: number = new Date().getFullYear()
 
 	return (
