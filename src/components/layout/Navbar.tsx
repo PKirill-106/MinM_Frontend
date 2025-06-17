@@ -18,8 +18,10 @@ import Tooltip from '../UI/Tooltip'
 import SearchBar from './search/SearchBar'
 import { INavbarProps } from '@/types/Interfaces'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import NavCounterWrapper from '../UI/NavCounterWrapper'
 
-export default function Navbar({categories, products}: INavbarProps) {
+export default function Navbar({ categories, products }: INavbarProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
@@ -46,6 +48,14 @@ export default function Navbar({categories, products}: INavbarProps) {
 	useEffect(() => {
 		setIsOpen(false)
 	}, [pathname])
+
+	const { data: session, status } = useSession()
+
+	let profileHref = '/sign-in'
+	if (status === 'authenticated') {
+		const role = session?.user?.role
+		profileHref = role === 'admin' ? '/admin' : '/profile'
+	}
 
 	return (
 		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
@@ -74,15 +84,15 @@ export default function Navbar({categories, products}: INavbarProps) {
 					</Tooltip>
 
 					<Tooltip content='Мій профіль' className='hidden md:flex'>
-						<Link href=''>
+						<Link href={profileHref}>
 							<User className='link-size link-hover' />
 						</Link>
 					</Tooltip>
 
 					<Tooltip content='Обране' className='hidden group md:flex'>
-						<Link href=''>
-							<Heart className='link-size link-hover' />
-						</Link>
+							<NavCounterWrapper type='favorites'>
+								<Heart className='link-size link-hover' />
+							</NavCounterWrapper>
 					</Tooltip>
 
 					<Tooltip content='Кошик' isShoppingBag={true}>
@@ -105,7 +115,11 @@ export default function Navbar({categories, products}: INavbarProps) {
 					</div>
 				</div>
 			</nav>
-			<SearchBar products={products} isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+			<SearchBar
+				products={products}
+				isOpen={isSearchOpen}
+				onClose={() => setIsSearchOpen(false)}
+			/>
 
 			<div
 				ref={menuRef}
@@ -134,7 +148,7 @@ export default function Navbar({categories, products}: INavbarProps) {
 						</Link>
 
 						<Link
-							href='favorites'
+							href='/favorites'
 							className='flex items-center gap-3 active:underline hover-active-text group'
 						>
 							<Heart className='h-6 w-6' />

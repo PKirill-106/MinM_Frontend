@@ -1,11 +1,51 @@
 import { ReactNode } from "react"
 
+export interface ISignUpUser {
+	email: string
+	password: string
+}
+
+export interface ISignInUser {
+	email: string
+	password: string
+}
+
+export interface IApiError {
+	type?: string
+	title?: string
+	status?: number
+	errors?: {
+		DuplicateUserName?: string[]
+		PasswordTooShort?: string[]
+		PasswordRequiresNonAlphanumeric?: string[]
+		PasswordRequiresDigit?: string[]
+		PasswordRequiresUpper?: string[]
+	}
+	message?: string
+}
+
+export interface IFavoritesContext {
+	favorites: string[]
+	addFavorite: (productId: string) => Promise<void>
+	removeFavorite: (productId: string) => Promise<void>
+	isFavorite: (productId: string) => boolean
+	favCount: number
+	triggerAnimation: () => void
+}
+
 export interface ICategory {
 	id: string
 	name: string
 	slug: string
 	description: string
 	parentCategoryId?: string
+	imageURL?: string
+}
+
+export interface ICategorySection {
+	categories: ICategory[]
+	linkLabel: string
+	linkHref: string
 }
 
 export interface ICategoryList {
@@ -42,8 +82,8 @@ export interface IProduct {
 	description: string
 	productVariants: IProductVariant[]
 	discountId: string
-	isSeasonal: string
-	isDiscounted: string
+	isSeasonal: boolean
+	isDiscounted: boolean
 	categoryId: string
 	categoryName: string
 	sku: string
@@ -74,6 +114,13 @@ export interface IFilterSelectGroup {
 export interface IProductGrid {
 	products: IProduct[]
 	categories: ICategory[]
+	type?: 'favorites'
+}
+
+export interface IFilteredFavoriteGrid {
+	products: IProduct[]
+	categories: ICategory[]
+	initialFavoriteIds: string[]
 }
 
 export interface IProductCard {

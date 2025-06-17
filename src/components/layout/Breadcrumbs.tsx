@@ -24,8 +24,8 @@ export default function Breadcrumbs({ categories, products }: IBreadcrumbs) {
 		favorites: 'Обране',
 		cart: 'Кошик',
 		checkout: 'Оформлення',
-		login: 'Вхід',
-		register: 'Реєстрація',
+		'sign-in': 'Вхід',
+		'sign-up': 'Реєстрація',
 		catalog: 'Каталог',
 		product: 'Продукт',
 	}
