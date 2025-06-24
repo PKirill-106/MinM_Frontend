@@ -1,42 +1,61 @@
-import { ITooltipProps } from '@/types/Interfaces'
-import React, { useState } from 'react'
+"use client"
 
-export default function Tooltip({
-	content,
-	children,
-	isShoppingBag,
-	className,
-}: ITooltipProps) {
-	const [isVisible, setIsVisible] = useState(false)
+import * as React from "react"
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
-	return (
-		<div className={`relative flex ${className}`}>
-			<div
-				className='flex'
-				onMouseEnter={() => {
-					setTimeout(() => {
-						setIsVisible(true)
-					}, 150)
-				}}
-				onMouseLeave={() => {
-					setTimeout(() => {
-						setIsVisible(false)
-					}, 150)
-				}}
-			>
-				{children}
-			</div>
+import { cn } from "@/lib/utils"
 
-			{isVisible && (
-				<div
-					className={`hidden md:block select-none absolute z-50 bg-foreground text-white text-xs text-center p-2 rounded-md top-full left-1/2 transform -translate-x-1/2 mt-3 shadow-lg animate-fadeIn min-w-max ${
-						isShoppingBag ? 'md:-translate-x-[34px]' : ''
-					} `}
-				>
-					<div className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full w-0 h-0 border-x-8 border-x-transparent border-b-8 border-b-foreground' />
-					<span onMouseEnter={() => setIsVisible(false)}>{content}</span>
-				</div>
-			)}
-		</div>
-	)
+function TooltipProvider({
+  delayDuration = 0,
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+  return (
+    <TooltipPrimitive.Provider
+      data-slot="tooltip-provider"
+      delayDuration={delayDuration}
+      {...props}
+    />
+  )
 }
+
+function Tooltip({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+  return (
+    <TooltipProvider>
+      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+    </TooltipProvider>
+  )
+}
+
+function TooltipTrigger({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+}
+
+function TooltipContent({
+  className,
+  sideOffset = 0,
+  children,
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
+  return (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        data-slot="tooltip-content"
+        sideOffset={sideOffset}
+        className={cn(
+          "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        <TooltipPrimitive.Arrow className="bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
+      </TooltipPrimitive.Content>
+    </TooltipPrimitive.Portal>
+  )
+}
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }

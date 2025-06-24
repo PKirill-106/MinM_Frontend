@@ -1,7 +1,7 @@
 import Description from '@/components/product-page/description/Description'
 import ProductTop from '@/components/product-page/product-top/ProductTop'
 import { getAllCategories } from '@/lib/services/categoryServices'
-import { getProductsBySlug } from '@/lib/services/productServices'
+import { getProductBySlug } from '@/lib/services/productServices'
 import { ICategory, IProduct } from '@/types/Interfaces'
 
 export default async function ProductPage({
@@ -11,7 +11,7 @@ export default async function ProductPage({
 }) {
 	const { slug } = await params
 
-	const product: IProduct = await getProductsBySlug(slug)
+	const product: IProduct = await getProductBySlug(slug)
 	const categories: ICategory[] = await getAllCategories()
 
 	const subcategory = categories.find(cat => cat.id === product?.categoryId)

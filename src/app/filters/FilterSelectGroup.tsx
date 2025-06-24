@@ -1,5 +1,5 @@
 'use client'
-import Select from '@/components/UI/Select'
+import Select from '@/components/UI/MySelect'
 import { IFilterSelectGroup } from '@/types/Interfaces'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'

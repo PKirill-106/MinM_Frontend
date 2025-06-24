@@ -1,4 +1,12 @@
 'use server'
+
+import {
+	ICreateProduct,
+	IDeleteProduct,
+	IUpdateProduct,
+} from '@/types/Interfaces'
+import { revalidatePath } from 'next/cache'
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -16,16 +24,76 @@ export async function getAllProducts() {
 
 	return data
 }
-export async function getProductsBySlug(slug: string) {
+export async function getProductBySlug(slug: string) {
 	const res = await fetch(`${API_URL}/api/Product/${slug}`, {
 		method: 'GET',
 	})
 
 	if (!res.ok) {
-		throw new Error(`Failed to fetch products: ${res.status}`)
+		throw new Error(`Failed to fetch product by slug: ${res.status}`)
 	}
 
 	const { data } = await res.json()
 
 	return data
+}
+
+export async function createProduct(
+	formData: FormData,
+	token: string,
+	slug: string | undefined
+) {
+	const res = await fetch(`${API_URL}/api/Product/Create`, {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		body: formData,
+	})
+	if (!res.ok) {
+		const errorText = await res.text()
+		console.error('Server response:', errorText)
+		throw new Error(`Product CREATE failed: ${res.status} - ${errorText}`)
+	}
+
+	revalidatePath(`/admin/products/${slug}`)
+	const { data } = await res.json()
+
+	return data
+}
+
+export async function updateProduct(
+	formData: FormData,
+	token: string,
+	slug: string | undefined
+) {
+	const res = await fetch(`${API_URL}/api/Product/Update`, {
+		method: 'PUT',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		body: formData,
+	})
+	if (!res.ok) throw new Error(`Product UPDATE failed: ${res.status}`)
+
+	revalidatePath(`/admin/products/${slug}`)
+	const { data } = await res.json()
+
+	return data
+}
+
+export async function deleteProduct(
+	productId: IDeleteProduct,
+	token: string,
+	slug: string | undefined
+) {
+	const res = await fetch(`${API_URL}/api/Product/Delete?id=${productId.id}`, {
+		method: 'DELETE',
+		headers: { Authorization: `Bearer ${token}` },
+		body: JSON.stringify(productId),
+	})
+	if (!res.ok) throw new Error(`Product DELETE failed: ${res.status}`)
+
+	revalidatePath(`/admin/products/${slug}`)
+	return true
 }

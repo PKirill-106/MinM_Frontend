@@ -1,12 +1,12 @@
 'use client'
 
-import { IProductTopLeftProps } from '@/types/Interfaces'
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Swiper as SwiperType } from 'swiper/types'
 import ImageModal from './ImageModal'
 import MainImage from './MainImage'
 import ThumbnailScroller from './ThumbnailScroller'
+import { IProductTopLeftProps } from '../../interfaces'
 
 const images = [
 	'/M-in-M-GP-7.5.jpg',

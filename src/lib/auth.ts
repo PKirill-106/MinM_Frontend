@@ -1,4 +1,3 @@
-// lib/authOptions.ts
 import { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { signInUser } from './services/userServices'
@@ -75,6 +74,7 @@ export const authOptions: AuthOptions = {
 		async session({ session, token }) {
 			session.user.email = token.email as string
 			session.user.role = token.role as string
+			;(session as any).accessToken = token.accessToken as string
 			return session
 		},
 	},

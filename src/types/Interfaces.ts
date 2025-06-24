@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react'
 
 export interface ISignUpUser {
 	email: string
@@ -33,6 +33,7 @@ export interface IFavoritesContext {
 	triggerAnimation: () => void
 }
 
+// Category
 export interface ICategory {
 	id: string
 	name: string
@@ -40,6 +41,26 @@ export interface ICategory {
 	description: string
 	parentCategoryId?: string
 	imageURL?: string
+}
+
+export interface ICreateCategory {
+	name: string
+	description: string
+	parentCategoryId?: string
+	imageURL?: string
+}
+
+export interface IUpdateCategory {
+	id: string
+	name: string
+	description: string
+	parentCategoryId?: string
+	imageURL?: string
+}
+
+export interface IDeleteCategory {
+	id: string
+	option: string
 }
 
 export interface ICategorySection {
@@ -66,6 +87,43 @@ export interface ICategoryItem {
 	isMobile?: boolean
 }
 
+// Discount
+export interface ICreateDiscount {
+	name: string
+	discountPercentage: number
+	startDate: string
+	endDate: string
+	removeAfterExpiration: boolean
+	productIds: string[]
+}
+
+export interface IUpdateDiscount {
+	id: string
+	name: string
+	discountPercentage: number
+	startDate: string
+	endDate: string
+	removeAfterExpiration: boolean
+	productIds: string[]
+}
+
+// Season
+export interface ICreateSeason {
+	name: string
+	startDate: string
+	endDate: string
+	productIds: string[]
+}
+
+export interface IUpdateSeason {
+	id: string
+	name: string
+	startDate: string
+	endDate: string
+	productIds: string[]
+}
+
+// Product
 export interface IProductVariant {
 	id: string
 	name: string
@@ -74,7 +132,10 @@ export interface IProductVariant {
 	unitsInStock: number
 	isStock: boolean
 }
-
+export interface IProductImage {
+	filePath: string
+	file?: File
+}
 export interface IProduct {
 	id: string
 	name: string
@@ -84,10 +145,32 @@ export interface IProduct {
 	discountId: string
 	isSeasonal: boolean
 	isDiscounted: boolean
+	isNew: boolean
 	categoryId: string
 	categoryName: string
 	sku: string
-	imageUrls: string[]
+	productImages: IProductImage[]
+}
+
+export interface ICreateProductVariant {
+	name: string
+	price: number
+	unitsInStock: number
+}
+export interface ICreateProduct {
+	name: string
+	description: string
+	productVariantsJson: string
+	categoryId: string
+	sku: string
+	images: (File | string)[]
+}
+
+export interface IUpdateProduct extends ICreateProduct {
+	id: string
+}
+export interface IDeleteProduct {
+	id: string
 }
 
 export interface IProductSection {
@@ -99,10 +182,21 @@ export interface IProductSection {
 	linkHref: string
 }
 
+export interface IProductGrid {
+	products: IProduct[]
+	categories: ICategory[]
+	type?: 'favorites'
+}
+
 export interface IProductFilters {
 	categories: ICategory[]
 	activeCategory: string
 	activeSubcategory: string
+}
+
+export interface IProductCard {
+	product: IProduct
+	categories: ICategory[]
 }
 
 export interface IFilterSelectGroup {
@@ -111,21 +205,10 @@ export interface IFilterSelectGroup {
 	activeSubcategory: string
 }
 
-export interface IProductGrid {
-	products: IProduct[]
-	categories: ICategory[]
-	type?: 'favorites'
-}
-
 export interface IFilteredFavoriteGrid {
 	products: IProduct[]
 	categories: ICategory[]
 	initialFavoriteIds: string[]
-}
-
-export interface IProductCard {
-	product: IProduct
-	categories: ICategory[]
 }
 
 export interface IBreadcrumbs {
@@ -186,4 +269,5 @@ export interface IModal {
 	isOpen: boolean
 	onClose: () => void
 	children: ReactNode
+	isInput?: boolean
 }

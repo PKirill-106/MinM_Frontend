@@ -61,7 +61,7 @@ export default async function CategoryPage({
 	}
 
 	if (novinki) {
-		//filteredProducts = filteredProducts.filter(p => p.isNew)
+		filteredProducts = filteredProducts.filter(p => p.isNew)
 	}
 
 	const sortProducts = (products: IProduct[], sort: string): IProduct[] => {

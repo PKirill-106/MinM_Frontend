@@ -1,4 +1,7 @@
 'use server'
+
+import { ICreateCategory, IDeleteCategory, IUpdateCategory } from '@/types/Interfaces'
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -13,6 +16,46 @@ export async function getAllCategories() {
 	}
 
 	const { data } = await res.json()
-	
+
 	return data
+}
+
+export async function createCategory(categoryData: ICreateCategory) {
+	const res = await fetch(`${API_URL}/api/Category/Create`, {
+		method: 'POST',
+		credentials: 'include',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(categoryData),
+	})
+
+	if (!res.ok) throw new Error(`Category CREATE failed: ${res.status}`)
+
+	const { data } = await res.json()
+
+	return data
+}
+
+export async function updateCategory(categoryData: IUpdateCategory) {
+	const res = await fetch(`${API_URL}/api/Category/Update`, {
+		method: 'PUT',
+		credentials: 'include',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(categoryData),
+	})
+	if (!res.ok) throw new Error(`Category UPDATE failed: ${res.status}`)
+
+	const { data } = await res.json()
+
+	return data
+}
+
+export async function deleteCategory(categoryData: IDeleteCategory) {
+	const res = await fetch(`${API_URL}/api/Category/Delete`, {
+		method: 'DELETE',
+		credentials: 'include',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(categoryData),
+	})
+	if (!res.ok) throw new Error(`Category DELETE failed: ${res.status}`)
+	return true
 }

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import Tooltip from './Tooltip'
+import Tooltip from './MyTooltip'
 
 export default function Logo({ width, height, isFooter }: ILogoProps) {
 	const pathname = usePathname()

@@ -14,7 +14,7 @@ import CatalogDropdown from '../CatalogDropdown'
 import Logo from '../UI/Logo'
 import { useEffect, useRef, useState } from 'react'
 import CategoryList from '../category-lists/CategoryList'
-import Tooltip from '../UI/Tooltip'
+import Tooltip from '../UI/MyTooltip'
 import SearchBar from './search/SearchBar'
 import { INavbarProps } from '@/types/Interfaces'
 import { usePathname } from 'next/navigation'
@@ -54,11 +54,11 @@ export default function Navbar({ categories, products }: INavbarProps) {
 	let profileHref = '/sign-in'
 	if (status === 'authenticated') {
 		const role = session?.user?.role
-		profileHref = role === 'admin' ? '/admin' : '/profile'
+		profileHref = role === 'Admin' ? '/admin' : '/profile'
 	}
 
 	return (
-		<header className='z-10 top-0 left-0 fixed w-full bg-white p-2 lg:px-15 xl:px-30'>
+		<header className='z-10 top-0 left-0 fixed w-full bg-white py-2 lg:px-15 xl:px-30'>
 			<nav className='container flex items-center justify-between md:gap-[15px] w-full'>
 				<div className='hidden md:flex items-center gap-5 xl:gap-7 md:flex-1'>
 					<CatalogDropdown categories={categories} />
@@ -90,9 +90,9 @@ export default function Navbar({ categories, products }: INavbarProps) {
 					</Tooltip>
 
 					<Tooltip content='Обране' className='hidden group md:flex'>
-							<NavCounterWrapper type='favorites'>
-								<Heart className='link-size link-hover' />
-							</NavCounterWrapper>
+						<NavCounterWrapper type='favorites'>
+							<Heart className='link-size link-hover' />
+						</NavCounterWrapper>
 					</Tooltip>
 
 					<Tooltip content='Кошик' isShoppingBag={true}>
