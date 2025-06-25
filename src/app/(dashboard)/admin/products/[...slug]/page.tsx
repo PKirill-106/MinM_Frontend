@@ -1,12 +1,7 @@
 import CategoryProductsClient from '@/components/admin/CategoryProductsClient'
 import { getAllCategories } from '@/lib/services/categoryServices'
-import {
-	getAllProducts
-} from '@/lib/services/productServices'
-import {
-	ICategory,
-	IProduct
-} from '@/types/Interfaces'
+import { getAllProducts } from '@/lib/services/productServices'
+import { ICategory, IProduct } from '@/types/Interfaces'
 
 export default async function CategoryProductsPage({
 	params,
@@ -29,11 +24,19 @@ export default async function CategoryProductsPage({
 	)
 
 	return (
-		<CategoryProductsClient
-			activeCategory={activeCategory}
-			products={filteredProducts}
-			categories={categories}
-			subcategories={subcategories}
-		/>
+		<div>
+			{!activeCategory ? (
+				<div>
+					<h3>Вибраної категорії не існує</h3>
+				</div>
+			) : (
+				<CategoryProductsClient
+					activeCategory={activeCategory}
+					products={filteredProducts}
+					categories={categories}
+					subcategories={subcategories}
+				/>
+			)}
+		</div>
 	)
 }

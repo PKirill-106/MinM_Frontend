@@ -12,11 +12,11 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
-import ProductModal from './ProductModal'
+import ProductModal from './product-modal/ProductModal'
 import toast from 'react-hot-toast'
 
 interface Props {
-	activeCategory?: ICategory
+	activeCategory: ICategory
 	products: IProduct[]
 	categories: ICategory[]
 	subcategories: ICategory[]
@@ -152,7 +152,9 @@ export default function CategoryProductsClient({
 											<Button
 												variant='destructive'
 												className='ml-4'
-												onClick={() => handleDeleteProduct({id: p.id}, accessToken)}
+												onClick={() =>
+													handleDeleteProduct({ id: p.id }, accessToken)
+												}
 											>
 												<Trash />
 											</Button>
@@ -174,6 +176,7 @@ export default function CategoryProductsClient({
 				onClose={closeModal}
 				onSubmit={handleSubmitProduct}
 				productData={editingProduct || undefined}
+				activeCategory={activeCategory}
 				categories={categories}
 				accessToken={accessToken}
 			/>

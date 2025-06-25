@@ -50,12 +50,8 @@ export interface ICreateCategory {
 	imageURL?: string
 }
 
-export interface IUpdateCategory {
+export interface IUpdateCategory extends ICreateCategory {
 	id: string
-	name: string
-	description: string
-	parentCategoryId?: string
-	imageURL?: string
 }
 
 export interface IDeleteCategory {

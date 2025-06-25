@@ -20,11 +20,10 @@ export async function getAllCategories() {
 	return data
 }
 
-export async function createCategory(categoryData: ICreateCategory) {
+export async function createCategory(categoryData: ICreateCategory, token: string) {
 	const res = await fetch(`${API_URL}/api/Category/Create`, {
 		method: 'POST',
-		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { Authorization: `Bearer ${token}` },
 		body: JSON.stringify(categoryData),
 	})
 
@@ -35,11 +34,10 @@ export async function createCategory(categoryData: ICreateCategory) {
 	return data
 }
 
-export async function updateCategory(categoryData: IUpdateCategory) {
+export async function updateCategory(categoryData: IUpdateCategory, token: string) {
 	const res = await fetch(`${API_URL}/api/Category/Update`, {
 		method: 'PUT',
-		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { Authorization: `Bearer ${token}` },
 		body: JSON.stringify(categoryData),
 	})
 	if (!res.ok) throw new Error(`Category UPDATE failed: ${res.status}`)
@@ -49,11 +47,10 @@ export async function updateCategory(categoryData: IUpdateCategory) {
 	return data
 }
 
-export async function deleteCategory(categoryData: IDeleteCategory) {
+export async function deleteCategory(categoryData: IDeleteCategory, token: string) {
 	const res = await fetch(`${API_URL}/api/Category/Delete`, {
 		method: 'DELETE',
-		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { Authorization: `Bearer ${token}` },
 		body: JSON.stringify(categoryData),
 	})
 	if (!res.ok) throw new Error(`Category DELETE failed: ${res.status}`)
