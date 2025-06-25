@@ -1,5 +1,16 @@
 'use client'
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/UI/alert-dialog'
 import { Button } from '@/components/UI/button'
 import {
 	createProduct,
@@ -7,13 +18,14 @@ import {
 	updateProduct,
 } from '@/lib/services/productServices'
 import { ICategory, IDeleteProduct, IProduct } from '@/types/Interfaces'
-import { ArrowRight, Delete, Trash } from 'lucide-react'
+import { ArrowRight, Trash } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
-import ProductModal from './product-modal/ProductModal'
 import toast from 'react-hot-toast'
+import ProductModal from './product-modal/ProductModal'
+import AlertOnDelete from './AlertOnDelete'
 
 interface Props {
 	activeCategory: ICategory
@@ -149,15 +161,13 @@ export default function CategoryProductsClient({
 													</div>
 												</div>
 											</div>
-											<Button
-												variant='destructive'
-												className='ml-4'
+
+											<AlertOnDelete
 												onClick={() =>
 													handleDeleteProduct({ id: p.id }, accessToken)
 												}
-											>
-												<Trash />
-											</Button>
+												pName={p.name}
+											/>
 										</div>
 									</li>
 								)

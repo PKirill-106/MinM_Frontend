@@ -61,3 +61,7 @@ export interface ICategoryModal {
 	categoryData?: ICategory
 	categories: ICategory[]
 }
+export interface IAlertOnDelete {
+	onClick: () => void
+	pName: string
+}
