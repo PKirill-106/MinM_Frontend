@@ -1,10 +1,6 @@
 'use server'
 
-import {
-	ICreateProduct,
-	IDeleteProduct,
-	IUpdateProduct,
-} from '@/types/Interfaces'
+import { IDeleteProduct } from '@/types/Interfaces'
 import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -96,4 +92,20 @@ export async function deleteProduct(
 
 	revalidatePath(`/admin/products/${slug}`)
 	return true
+}
+
+export async function getAllColors() {
+	const res = await fetch(`${API_URL}/api/Product/GetAllColors`, {
+		method: 'GET',
+	})
+
+	if (!res.ok) {
+		const error = await res.text()
+		console.error('Fetch colors failed:', error)
+		throw new Error(`Failed to fetch colors: ${res.status}`)
+	}
+
+	const { data } = await res.json()
+
+	return data
 }

@@ -8,16 +8,6 @@ import MainImage from './MainImage'
 import ThumbnailScroller from './ThumbnailScroller'
 import { IProductTopLeftProps } from '../../interfaces'
 
-const images = [
-	'/M-in-M-GP-7.5.jpg',
-	'/prod/M-in-M-Cover-Base.jpg',
-	'/prod/M-in-M-Cover-Base-1.jpg',
-	'/prod/M-in-M-Cover-Base-2.jpg',
-	'/prod/M-in-M-Cover-Base-3.jpg',
-	'/prod/M-in-M-Cover-Base-4.jpg',
-	'/prod/M-in-M-Cover-Base-5.jpg',
-]
-
 export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 	const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -37,7 +27,7 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 	}
 
 	const handleNext = () => {
-		if (selectedImageIndex < images.length - 1) {
+		if (selectedImageIndex < product.productImages.length - 1) {
 			const newIndex = selectedImageIndex + 1
 			setSelectedImageIndex(newIndex)
 			swiperRef.current?.slideTo(newIndex)
@@ -50,7 +40,7 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 		<div>
 			<div className='md:sticky md:top-28 md:self-start flex flex-col gap-4 md:gap-3'>
 				<MainImage
-					images={images}
+					images={product.productImages}
 					selectedImageIndex={selectedImageIndex}
 					onClick={() => openModal(selectedImageIndex)}
 					productName={product.name}
@@ -68,7 +58,7 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 					</button>
 
 					<ThumbnailScroller
-						images={images}
+						images={product.productImages}
 						productName={product.name}
 						selectedImageIndex={selectedImageIndex}
 						onSelect={setSelectedImageIndex}
@@ -77,9 +67,11 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 
 					<button
 						onClick={handleNext}
-						disabled={selectedImageIndex >= images.length - 1}
+						disabled={selectedImageIndex >= product.productImages.length - 1}
 						className={`shrink-0 disabled:opacity-30 ${
-							selectedImageIndex < images.length - 1 ? 'li-hover' : ''
+							selectedImageIndex < product.productImages.length - 1
+								? 'li-hover'
+								: ''
 						}`}
 					>
 						<CircleArrowRight className={circleArrowClass} />
@@ -90,7 +82,7 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 			<ImageModal
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
-				images={images}
+				images={product.productImages}
 				productName={product.name}
 				selectedImageIndex={selectedImageIndex}
 				onSelect={setSelectedImageIndex}

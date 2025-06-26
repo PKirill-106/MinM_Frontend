@@ -3,6 +3,7 @@ import {
 	ICreateCategory,
 	ICreateProductVariant,
 	IProduct,
+	IProductColor,
 	IProductImage,
 	IUpdateCategory,
 } from '@/types/Interfaces'
@@ -18,6 +19,7 @@ export interface IProductModal {
 	activeCategory: ICategory
 	categories: ICategory[]
 	accessToken: string
+	colors: IProductColor[]
 }
 export interface IProductForm {
 	name: string
@@ -33,8 +35,11 @@ export interface IProductForm {
 	categories: ICategory[]
 	subcategories: ICategory[]
 	variants: ICreateProductVariant[]
-	setVariants: (v: ICreateProductVariant[]) => void
+	setVariants: (val: ICreateProductVariant[]) => void
 	modules?: any
+	colors: IProductColor[]
+	selectedColors: IProductColor[]
+	setSelectedColors: (colors: IProductColor[]) => void
 }
 export interface ISortableImage {
 	file: IProductImage

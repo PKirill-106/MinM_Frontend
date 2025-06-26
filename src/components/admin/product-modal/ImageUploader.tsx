@@ -13,6 +13,10 @@ export default function ImageUploader({
 	fileInputRef,
 	sensors,
 }: IImageUploader) {
+	const sortedImages = [...images].sort(
+		(a, b) => a.sequenceNumber - b.sequenceNumber
+	)
+
 	return (
 		<div>
 			<span className='block mb-2'>Зображення продукту</span>
@@ -22,11 +26,11 @@ export default function ImageUploader({
 				onDragEnd={onDragEnd}
 			>
 				<SortableContext
-					items={images.map(i => i.filePath)}
+					items={sortedImages.map(i => i.filePath)}
 					strategy={verticalListSortingStrategy}
 				>
 					<div className='flex gap-2 overflow-x-auto py-2'>
-						{images.map(img => (
+						{sortedImages.map(img => (
 							<SortableImage
 								key={img.filePath}
 								file={img}

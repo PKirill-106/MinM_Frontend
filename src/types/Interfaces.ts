@@ -130,7 +130,12 @@ export interface IProductVariant {
 }
 export interface IProductImage {
 	filePath: string
+	sequenceNumber: number
 	file?: File
+}
+export interface IProductColor {
+	name: string
+	colorHex: string
 }
 export interface IProduct {
 	id: string
@@ -146,6 +151,7 @@ export interface IProduct {
 	categoryName: string
 	sku: string
 	productImages: IProductImage[]
+	colors: IProductColor[]
 }
 
 export interface ICreateProductVariant {
@@ -199,6 +205,7 @@ export interface IFilterSelectGroup {
 	categories: ICategory[]
 	activeCategory: string
 	activeSubcategory: string
+	colors: IProductColor[]
 }
 
 export interface IFilteredFavoriteGrid {
@@ -231,8 +238,8 @@ export interface IInputProps {
 }
 
 export interface ISelectProps {
-	options: ICategory[]
-	variant: 'cat' | 'subcat' | 'sort'
+	options: ICategory[] | IProductColor[]
+	variant: 'cat' | 'subcat' | 'sort' | 'color'
 	defaultValue: string
 	onSelect?: (id: string) => void
 	activeSlug?: string

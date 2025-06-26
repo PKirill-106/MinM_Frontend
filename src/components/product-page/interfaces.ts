@@ -1,4 +1,4 @@
-import { ICategory, IProduct, IProductVariant } from '@/types/Interfaces'
+import { ICategory, IProduct, IProductImage, IProductVariant } from '@/types/Interfaces'
 import { Swiper as SwiperType } from 'swiper/types'
 
 // Top
@@ -12,7 +12,7 @@ export interface IProductTopLeftProps {
 
 // Top Left / Images
 export interface IMainImage {
-	images: string[]
+	images: IProductImage[]
 	selectedImageIndex: number
 	onClick: () => void
 	productName: string
@@ -26,7 +26,7 @@ export interface IThumbnail {
 	isModal: boolean
 }
 export interface IThumbnailScroller {
-	images: string[]
+	images: IProductImage[]
 	productName: string
 	selectedImageIndex: number
 	onSelect: (index: number) => void
@@ -35,7 +35,7 @@ export interface IThumbnailScroller {
 export interface IImageModal {
 	isOpen: boolean
 	onClose: () => void
-	images: string[]
+	images: IProductImage[]
 	productName: string
 	selectedImageIndex: number
 	onSelect: (i: number) => void

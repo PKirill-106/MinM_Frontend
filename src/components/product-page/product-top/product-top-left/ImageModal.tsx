@@ -49,7 +49,7 @@ export default function ImageModal({
 							<SwiperSlide key={i}>
 								<div className='relative w-full aspect-square'>
 									<Image
-										src={src}
+										src={src.filePath}
 										alt={`Image ${i}`}
 										fill
 										className='object-contain'
@@ -72,8 +72,8 @@ export default function ImageModal({
 				<div className='flex gap-2 mt-2 md:mt-3 lg:mt-4'>
 					{images.map((img, i) => (
 						<Thumbnail
-							key={img}
-							img={img}
+							key={img.sequenceNumber}
+							img={img.filePath}
 							index={i}
 							productName={productName}
 							selectedImageIndex={selectedImageIndex}

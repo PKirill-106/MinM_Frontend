@@ -15,6 +15,16 @@ export default function ProductCard({
 		return <div className=''>Product unavailable</div>
 	}
 
+	const firstImage = product.productImages?.[0]
+	const rawPath = firstImage?.filePath
+	const imageUrl =
+		rawPath?.startsWith('http') || rawPath?.startsWith('/')
+			? rawPath
+			: rawPath
+			? `/${rawPath}`
+			: '/prod/product-image-unavailable.png'
+
+
 	const productUrl = `/product/${product.slug}`
 
 	return (
@@ -22,7 +32,7 @@ export default function ProductCard({
 			<Link href={productUrl} className='mb-1'>
 				<div className='relative w-full aspect-square'>
 					<Image
-						src='/M-in-M-GP-7.5.jpg'
+						src={imageUrl}
 						alt={product.name}
 						fill
 						className='object-cover'

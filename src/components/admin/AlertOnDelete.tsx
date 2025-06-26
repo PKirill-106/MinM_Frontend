@@ -16,10 +16,8 @@ import { IAlertOnDelete } from './interface'
 export default function AlertOnDelete({ onClick, pName }: IAlertOnDelete) {
 	return (
 		<AlertDialog>
-			<AlertDialogTrigger>
-				<Button variant='destructive' className='ml-4'>
-					<Trash />
-				</Button>
+			<AlertDialogTrigger className='ml-4 p-2 rounded-sm bg-red-600 text-white shadow-xs hover:bg-destructive/70 cursor-pointer'>
+				<Trash />
 			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>

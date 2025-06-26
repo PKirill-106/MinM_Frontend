@@ -1,13 +1,17 @@
 import React from 'react'
 import FilterCheckboxGroup from './FilterCheckboxGroup'
-import { IProductFilters } from '@/types/Interfaces'
+import { IProductColor, IProductFilters } from '@/types/Interfaces'
 import FilterSelectGroup from './FilterSelectGroup'
+import { getAllColors } from '@/lib/services/productServices'
 
-export default function ProductFilters({
+export default async function ProductFilters({
 	categories,
 	activeCategory,
 	activeSubcategory,
 }: IProductFilters) {
+
+	const colors: IProductColor[] = await getAllColors()
+
 	return (
 		<div className='mb-6'>
 			<FilterCheckboxGroup />
@@ -15,6 +19,7 @@ export default function ProductFilters({
 				categories={categories}
 				activeCategory={activeCategory}
 				activeSubcategory={activeSubcategory}
+				colors={colors}
 			/>
 		</div>
 	)

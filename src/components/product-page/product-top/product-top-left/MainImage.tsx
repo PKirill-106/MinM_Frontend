@@ -15,8 +15,8 @@ export default function MainImage({
 		>
 			{images.map((img, i) => (
 				<Image
-					key={img}
-					src={img}
+					key={img.sequenceNumber}
+					src={img.filePath}
 					alt={productName}
 					fill
 					className={`object-cover absolute top-0 left-0 transition-opacity duration-300 ${

@@ -1,7 +1,7 @@
 import CategoryProductsClient from '@/components/admin/CategoryProductsClient'
 import { getAllCategories } from '@/lib/services/categoryServices'
-import { getAllProducts } from '@/lib/services/productServices'
-import { ICategory, IProduct } from '@/types/Interfaces'
+import { getAllColors, getAllProducts } from '@/lib/services/productServices'
+import { ICategory, IProduct, IProductColor } from '@/types/Interfaces'
 
 export default async function CategoryProductsPage({
 	params,
@@ -11,6 +11,7 @@ export default async function CategoryProductsPage({
 	const [slug] = (await params).slug || ['']
 
 	const products: IProduct[] = await getAllProducts()
+	const colors: IProductColor[] = await getAllColors()
 	const categories: ICategory[] = await getAllCategories()
 
 	const activeCategory = categories.find(c => c.slug === slug)
@@ -35,6 +36,7 @@ export default async function CategoryProductsPage({
 					products={filteredProducts}
 					categories={categories}
 					subcategories={subcategories}
+					colors={colors}
 				/>
 			)}
 		</div>

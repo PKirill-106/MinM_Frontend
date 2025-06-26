@@ -9,6 +9,7 @@ export default function FilterSelectGroup({
 	categories,
 	activeCategory,
 	activeSubcategory,
+	colors
 }: IFilterSelectGroup) {
 	const router = useRouter()
 	const searchParams = useSearchParams()
@@ -73,7 +74,13 @@ export default function FilterSelectGroup({
 					activeSlug={activeSubcategory}
 				/>
 			)}
-			<input type='color' className='color-picker border rounded' />
+			<Select
+				variant='color'
+				options={colors}
+				defaultValue='Колір'
+				onSelect={handleSortSelect}
+				activeId={currentSort}
+			/>
 			<div className='md:ml-auto'>
 				<Select
 					variant='sort'

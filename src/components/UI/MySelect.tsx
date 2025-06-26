@@ -1,7 +1,14 @@
 'use client'
-import { ISelectProps } from '@/types/Interfaces'
+import { ICategory, ISelectProps } from '@/types/Interfaces'
 import { ChevronRight } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+
+type SelectOption = {
+	id?: string
+	name: string
+	slug?: string
+	colorHex?: string
+}
 
 export default function Select({
 	options,
@@ -34,7 +41,9 @@ export default function Select({
 
 	useEffect(() => {
 		if (activeSlug) {
-			const match = options.find(opt => opt.slug === activeSlug)
+			const match = options.find(
+				opt => 'slug' in opt && opt.slug === activeSlug
+			)
 			if (match) {
 				setSelected(match.name)
 			}
@@ -45,27 +54,44 @@ export default function Select({
 				{ id: 'price-desc', name: 'Від дорогих' },
 				{ id: 'popular', name: 'Популярні' },
 			]
-			const match = sortOptions.find(opt => opt.id == activeId)
+			const match = sortOptions.find(opt => opt.id === activeId)
 			if (match) {
 				setSelected(match.name)
 			}
 		}
 	}, [activeSlug, activeId, options, variant])
 
-	let selectOptions: { id: string; name: string }[] = []
-
-	if (variant === 'cat') {
-		selectOptions = options.filter(option => option.parentCategoryId === null)
-	} else if (variant === 'subcat') {
-		selectOptions = options.filter(option => option.parentCategoryId !== null)
-	} else if (variant === 'sort') {
-		selectOptions = [
-			{ id: 'suggested', name: 'Рекомендовані' },
-			{ id: 'price-asc', name: 'Від дешевих' },
-			{ id: 'price-desc', name: 'Від дорогих' },
-			{ id: 'popular', name: 'Популярні' },
-		]
+	const getSelectOptions = (): SelectOption[] => {
+		switch (variant) {
+			case 'cat':
+				return options.filter(
+					(opt): opt is ICategory =>
+						'parentCategoryId' in opt && opt.parentCategoryId === null
+				)
+			case 'subcat':
+				return options.filter(
+					(opt): opt is ICategory =>
+						'parentCategoryId' in opt && opt.parentCategoryId !== null
+				)
+			case 'sort':
+				return [
+					{ id: 'suggested', name: 'Рекомендовані' },
+					{ id: 'price-asc', name: 'Від дешевих' },
+					{ id: 'price-desc', name: 'Від дорогих' },
+					{ id: 'popular', name: 'Популярні' },
+				]
+			case 'color':
+				return options.map(opt => ({
+					name: opt.name,
+					colorHex: 'colorHex' in opt ? opt.colorHex : undefined,
+				}))
+			default:
+				return []
+		}
 	}
+
+	const selectOptions = getSelectOptions()
+	const selectedOption = selectOptions.find(opt => opt.name === selected)
 
 	return (
 		<div
@@ -74,6 +100,12 @@ export default function Select({
 			onClick={() => setIsOpen(prev => !prev)}
 		>
 			<div className='flex items-center justify-between'>
+				{variant === 'color' && selectedOption?.colorHex && (
+					<div
+						className='aspect-square rounded-sm w-6 border'
+						style={{ backgroundColor: selectedOption.colorHex }}
+					/>
+				)}
 				<span>{selected || defaultValue}</span>
 				<ChevronRight
 					className={`h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 xl:h-7 xl:w-7 transform transition-transform duration-300 ease-out ${
@@ -86,16 +118,26 @@ export default function Select({
 				<div className='absolute top-full left-0 right-0 mt-1 bg-white rounded-md shadow-md z-10'>
 					{selectOptions.map(option => (
 						<div
-							key={option.id}
+							key={option.id || option.name}
 							className='px-2 py-1 lg:px-4 lg:py-2 hover:bg-gray-100 cursor-pointer'
 							onClick={e => {
 								e.stopPropagation()
 								setIsOpen(false)
 								setSelected(option.name)
-								onSelect?.(option.id)
+								if (option.id) {
+									onSelect?.(option.id)
+								}
 							}}
 						>
-							{option.name}
+							<div className='flex gap-2'>
+								{variant === 'color' && option.colorHex && (
+									<div
+										className='aspect-square rounded-sm w-6 border'
+										style={{ backgroundColor: option.colorHex }}
+									/>
+								)}
+								<span>{option.name}</span>
+							</div>
 						</div>
 					))}
 				</div>

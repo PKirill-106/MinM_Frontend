@@ -1,37 +1,32 @@
 'use client'
 
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from '@/components/UI/alert-dialog'
 import { Button } from '@/components/UI/button'
 import {
 	createProduct,
 	deleteProduct,
 	updateProduct,
 } from '@/lib/services/productServices'
-import { ICategory, IDeleteProduct, IProduct } from '@/types/Interfaces'
-import { ArrowRight, Trash } from 'lucide-react'
+import {
+	ICategory,
+	IDeleteProduct,
+	IProduct,
+	IProductColor,
+} from '@/types/Interfaces'
+import { ArrowRight } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
-import ProductModal from './product-modal/ProductModal'
 import AlertOnDelete from './AlertOnDelete'
+import ProductModal from './product-modal/ProductModal'
 
 interface Props {
 	activeCategory: ICategory
 	products: IProduct[]
 	categories: ICategory[]
 	subcategories: ICategory[]
+	colors: IProductColor[]
 }
 
 export default function CategoryProductsClient({
@@ -39,6 +34,7 @@ export default function CategoryProductsClient({
 	products,
 	categories,
 	subcategories,
+	colors,
 }: Props) {
 	const [isModalOpen, setModalOpen] = useState(false)
 	const [modalType, setModalType] = useState<'create' | 'update'>('create')
@@ -189,6 +185,7 @@ export default function CategoryProductsClient({
 				activeCategory={activeCategory}
 				categories={categories}
 				accessToken={accessToken}
+				colors={colors}
 			/>
 		</div>
 	)

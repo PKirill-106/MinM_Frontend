@@ -23,7 +23,7 @@ export default function ThumbnailScroller({
 			{images.map((img, i) => (
 				<SwiperSlide key={i}>
 					<Thumbnail
-						img={img}
+						img={img.filePath}
 						index={i}
 						productName={productName}
 						selectedImageIndex={selectedImageIndex}

@@ -5,21 +5,28 @@ import './description.css'
 
 export default function Description({ description }: IDescription) {
 	let html = ''
+
 	try {
-		const parsed = JSON.parse(description)
+		if (
+			description.trim().startsWith('{') ||
+			description.trim().startsWith('[')
+		) {
+			const parsed = JSON.parse(description)
+			const ops = Array.isArray(parsed) ? parsed : parsed.ops
 
-		const ops = Array.isArray(parsed) ? parsed : parsed.ops
-
-		if (Array.isArray(ops)) {
-			const converter = new QuillDeltaToHtmlConverter(ops, {
-				inlineStyles: true,
-			})
-			html = converter.convert()
+			if (Array.isArray(ops)) {
+				const converter = new QuillDeltaToHtmlConverter(ops, {
+					inlineStyles: true,
+				})
+				html = converter.convert()
+			}
+		} else {
+			html = `<p>${description}</p>`
 		}
 	} catch (err) {
 		console.warn('Invalid description format:', err)
+		html = `<p>${description}</p>` // fallback
 	}
-
 
 	return (
 		<div className='flex flex-col'>
