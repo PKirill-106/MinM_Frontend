@@ -25,7 +25,9 @@ import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import AlertOnDelete from './AlertOnDelete'
 import ProductModal from './product-modal/ProductModal'
-import CategoryModal from './category-modal/CategoryModal'
+import CategoryModal from './category/CategoryModal'
+import Subcategory from './category/Subcategory'
+import Product from './category/Product'
 
 interface Props {
 	activeCategory: ICategory
@@ -161,42 +163,15 @@ export default function CategoryProductsClient({
 	return (
 		<div>
 			{subcategories.length ? (
-				<div>
-					<h1 className='mb-6'>Підкатегорії {activeCategory?.name}</h1>
-					<ul className='space-y-2 w-full max-w-md'>
-						{subcategories.map(cat => (
-							<li key={cat.id} className='w-full flex items-center'>
-								<Link href={`/admin/products/${cat.slug}`} className='flex-1'>
-									<div className='flex justify-between p-4 w-full border-1 border-transparent-text rounded-md hover:text-accent group'>
-										{cat.name}
-										<ArrowRight className='group-hover:translate-x-2 transition-all duration-300' />
-									</div>
-								</Link>
-								<Button
-									variant='outline'
-									size='icon'
-									className='text-accent hover:bg-muted ml-4 p-2 rounded-sm'
-									onClick={() => openEditCategory(cat)}
-									title='Редагувати категорію'
-								>
-									<Pencil size={18} />
-								</Button>
-								<AlertOnDelete
-									onClick={() => handleDeleteCategory(cat.id, accessToken)}
-									name={cat.name}
-									setDeleteOption={setDeleteOption}
-								/>
-							</li>
-						))}
-					</ul>
-
-					<Button
-						className='mt-4 w-full max-w-md rounded-md'
-						onClick={openCreateCategory}
-					>
-						+
-					</Button>
-				</div>
+				<Subcategory
+					parentCategoryName={activeCategory?.name}
+					subcategories={subcategories}
+					editCat={openEditCategory}
+					createCat={openCreateCategory}
+					deleteCat={handleDeleteCategory}
+					setDeleteOption={setDeleteOption}
+					accessToken={accessToken}
+				/>
 			) : (
 				<div>
 					<h1 className='mb-10'>Продукти категорії {activeCategory?.name}</h1>
@@ -215,53 +190,15 @@ export default function CategoryProductsClient({
 
 					<div className='grid-cols-2 items-center'>
 						<ul className='space-y-2 w-full'>
-							{products.map(p => {
-								const imgSrc = p.productImages?.[0]?.filePath
-								const validSrc =
-									imgSrc &&
-									(imgSrc.startsWith('http://') ||
-										imgSrc.startsWith('https://'))
-										? imgSrc
-										: '/prod/product-image-unavailable.png'
-
-								return (
-									<li key={p.id}>
-										<div className='flex items-center'>
-											<div className='flex p-4 w-full max-w-md border-1 border-transparent-text rounded-md'>
-												<div className='relative aspect-square w-20 h-20 mr-4'>
-													<Image
-														src={validSrc}
-														alt={p.name}
-														fill
-														className='object-cover rounded-sm'
-													/>
-												</div>
-												<div className='w-full flex flex-col justify-between'>
-													<span>{p.name}</span>
-													<div className='flex items-center justify-between gap-2'>
-														<span className='text-transparent-text'>
-															{p.sku}
-														</span>
-														<Button
-															variant='link'
-															onClick={() => openEditProduct(p)}
-														>
-															Редагувати
-														</Button>
-													</div>
-												</div>
-											</div>
-
-											<AlertOnDelete
-												onClick={() =>
-													handleDeleteProduct({ id: p.id }, accessToken)
-												}
-												name={p.name}
-											/>
-										</div>
-									</li>
-								)
-							})}
+							{products.map(p => (
+								<Product
+									key={p.id}
+									product={p}
+									onEdit={openEditProduct}
+									onDelete={handleDeleteProduct}
+									accessToken={accessToken}
+								/>
+							))}
 						</ul>
 						<Button className='mt-4 rounded-full' onClick={openCreateProduct}>
 							+

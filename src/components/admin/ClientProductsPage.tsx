@@ -12,7 +12,7 @@ import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Button } from '../UI/button'
 import AlertOnDelete from './AlertOnDelete'
-import CategoryModal from './category-modal/CategoryModal'
+import CategoryModal from './category/CategoryModal'
 
 interface Props {
 	categories: ICategory[]
@@ -54,7 +54,6 @@ export default function ClientProductsPage({ categories }: Props) {
 				if (modalType === 'create') {
 					await createCategory(formData, token)
 				} else {
-					
 					await updateCategory(formData, token)
 				}
 				setModalOpen(false)
@@ -68,8 +67,6 @@ export default function ClientProductsPage({ categories }: Props) {
 		},
 		[modalType]
 	)
-
-
 
 	const handleDeleteCategory = async (categoryId: string, token: string) => {
 		try {

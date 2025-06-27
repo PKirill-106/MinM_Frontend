@@ -6,7 +6,7 @@ import {
 	IProductImage,
 } from '@/types/Interfaces'
 import { DragEndEvent } from '@dnd-kit/core'
-import { RefObject } from 'react'
+import { Dispatch, RefObject, SetStateAction } from 'react'
 
 export interface IProductModal {
 	type: 'create' | 'update'
@@ -68,4 +68,21 @@ export interface IAlertOnDelete {
 	setDeleteOption?: (
 		option: 'CascadeDelete' | 'ReassignToParent' | 'Orphan'
 	) => void
+}
+export interface ISubcategory {
+	parentCategoryName: string
+	subcategories: ICategory[]
+	editCat: (cat: ICategory) => void
+	createCat: () => void
+	deleteCat: (catId: string, token: string) => void
+	setDeleteOption: Dispatch<
+		SetStateAction<'CascadeDelete' | 'ReassignToParent' | 'Orphan' | null>
+	>
+	accessToken: string
+}
+export interface IAdminProduct {
+	product: IProduct
+	onEdit: (product: IProduct) => void
+	onDelete: (productId: { id: string }, token: string) => void
+	accessToken: string
 }
