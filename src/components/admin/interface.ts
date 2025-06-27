@@ -58,15 +58,15 @@ export interface ICategoryModal {
 	type: 'create' | 'update'
 	isOpen: boolean
 	onClose: () => void
-	onSubmit: (
-		categoryData: ICreateCategory | IUpdateCategory,
-		token: string
-	) => void
+	onSubmit: (formData: FormData, token: string) => void
 	accessToken: string
 	categoryData?: ICategory
 	categories: ICategory[]
 }
 export interface IAlertOnDelete {
 	onClick: () => void
-	pName: string
+	name: string
+	setDeleteOption?: (
+		option: 'CascadeDelete' | 'ReassignToParent' | 'Orphan'
+	) => void
 }

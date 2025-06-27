@@ -47,7 +47,7 @@ export interface ICreateCategory {
 	name: string
 	description: string
 	parentCategoryId?: string
-	imageURL?: string
+	image: (File | string)
 }
 
 export interface IUpdateCategory extends ICreateCategory {
@@ -55,8 +55,8 @@ export interface IUpdateCategory extends ICreateCategory {
 }
 
 export interface IDeleteCategory {
-	id: string
-	option: string
+	categoryId: string
+	option: 'CascadeDelete' | 'ReassignToParent' | 'Orphan'
 }
 
 export interface ICategorySection {

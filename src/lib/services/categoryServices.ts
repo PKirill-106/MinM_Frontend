@@ -1,6 +1,11 @@
 'use server'
 
-import { ICreateCategory, IDeleteCategory, IUpdateCategory } from '@/types/Interfaces'
+import {
+	ICreateCategory,
+	IDeleteCategory,
+	IUpdateCategory,
+} from '@/types/Interfaces'
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -20,39 +25,50 @@ export async function getAllCategories() {
 	return data
 }
 
-export async function createCategory(categoryData: ICreateCategory, token: string) {
+export async function createCategory(formData: FormData, token: string) {
 	const res = await fetch(`${API_URL}/api/Category/Create`, {
 		method: 'POST',
 		headers: { Authorization: `Bearer ${token}` },
-		body: JSON.stringify(categoryData),
+		body: formData,
 	})
 
 	if (!res.ok) throw new Error(`Category CREATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/products`)
 	const { data } = await res.json()
 
 	return data
 }
 
-export async function updateCategory(categoryData: IUpdateCategory, token: string) {
+export async function updateCategory(formData: FormData, token: string) {
 	const res = await fetch(`${API_URL}/api/Category/Update`, {
 		method: 'PUT',
 		headers: { Authorization: `Bearer ${token}` },
-		body: JSON.stringify(categoryData),
+		body: formData,
 	})
 	if (!res.ok) throw new Error(`Category UPDATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/products`)
 	const { data } = await res.json()
 
 	return data
 }
 
-export async function deleteCategory(categoryData: IDeleteCategory, token: string) {
+export async function deleteCategory(
+	categoryData: IDeleteCategory,
+	token: string
+) {
 	const res = await fetch(`${API_URL}/api/Category/Delete`, {
 		method: 'DELETE',
-		headers: { Authorization: `Bearer ${token}` },
+		headers: {
+			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
+		},
 		body: JSON.stringify(categoryData),
 	})
+
 	if (!res.ok) throw new Error(`Category DELETE failed: ${res.status}`)
+
+	revalidatePath(`/admin/products`)
 	return true
 }

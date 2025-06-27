@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/UI/button'
+import { deleteCategory } from '@/lib/services/categoryServices'
 import {
 	createProduct,
 	deleteProduct,
@@ -10,7 +11,7 @@ import {
 	ICategory,
 	IDeleteProduct,
 	IProduct,
-	IProductColor,
+	IProductColor
 } from '@/types/Interfaces'
 import { ArrowRight } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -39,6 +40,9 @@ export default function CategoryProductsClient({
 	const [isModalOpen, setModalOpen] = useState(false)
 	const [modalType, setModalType] = useState<'create' | 'update'>('create')
 	const [editingProduct, setEditingProduct] = useState<IProduct | null>(null)
+	const [deleteOption, setDeleteOption] = useState<
+			'CascadeDelete' | 'ReassignToParent' | 'Orphan' | null
+		>(null)
 
 	const openCreate = () => {
 		setModalType('create')
@@ -94,6 +98,19 @@ export default function CategoryProductsClient({
 			console.error('Delete failed:', err)
 		}
 	}
+	const handleDeleteCategory = async (categoryId: string, token: string) => {
+		try {
+			const payload = {
+				categoryId,
+				option: deleteOption ?? 'CascadeDelete',
+			}
+			await deleteCategory(payload, token)
+			toast.success('Категорію видалено')
+		} catch (err) {
+			toast.error('Сталася помилка')
+			console.error('Delete failed:', err)
+		}
+	}
 
 	return (
 		<div>
@@ -111,6 +128,11 @@ export default function CategoryProductsClient({
 											<ArrowRight className='group-hover:translate-x-2 transition-all duration-300' />
 										</div>
 									</Link>
+									<AlertOnDelete
+										onClick={() => handleDeleteCategory(cat.id, accessToken)}
+										name={cat.name}
+										setDeleteOption={setDeleteOption}
+									/>
 								</li>
 							))}
 						</ul>
@@ -162,7 +184,7 @@ export default function CategoryProductsClient({
 												onClick={() =>
 													handleDeleteProduct({ id: p.id }, accessToken)
 												}
-												pName={p.name}
+												name={p.name}
 											/>
 										</div>
 									</li>

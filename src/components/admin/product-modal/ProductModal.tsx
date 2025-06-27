@@ -2,7 +2,11 @@
 
 import { Button } from '@/components/UI/button'
 import Modal from '@/components/UI/Modal'
-import { ICreateProductVariant, IProductColor, IProductImage } from '@/types/Interfaces'
+import {
+	ICreateProductVariant,
+	IProductColor,
+	IProductImage,
+} from '@/types/Interfaces'
 import {
 	DragEndEvent,
 	PointerSensor,
@@ -96,7 +100,6 @@ export default function ProductModal({
 			e.target.value = ''
 		}
 	}
-	
 
 	const sensors = useSensors(useSensor(PointerSensor))
 	const handleDragEnd = (event: DragEndEvent) => {
@@ -113,7 +116,6 @@ export default function ProductModal({
 			setImages(newImages)
 		}
 	}
-	
 
 	const removeImage = (filePath: string) => {
 		setImages(prev =>
