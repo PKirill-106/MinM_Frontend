@@ -1,11 +1,9 @@
 import {
 	ICategory,
-	ICreateCategory,
 	ICreateProductVariant,
 	IProduct,
 	IProductColor,
 	IProductImage,
-	IUpdateCategory,
 } from '@/types/Interfaces'
 import { DragEndEvent } from '@dnd-kit/core'
 import { RefObject } from 'react'
@@ -61,6 +59,7 @@ export interface ICategoryModal {
 	onSubmit: (formData: FormData, token: string) => void
 	accessToken: string
 	categoryData?: ICategory
+	activeCategory: ICategory
 	categories: ICategory[]
 }
 export interface IAlertOnDelete {

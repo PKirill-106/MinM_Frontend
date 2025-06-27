@@ -22,6 +22,7 @@ export default function CategoryModal({
 	onSubmit,
 	accessToken,
 	categoryData,
+	activeCategory,
 	categories,
 }: ICategoryModal) {
 	const isUpdate = type === 'update'
@@ -43,7 +44,11 @@ export default function CategoryModal({
 		} else {
 			setName('')
 			setDescription('Опис')
-			setParentCategoryId('')
+			if (activeCategory?.id) {
+				setParentCategoryId(activeCategory.id)
+			} else {
+				setParentCategoryId('')
+			}
 			setImageFile(null)
 			setImagePreview('')
 			if (fileInputRef.current) {

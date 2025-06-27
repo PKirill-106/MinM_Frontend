@@ -1,7 +1,11 @@
 'use client'
 
 import { Button } from '@/components/UI/button'
-import { deleteCategory } from '@/lib/services/categoryServices'
+import {
+	createCategory,
+	deleteCategory,
+	updateCategory,
+} from '@/lib/services/categoryServices'
 import {
 	createProduct,
 	deleteProduct,
@@ -11,9 +15,9 @@ import {
 	ICategory,
 	IDeleteProduct,
 	IProduct,
-	IProductColor
+	IProductColor,
 } from '@/types/Interfaces'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Pencil } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -21,6 +25,7 @@ import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import AlertOnDelete from './AlertOnDelete'
 import ProductModal from './product-modal/ProductModal'
+import CategoryModal from './category-modal/CategoryModal'
 
 interface Props {
 	activeCategory: ICategory
@@ -37,26 +42,28 @@ export default function CategoryProductsClient({
 	subcategories,
 	colors,
 }: Props) {
-	const [isModalOpen, setModalOpen] = useState(false)
+	const [isProductModalOpen, setProductModalOpen] = useState(false)
+	const [isCategoryModalOpen, setCategoryModalOpen] = useState(false)
 	const [modalType, setModalType] = useState<'create' | 'update'>('create')
 	const [editingProduct, setEditingProduct] = useState<IProduct | null>(null)
+	const [editingCategory, setEditingCategory] = useState<ICategory | null>(null)
 	const [deleteOption, setDeleteOption] = useState<
-			'CascadeDelete' | 'ReassignToParent' | 'Orphan' | null
-		>(null)
+		'CascadeDelete' | 'ReassignToParent' | 'Orphan' | null
+	>(null)
 
-	const openCreate = () => {
+	// ---------- PRODUCT ----------
+
+	const openCreateProduct = () => {
 		setModalType('create')
 		setEditingProduct(null)
-		setModalOpen(true)
+		setProductModalOpen(true)
 	}
 
-	const openEdit = (prod: IProduct) => {
+	const openEditProduct = (prod: IProduct) => {
 		setModalType('update')
 		setEditingProduct(prod)
-		setModalOpen(true)
+		setProductModalOpen(true)
 	}
-
-	const closeModal = () => setModalOpen(false)
 
 	const { data: session } = useSession()
 	const accessToken = (session as any)?.accessToken as string
@@ -74,7 +81,7 @@ export default function CategoryProductsClient({
 				} else {
 					await updateProduct(formData, token, activeCategory?.slug)
 				}
-				setModalOpen(false)
+				setProductModalOpen(false)
 				toast.success(
 					`Продукт ${modalType === 'create' ? 'створено' : 'оновлено'}`
 				)
@@ -98,6 +105,45 @@ export default function CategoryProductsClient({
 			console.error('Delete failed:', err)
 		}
 	}
+
+	// ---------- CATEGORY ----------
+
+	const openCreateCategory = () => {
+		setModalType('create')
+		setEditingCategory(null)
+		setCategoryModalOpen(true)
+	}
+
+	const openEditCategory = (cat: ICategory) => {
+		setModalType('update')
+		setEditingCategory(cat)
+		setCategoryModalOpen(true)
+	}
+
+	const handleSubmitCategory = useCallback(
+		async (formData: FormData, token: string) => {
+			if (!token) {
+				console.error('No access token available')
+				return
+			}
+			try {
+				if (modalType === 'create') {
+					await createCategory(formData, token)
+				} else {
+					await updateCategory(formData, token)
+				}
+				setCategoryModalOpen(false)
+				toast.success(
+					`Категорію ${modalType === 'create' ? 'створено' : 'оновлено'}`
+				)
+			} catch (err) {
+				toast.error('Сталася помилка')
+				console.error('Submit failed:', err)
+			}
+		},
+		[modalType]
+	)
+
 	const handleDeleteCategory = async (categoryId: string, token: string) => {
 		try {
 			const payload = {
@@ -116,33 +162,56 @@ export default function CategoryProductsClient({
 		<div>
 			{subcategories.length ? (
 				<div>
-					<h1 className='mb-10'>Підкатегорії {activeCategory?.name}</h1>
+					<h1 className='mb-6'>Підкатегорії {activeCategory?.name}</h1>
+					<ul className='space-y-2 w-full max-w-md'>
+						{subcategories.map(cat => (
+							<li key={cat.id} className='w-full flex items-center'>
+								<Link href={`/admin/products/${cat.slug}`} className='flex-1'>
+									<div className='flex justify-between p-4 w-full border-1 border-transparent-text rounded-md hover:text-accent group'>
+										{cat.name}
+										<ArrowRight className='group-hover:translate-x-2 transition-all duration-300' />
+									</div>
+								</Link>
+								<Button
+									variant='outline'
+									size='icon'
+									className='text-accent hover:bg-muted ml-4 p-2 rounded-sm'
+									onClick={() => openEditCategory(cat)}
+									title='Редагувати категорію'
+								>
+									<Pencil size={18} />
+								</Button>
+								<AlertOnDelete
+									onClick={() => handleDeleteCategory(cat.id, accessToken)}
+									name={cat.name}
+									setDeleteOption={setDeleteOption}
+								/>
+							</li>
+						))}
+					</ul>
 
-					<div className='flex flex-col items-center max-w-xs'>
-						<ul className='space-y-2 w-full'>
-							{subcategories.map(cat => (
-								<li key={cat.id}>
-									<Link href={`/admin/products/${cat.slug}`}>
-										<div className='flex justify-between p-4 w-full max-w-md border-1 border-transparent-text rounded-md hover:text-accent group'>
-											{cat.name}
-											<ArrowRight className='group-hover:translate-x-2 transition-all duration-300' />
-										</div>
-									</Link>
-									<AlertOnDelete
-										onClick={() => handleDeleteCategory(cat.id, accessToken)}
-										name={cat.name}
-										setDeleteOption={setDeleteOption}
-									/>
-								</li>
-							))}
-						</ul>
-
-						<Button className='mt-4 rounded-full'>+</Button>
-					</div>
+					<Button
+						className='mt-4 w-full max-w-md rounded-md'
+						onClick={openCreateCategory}
+					>
+						+
+					</Button>
 				</div>
 			) : (
 				<div>
 					<h1 className='mb-10'>Продукти категорії {activeCategory?.name}</h1>
+					{products.length === 0 ? (
+						<div className='flex items-center gap-4 mb-8'>
+							<Button onClick={openCreateCategory}>
+								Створити підкатегорію
+							</Button>
+							<Button onClick={openCreateProduct}>Створити продукт</Button>
+						</div>
+					) : (
+						<div className='flex items-center gap-4 mb-8'>
+							<Button onClick={openCreateProduct}>Створити продукт</Button>
+						</div>
+					)}
 
 					<div className='grid-cols-2 items-center'>
 						<ul className='space-y-2 w-full'>
@@ -173,7 +242,10 @@ export default function CategoryProductsClient({
 														<span className='text-transparent-text'>
 															{p.sku}
 														</span>
-														<Button variant='link' onClick={() => openEdit(p)}>
+														<Button
+															variant='link'
+															onClick={() => openEditProduct(p)}
+														>
 															Редагувати
 														</Button>
 													</div>
@@ -191,7 +263,7 @@ export default function CategoryProductsClient({
 								)
 							})}
 						</ul>
-						<Button className='mt-4 rounded-full' onClick={openCreate}>
+						<Button className='mt-4 rounded-full' onClick={openCreateProduct}>
 							+
 						</Button>
 					</div>
@@ -200,14 +272,24 @@ export default function CategoryProductsClient({
 
 			<ProductModal
 				type={modalType}
-				isOpen={isModalOpen}
-				onClose={closeModal}
+				isOpen={isProductModalOpen}
+				onClose={() => setProductModalOpen(false)}
 				onSubmit={handleSubmitProduct}
 				productData={editingProduct || undefined}
 				activeCategory={activeCategory}
 				categories={categories}
 				accessToken={accessToken}
 				colors={colors}
+			/>
+			<CategoryModal
+				type={modalType}
+				isOpen={isCategoryModalOpen}
+				onClose={() => setCategoryModalOpen(false)}
+				onSubmit={handleSubmitCategory}
+				accessToken={accessToken}
+				categoryData={editingCategory || undefined}
+				activeCategory={activeCategory}
+				categories={categories}
 			/>
 		</div>
 	)
