@@ -1,31 +1,17 @@
 'use client'
 
 import { Button } from '@/components/UI/button'
-import {
-	createCategory,
-	deleteCategory,
-	updateCategory,
-} from '@/lib/services/categoryServices'
-import {
-	createProduct,
-	deleteProduct,
-	updateProduct,
-} from '@/lib/services/productServices'
-import {
-	ICategory,
-	IDeleteProduct,
-	IProduct,
-	IProductColor,
-} from '@/types/Interfaces'
+import { useCategoryManagement } from '@/hooks/useCategoryManagement'
+import { useProductManagement } from '@/hooks/useProductManagement'
+import { ICategory, IProduct, IProductColor } from '@/types/Interfaces'
 import { useSession } from 'next-auth/react'
-import { useCallback, useState } from 'react'
-import toast from 'react-hot-toast'
 import CategoryModal from './category/CategoryModal'
 import Product from './category/Product'
 import Subcategory from './category/Subcategory'
 import ProductModal from './product-modal/ProductModal'
-import { useProductManagement } from '@/hooks/useProductManagement'
-import { useCategoryManagement } from '@/hooks/useCategoryManagement'
+import { useState } from 'react'
+import ProductSearch from './ProductSearch'
+import ProductPagination from './ProductPagination'
 
 interface Props {
 	activeCategory: ICategory
@@ -44,6 +30,21 @@ export default function CategoryProductsClient({
 }: Props) {
 	const { data: session } = useSession()
 	const accessToken = (session as any)?.accessToken as string
+
+	const [search, setSearch] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
+	const pageSize = 8
+
+	const filteredProducts = products.filter(p =>
+		p.name.toLowerCase().includes(search.toLowerCase())
+	)
+
+	const totalPages = Math.ceil(filteredProducts.length / pageSize)
+
+	const paginatedProducts = filteredProducts.slice(
+		(currentPage - 1) * pageSize,
+		currentPage * pageSize
+	)
 
 	const {
 		isProductModalOpen,
@@ -83,7 +84,14 @@ export default function CategoryProductsClient({
 			) : (
 				<div>
 					<h1 className='mb-10'>Продукти категорії {activeCategory?.name}</h1>
-					{products.length === 0 ? (
+
+					<ProductSearch
+						setSearch={setSearch}
+						setCurrentPage={setCurrentPage}
+						search={search}
+					/>
+
+					{paginatedProducts.length === 0 ? (
 						<div className='flex items-center gap-4 mb-8'>
 							<Button onClick={openCreateCategory}>
 								Створити підкатегорію
@@ -98,7 +106,7 @@ export default function CategoryProductsClient({
 
 					<div className='grid-cols-2 items-center'>
 						<ul className='space-y-2 w-full'>
-							{products.map(p => (
+							{paginatedProducts.map(p => (
 								<Product
 									key={p.id}
 									product={p}
@@ -109,6 +117,11 @@ export default function CategoryProductsClient({
 							))}
 						</ul>
 					</div>
+					<ProductPagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						setCurrentPage={setCurrentPage}
+					/>
 				</div>
 			)}
 

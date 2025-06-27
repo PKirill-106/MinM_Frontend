@@ -86,3 +86,13 @@ export interface IAdminProduct {
 	onDelete: (productId: { id: string }, token: string) => void
 	accessToken: string
 }
+export interface IProductSearch {
+	search: string
+	setSearch: (e: string) => void
+	setCurrentPage: (page: number) => void
+}
+export interface IProductPagination {
+	currentPage: number
+	totalPages: number
+	setCurrentPage: (page: number) => void
+}
