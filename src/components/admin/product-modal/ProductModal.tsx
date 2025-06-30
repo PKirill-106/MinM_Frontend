@@ -51,7 +51,6 @@ export default function ProductModal({
 	const subcategories = categories.filter(
 		c => c.parentCategoryId === parentCatId
 	)
-
 	useEffect(() => {
 		if (isUpdate && productData) {
 			setName(productData.name)

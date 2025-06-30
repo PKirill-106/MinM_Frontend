@@ -18,8 +18,8 @@ export default async function AdminLayout({
 	}
 	return (
 		<SidebarProvider>
-			<div className='container grid grid-cols-4'>
-				<Sidebar className='col-span-1'>
+			<div className='container flex gap-10 md:grid md:grid-cols-4'>
+				<Sidebar className='md:col-span-1'>
 					<SidebarGroup title='Admin Menu'>
 						<SidebarMenuButton asChild className='border-1'>
 							<Link href='/admin/products'>Продукти</Link>
@@ -32,7 +32,7 @@ export default async function AdminLayout({
 						</SidebarMenuButton>
 					</SidebarGroup>
 				</Sidebar>
-				<main className='col-span-3'>{children}</main>
+				<main className='md:col-span-3'>{children}</main>
 			</div>
 		</SidebarProvider>
 	)

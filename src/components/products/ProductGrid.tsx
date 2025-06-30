@@ -1,3 +1,4 @@
+'use client'
 import { IProductGrid } from '@/types/Interfaces'
 import React from 'react'
 import ProductCard from './ProductCard'

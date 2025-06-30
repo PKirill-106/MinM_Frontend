@@ -9,7 +9,7 @@ export default async function FavoritePage() {
 	const products = await getAllProducts()
 	const categories = await getAllCategories()
 
-	let favoriteIds: string[] = []
+	// let favoriteIds: string[] = []
 
 	if (session?.user) {
 		// favoriteIds = await getServerFavorites(session.user.id)
