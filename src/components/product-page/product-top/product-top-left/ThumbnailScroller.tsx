@@ -15,7 +15,7 @@ export default function ThumbnailScroller({
 			className='!p-1 !flex'
 			onSwiper={setSwiperRef}
 			spaceBetween={8}
-			slidesPerView={5}
+			slidesPerView={Math.min(5, images.length)}
 			centeredSlides={false}
 			slideToClickedSlide={true}
 			onSlideChange={swiper => onSelect(swiper.activeIndex)}

@@ -15,7 +15,7 @@ export default function Thumbnail({
 	return (
 		<div
 			key={img}
-			className={`relative aspect-square rounded-sm md:rounded-xs lg:rounded-md overflow-hidden transition-all duration-200 ${
+			className={`relative aspect-square max-w-18 rounded-sm md:rounded-xs lg:rounded-md overflow-hidden transition-all duration-200 ${
 				isActive ? 'ring-2 ring-accent' : 'hover:brightness-80 opacity-100'
 			} ${isModal ? 'w-8 md:w-10 lg:w-12 xl:w-14' : ''} cursor-pointer`}
 			onClick={onClick}

@@ -15,7 +15,7 @@ export default function MainImage({
 		>
 			{images.map((img, i) => (
 				<Image
-					key={img.sequenceNumber}
+					key={img.filePath}
 					src={img.filePath}
 					alt={productName}
 					fill
