@@ -1,6 +1,6 @@
 import { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { signInUser } from './services/userServices'
+import { refreshTokens, signInUser } from './services/userServices'
 import { jwtDecode } from 'jwt-decode'
 
 type DecodedJwt = {
@@ -9,6 +9,7 @@ type DecodedJwt = {
 	email?: string
 	'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'?: string
 	'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'?: string
+	exp?: number
 }
 
 export const authOptions: AuthOptions = {
@@ -47,6 +48,10 @@ export const authOptions: AuthOptions = {
 							'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
 						] || 'user',
 					accessToken: response.accessToken,
+					refreshToken: response.refreshToken,
+					expiresAt:
+						response.expiresAt ||
+						new Date((decoded.exp || 0) * 1000).toISOString(),
 				}
 			},
 		}),
@@ -58,6 +63,7 @@ export const authOptions: AuthOptions = {
 
 	session: {
 		strategy: 'jwt',
+		maxAge: 30 * 24 * 60 * 60, // 30 days
 	},
 
 	callbacks: {
@@ -67,14 +73,54 @@ export const authOptions: AuthOptions = {
 				token.email = user.email
 				token.role = user.role
 				token.accessToken = user.accessToken
+				token.refreshToken = user.refreshToken
+				token.expiresAt = user.expiresAt
 			}
-			return token
+			// Check if token needs refresh (10 minutes before expiration)
+			const expiresAt = token.expiresAt ? new Date(token.expiresAt) : null
+			const shouldRefresh =
+				expiresAt && expiresAt.getTime() - Date.now() < 600000
+
+			if (!shouldRefresh) {
+				return token
+			}
+			try {
+				const refreshed = await refreshTokens(
+					token.accessToken,
+					token.refreshToken
+				)
+				return {
+					...token,
+					...refreshed,
+					refreshedAt: Date.now(),
+				}
+			} catch (error: unknown) {
+				console.error('Refresh token error:', error)
+				if (error instanceof Error) {
+					if (
+						error.message === 'SESSION_EXPIRED' ||
+						error.message === 'INVALID_TOKEN'
+					) {
+						return { ...token, error: 'REQUIRE_REAUTH' }
+					}
+					return { ...token, error: 'REFRESH_FAILED' }
+				}
+				return { ...token, error: 'REFRESH_FAILED' }
+			}
 		},
 
 		async session({ session, token }) {
-			session.user.email = token.email as string
-			session.user.role = token.role as string
-			;(session as any).accessToken = token.accessToken as string
+			session.user = {
+				id: token.id,
+				email: token.email,
+				role: token.role,
+				accessToken: token.accessToken,
+				refreshToken: token.refreshToken,
+				expiresAt: token.expiresAt,
+			}
+			if (token.error) {
+				session.error = token.error
+			}
 			return session
 		},
 	},

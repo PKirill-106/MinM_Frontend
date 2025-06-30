@@ -1,30 +1,40 @@
-import NextAuth, { DefaultSession, DefaultUser } from 'next-auth'
+import { DefaultSession } from 'next-auth'
+// types/next-auth.d.ts
+import 'next-auth'
+import 'next-auth/jwt'
 
 declare module 'next-auth' {
-	interface Session {
-		user: {
-			email: string
-			role?: string
-		} & DefaultSession['user']
-		accessToken?: string
-		refreshToken?: string
-	}
+  interface Session {
+    user: {
+      id: string
+      email: string
+      role: string
+      accessToken: string
+      refreshToken: string
+      expiresAt: string
+    }
+    error?: 'REQUIRE_REAUTH' | 'REFRESH_FAILED'
+  }
 
-	interface User extends DefaultUser {
-		id: string
-		email: string
-		role?: string
-		accessToken?: string
-		refreshToken?: string
-	}
+  interface User {
+    id: string
+    email: string
+    role: string
+    accessToken: string
+    refreshToken: string
+    expiresAt: string
+  }
 }
 
 declare module 'next-auth/jwt' {
-	interface JWT {
-		id: string
-		email: string
-		role?: string
-		accessToken?: string
-		refreshToken?: string
-	}
+  interface JWT {
+    id: string
+    email: string
+    role: string
+    accessToken: string
+    refreshToken: string
+    expiresAt: string
+    refreshedAt?: number
+    error?: 'REQUIRE_REAUTH' | 'REFRESH_FAILED'
+  }
 }

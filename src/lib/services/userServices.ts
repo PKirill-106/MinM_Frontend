@@ -77,7 +77,9 @@ export async function signInUser(credentials: {
 
 	return {
 		email: credentials.email,
-		accessToken: data.data,
+		accessToken: data.data.accessToken,
+		refreshToken: data.data.refreshToken,
+		expiresAt: data.data.expiresAt,
 	}
 }
 
@@ -93,4 +95,44 @@ export async function getUserInfo() {
 	const { data } = await res.json()
 
 	return data
+}
+
+export async function refreshTokens(accessToken: string, refreshToken: string) {
+	try {
+		const res = await fetch(`${API_URL}/api/User/RefreshToken`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				accessToken,
+				refreshToken,
+			}),
+		})
+
+		const data = await res.json()
+		if (!res.ok) {
+			if (res.status === 401) {
+				throw new Error('SESSION_EXPIRED')
+			}
+			if (res.status === 400 && data.message?.includes('Invalid')) {
+				throw new Error('INVALID_TOKEN')
+			}
+			throw new Error(data.message || 'REFRESH_FAILED')
+		}
+
+		if (!data?.data?.accessToken) {
+			throw new Error('INVALID_RESPONSE')
+		}
+
+		return {
+			accessToken: data.data.accessToken,
+			refreshToken: data.data.refreshToken || refreshToken, // Fallback to old refresh token
+			expiresAt:
+				data.data.expiresAt || new Date(Date.now() + 3600 * 1000).toISOString(),
+		}
+	} catch (error) {
+		console.error('Refresh token error:', error)
+		throw error
+	}
 }

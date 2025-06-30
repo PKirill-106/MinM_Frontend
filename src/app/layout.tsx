@@ -13,6 +13,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import AuthSessionProvider from '@/providers/SessionProvider'
 import { FavoritesProvider } from '@/providers/FavoritesProvider'
+import SessionHandler from '@/components/SessionHandler'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -60,6 +61,7 @@ export default async function RootLayout({
 			>
 				<AuthSessionProvider session={session}>
 					<FavoritesProvider>
+						<SessionHandler />
 						<Navbar categories={categories} products={products} />
 						<Breadcrumbs categories={categories} products={products} />
 						<Toaster position='top-center' />

@@ -29,8 +29,7 @@ export default function CategoryProductsClient({
 	colors,
 }: Props) {
 	const { data: session } = useSession()
-	const accessToken = (session as any)?.accessToken as string
-
+	const accessToken = (session as any)?.user.accessToken as string
 	const [search, setSearch] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 	const pageSize = 8
