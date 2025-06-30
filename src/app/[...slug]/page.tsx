@@ -47,8 +47,10 @@ export default async function CategoryPage({
 		const subcategoryIds = categories
 			.filter(cat => cat.parentCategoryId === activeCategory.id)
 			.map(cat => cat.id)
-		filteredProducts = products.filter(p =>
-			subcategoryIds.includes(p.categoryId)
+		filteredProducts = products.filter(
+			p =>
+				p.categoryId === activeCategory.id ||
+				subcategoryIds.includes(p.categoryId)
 		)
 	}
 

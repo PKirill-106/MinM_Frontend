@@ -16,7 +16,8 @@ export default async function ProductPage({
 
 	const subcategory = categories.find(cat => cat.id === product?.categoryId)
 	const category = categories.find(
-		cat => cat.id === subcategory?.parentCategoryId
+		cat =>
+			cat.id === subcategory?.parentCategoryId || cat.id === product?.categoryId
 	)
 
 	if (!product || !category) {
