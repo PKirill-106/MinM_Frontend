@@ -140,7 +140,6 @@ export async function refreshTokens(accessToken: string, refreshToken: string) {
 		})
 
 		const data = await res.json()
-		console.log('[refreshTokens] Response:', data)
 
 		if (!res.ok || !data?.data?.accessToken) {
 			throw new Error(data.message || 'REFRESH_FAILED')

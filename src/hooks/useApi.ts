@@ -25,9 +25,6 @@ export function useApi() {
 		const accessExpiresTime = new Date(accessExpiresAt).getTime()
 		const shouldRefresh = accessExpiresTime - now < 30 * 1000 // 30 seconds
 		if (shouldRefresh || refreshPromise) {
-			console.log(
-				'[useApi] Access token expiring soon or refresh in progress...'
-			)
 			try {
 				if (!refreshPromise) {
 					refreshPromise = refreshTokens(token, refreshToken)
@@ -43,14 +40,12 @@ export function useApi() {
 								accessExpiresAt: newAccessExpiresAt,
 							})
 
-							console.log('[useApi] Session updated with new tokens')
 							return { ...refreshed, accessExpiresAt: newAccessExpiresAt }
 						})
 						.finally(() => {
 							refreshPromise = null
 						})
 				}
-				console.log('[useApi] Current session token:', session.user.accessToken)
 				const refreshed = await refreshPromise
 				token = refreshed.accessToken
 			} catch (error) {
@@ -64,7 +59,6 @@ export function useApi() {
 			return await request(token)
 		} catch (error) {
 			if (error instanceof Response && error.status === 401) {
-				console.log('[useApi] Received 401, attempting token refresh...')
 				try {
 					if (!refreshPromise) {
 						refreshPromise = refreshTokens(token, refreshToken)
@@ -86,10 +80,7 @@ export function useApi() {
 								refreshPromise = null
 							})
 					}
-					console.log(
-						'[useApi] Current session token:',
-						session.user.accessToken
-					)
+
 					const refreshed = await refreshPromise
 					token = refreshed.accessToken
 
