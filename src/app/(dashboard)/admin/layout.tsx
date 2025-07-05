@@ -1,3 +1,4 @@
+import { Button } from '@/components/UI/button'
 import {
 	Sidebar,
 	SidebarGroup,
@@ -16,7 +17,14 @@ export default async function AdminLayout({
 	if (!session || session.user.role !== 'Admin') {
 		return <p>У вас немає доступу</p>
 	}
-	return (
+	const accessToken = (session as any)?.user.accessToken as string
+	const refreshToken = (session as any)?.user.refreshToken as string
+  const expiresAt = (session as any)?.user.expiresAt as string
+	// const handleLogout = (accessToken, refreshToken) => {
+
+	// }
+
+	return(
 		<SidebarProvider>
 			<div className='container flex gap-10 md:grid md:grid-cols-4'>
 				<Sidebar className='md:col-span-1'>
@@ -30,6 +38,9 @@ export default async function AdminLayout({
 						<SidebarMenuButton asChild className='p-2 border-1'>
 							<Link href='/admin/discounts'>Знижки</Link>
 						</SidebarMenuButton>
+						{/* <SidebarMenuButton asChild className='p-2 border-1'>
+							<Button onClick={() => handleLogout(accessToken)}>Вийти з акаунту</Button>
+						</SidebarMenuButton> */}
 					</SidebarGroup>
 				</Sidebar>
 				<main className='md:col-span-3'>{children}</main>

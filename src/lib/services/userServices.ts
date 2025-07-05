@@ -83,6 +83,40 @@ export async function signInUser(credentials: {
 	}
 }
 
+export async function logout(accessToken: string, refreshToken: string) {
+	try {
+		const res = await fetch(`${API_URL}/api/User/Logout`, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				accessToken,
+				refreshToken,
+			}),
+		})
+
+		if (!res.ok) {
+			const errorData = await res.json().catch(() => ({}))
+			throw new Error(errorData.message || 'Logout failed')
+		}
+
+		const data = await res.json()
+
+		return {
+			success: true,
+			message: data.message || 'Logged out successfully',
+		}
+	} catch (error) {
+		console.error('Logout error:', error)
+		return {
+			success: false,
+			message: error instanceof Error ? error.message : 'Logout failed',
+		}
+	}
+}
+
 export async function getUserInfo() {
 	const res = await fetch(`${API_URL}/api/User/UserInfo`, {
 		method: 'GET',
@@ -101,38 +135,29 @@ export async function refreshTokens(accessToken: string, refreshToken: string) {
 	try {
 		const res = await fetch(`${API_URL}/api/User/RefreshToken`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				accessToken,
-				refreshToken,
-			}),
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ accessToken, refreshToken }),
 		})
 
 		const data = await res.json()
-		if (!res.ok) {
-			if (res.status === 401) {
-				throw new Error('SESSION_EXPIRED')
-			}
-			if (res.status === 400 && data.message?.includes('Invalid')) {
-				throw new Error('INVALID_TOKEN')
-			}
+		console.log('[refreshTokens] Response:', data)
+
+		if (!res.ok || !data?.data?.accessToken) {
 			throw new Error(data.message || 'REFRESH_FAILED')
 		}
 
-		if (!data?.data?.accessToken) {
-			throw new Error('INVALID_RESPONSE')
-		}
-
+		const now = Date.now()
 		return {
 			accessToken: data.data.accessToken,
-			refreshToken: data.data.refreshToken || refreshToken, // Fallback to old refresh token
+			refreshToken: data.data.refreshToken || refreshToken,
 			expiresAt:
-				data.data.expiresAt || new Date(Date.now() + 3600 * 1000).toISOString(),
+				data.data.expiresAt ||
+				new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+			accessExpiresAt: new Date(now + 60 * 1000).toISOString(),
 		}
 	} catch (error) {
-		console.error('Refresh token error:', error)
+		console.error('[refreshTokens] Error:', error)
 		throw error
 	}
 }
+

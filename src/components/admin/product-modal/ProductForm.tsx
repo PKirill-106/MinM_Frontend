@@ -7,7 +7,12 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/UI/dialog'
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/UI/dropdown-menu'
+import {
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from '@/components/UI/dropdown-menu'
 import { Input } from '@/components/UI/input'
 import {
 	Select,

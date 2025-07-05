@@ -1,17 +1,20 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
-import { signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function SessionHandler() {
 	const { data: session } = useSession()
+	const router = useRouter()
 
 	useEffect(() => {
 		if (session?.error === 'REQUIRE_REAUTH') {
-			signOut({ callbackUrl: '/sign-in' })
+			console.log('[SessionHandler] Session requires re-auth, redirecting...')
+			signOut({ redirect: false })
+			router.push('/sign-in')
 		}
-	}, [session])
+	}, [session, router])
 
 	return null
 }

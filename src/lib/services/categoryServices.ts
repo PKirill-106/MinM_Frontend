@@ -1,10 +1,6 @@
 'use server'
 
-import {
-	ICreateCategory,
-	IDeleteCategory,
-	IUpdateCategory,
-} from '@/types/Interfaces'
+import { IDeleteCategory } from '@/types/Interfaces'
 import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL

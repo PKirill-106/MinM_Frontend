@@ -6,8 +6,11 @@ import {
 	deleteProduct,
 } from '@/lib/services/productServices'
 import toast from 'react-hot-toast'
+import { useApi } from './useApi'
 
 export function useProductManagement(activeCategorySlug?: string) {
+	const { apiFetch } = useApi()
+
 	const [isProductModalOpen, setProductModalOpen] = useState(false)
 	const [modalType, setModalType] = useState<'create' | 'update'>('create')
 	const [editingProduct, setEditingProduct] = useState<IProduct | null>(null)
@@ -27,15 +30,19 @@ export function useProductManagement(activeCategorySlug?: string) {
 	const handleSubmitProduct = useCallback(
 		async (formData: FormData, token: string) => {
 			if (!token) {
-				console.error('No access token available')
+				console.error('[ProductManagement] No access token')
 				return
 			}
 
 			try {
 				if (modalType === 'create') {
-					await createProduct(formData, token, activeCategorySlug)
+					await apiFetch(token =>
+						createProduct(formData, token, activeCategorySlug)
+					)
 				} else {
-					await updateProduct(formData, token, activeCategorySlug)
+					await apiFetch(token =>
+						updateProduct(formData, token, activeCategorySlug)
+					)
 				}
 				setProductModalOpen(false)
 				toast.success(
@@ -43,22 +50,21 @@ export function useProductManagement(activeCategorySlug?: string) {
 				)
 			} catch (err) {
 				toast.error('Сталася помилка')
-				console.error('Submit failed:', err)
+				console.error('[ProductManagement] Submit failed:', err)
 			}
 		},
 		[modalType, activeCategorySlug]
 	)
 
-	const handleDeleteProduct = async (
-		productId: IDeleteProduct,
-		token: string
-	) => {
+	const handleDeleteProduct = async (productId: IDeleteProduct) => {
 		try {
-			await deleteProduct(productId, token, activeCategorySlug)
+			await apiFetch(token =>
+				deleteProduct(productId, token, activeCategorySlug)
+			)
 			toast.success('Продукт видалено')
 		} catch (err) {
 			toast.error('Сталася помилка')
-			console.error('Delete failed:', err)
+			console.error('[ProductManagement] Delete failed:', err)
 		}
 	}
 

@@ -6,8 +6,11 @@ import {
 	deleteCategory,
 } from '@/lib/services/categoryServices'
 import toast from 'react-hot-toast'
+import { useApi } from './useApi'
 
 export function useCategoryManagement() {
+	const { apiFetch } = useApi()
+
 	const [isCategoryModalOpen, setCategoryModalOpen] = useState(false)
 	const [modalType, setModalType] = useState<'create' | 'update'>('create')
 	const [editingCategory, setEditingCategory] = useState<ICategory | null>(null)
@@ -30,14 +33,14 @@ export function useCategoryManagement() {
 	const handleSubmitCategory = useCallback(
 		async (formData: FormData, token: string) => {
 			if (!token) {
-				console.error('No access token available')
+				console.error('[CategoryManagement] No access token')
 				return
 			}
 			try {
 				if (modalType === 'create') {
-					await createCategory(formData, token)
+					await apiFetch(token => createCategory(formData, token))
 				} else {
-					await updateCategory(formData, token)
+					await apiFetch(token => updateCategory(formData, token))
 				}
 				setCategoryModalOpen(false)
 				toast.success(
@@ -45,10 +48,10 @@ export function useCategoryManagement() {
 				)
 			} catch (err) {
 				toast.error('Сталася помилка')
-				console.error('Submit failed:', err)
+				console.error('[CategoryManagement] Submit failed:', err)
 			}
 		},
-		[modalType]
+		[modalType, apiFetch]
 	)
 
 	const handleDeleteCategory = async (categoryId: string, token: string) => {
@@ -57,11 +60,11 @@ export function useCategoryManagement() {
 				categoryId,
 				option: deleteOption ?? 'CascadeDelete',
 			}
-			await deleteCategory(payload, token)
+			await apiFetch(token => deleteCategory(payload, token))
 			toast.success('Категорію видалено')
 		} catch (err) {
 			toast.error('Сталася помилка')
-			console.error('Delete failed:', err)
+			console.error('[CategoryManagement] Delete failed:', err)
 		}
 	}
 
