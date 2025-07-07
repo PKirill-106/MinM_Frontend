@@ -4,9 +4,10 @@ import { Button } from '@/components/UI/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/UI/card'
 import { Input } from '@/components/UI/input'
 import { Label } from '@/components/UI/label'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -17,12 +18,24 @@ type SignInForm = {
 
 export default function SignInPage() {
 	const router = useRouter()
+	const { data: session, status } = useSession()
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<SignInForm>()
+
+	useEffect(() => {
+		if (status === 'authenticated') {
+			const role = session?.user?.role
+			if (role === 'Admin') {
+				router.replace('/admin')
+			} else {
+				router.replace('/profile')
+			}
+		}
+	}, [session, status, router])
 
 	const onSubmit = async (data: SignInForm) => {
 		const result = await signIn('credentials', {
@@ -36,7 +49,6 @@ export default function SignInPage() {
 			toast.error('Упс.. Сталася помилка')
 		} else {
 			toast.success('Вхід успішний!')
-			router.push('/profile')
 		}
 	}
 

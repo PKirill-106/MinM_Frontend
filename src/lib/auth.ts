@@ -35,7 +35,6 @@ export const authOptions: AuthOptions = {
 					return null
 				}
 
-				const now = Date.now()
 				return {
 					id: decoded.sub || decoded?.id || '',
 					email:
@@ -80,7 +79,6 @@ export const authOptions: AuthOptions = {
 			if (trigger === 'update' && session?.accessToken) {
 				token.accessToken = session.accessToken
 				token.refreshToken = session.refreshToken
-				token.accessExpiresAt = session.accessExpiresAt
 				token.expiresAt = session.expiresAt
 			}
 

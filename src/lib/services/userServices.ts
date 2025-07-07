@@ -145,14 +145,12 @@ export async function refreshTokens(accessToken: string, refreshToken: string) {
 			throw new Error(data.message || 'REFRESH_FAILED')
 		}
 
-		const now = Date.now()
 		return {
 			accessToken: data.data.accessToken,
 			refreshToken: data.data.refreshToken || refreshToken,
 			expiresAt:
 				data.data.expiresAt ||
 				new Date(Date.now() + 15 * 60 * 1000).toISOString(),
-			accessExpiresAt: new Date(now + 60 * 1000).toISOString(),
 		}
 	} catch (error) {
 		console.error('[refreshTokens] Error:', error)
