@@ -10,6 +10,32 @@ export interface ISignInUser {
 	password: string
 }
 
+export interface IAddress {
+	street: string
+	homeNumber: number
+	city: string
+	region: string
+	postalCode: string
+	country: string
+}
+
+export interface IGetUserInfo {
+	userName: string
+	slug: string
+	userFirstName: string
+	userLastName: string
+	email: string
+	address: IAddress
+	phoneNumber: string
+}
+
+export interface IUpdateUserInfo {
+	userFirstName: string
+	userLastName: string
+	phoneNumber: string
+	addressDto: IAddress
+}
+
 export interface IApiError {
 	type?: string
 	title?: string

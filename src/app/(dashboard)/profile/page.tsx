@@ -1,7 +1,17 @@
-import React from 'react'
+import ClientProfile from '@/components/profile/ClientProfile'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 
-export default function ProfilePage() {
-  return (
-    <div className='container'>ProfilePage</div>
-  )
+export default async function ProfilePage() {
+	const session = await getServerSession()
+
+  if (!session) {
+		return redirect('/sign-in')
+	}
+
+	return (
+		<div className='container'>
+			<ClientProfile />
+		</div>
+	)
 }

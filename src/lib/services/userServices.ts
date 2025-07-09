@@ -1,6 +1,7 @@
 'use server'
 
-import { IApiError, ISignUpUser } from '@/types/Interfaces'
+import { IApiError, ISignUpUser, IUpdateUserInfo } from '@/types/Interfaces'
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -117,9 +118,14 @@ export async function logout(accessToken: string, refreshToken: string) {
 	}
 }
 
-export async function getUserInfo() {
+export async function getUserInfo(token: string) {
 	const res = await fetch(`${API_URL}/api/User/UserInfo`, {
 		method: 'GET',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
 	})
 
 	if (!res.ok) {
@@ -128,6 +134,26 @@ export async function getUserInfo() {
 
 	const { data } = await res.json()
 
+	return data
+}
+
+export async function updateUserInfo(userData: IUpdateUserInfo, token: string) {
+	const res = await fetch(`${API_URL}/api/User/UpdateInfo`, {
+		method: 'PUT',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(userData),
+	})
+
+	if (!res.ok) {
+		throw new Error(`Failed to update user info: ${res.status}`)
+	}
+
+	const { data } = await res.json()
+	revalidatePath(`/profile`)
 	return data
 }
 
@@ -157,4 +183,3 @@ export async function refreshTokens(accessToken: string, refreshToken: string) {
 		throw error
 	}
 }
-
