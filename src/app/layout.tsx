@@ -65,7 +65,8 @@ export default async function RootLayout({
 						<Navbar categories={categories} products={products} />
 						<Breadcrumbs categories={categories} products={products} />
 						<Toaster position='top-center' />
-						<main className='main-section flex-1'>{children}</main>
+						{/* ТУТ Сдвиг */}
+						<main className='main-section flex-1'>{children}</main> 
 						<Footer categories={categories} />
 						<CookiesConsent />
 					</FavoritesProvider>
