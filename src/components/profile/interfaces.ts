@@ -21,3 +21,7 @@ export interface IAddressSectionProps {
 	formData: IUpdateUserInfo
 	onChange: (field: string, value: string) => void
 }
+export interface IProfileButtonsProps {
+	changed: boolean
+	onSave: () => void
+}

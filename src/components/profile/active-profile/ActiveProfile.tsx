@@ -3,11 +3,11 @@
 import { useApi } from '@/hooks/useApi'
 import { updateUserInfo } from '@/lib/services/userServices'
 import { IUpdateUserInfo } from '@/types/Interfaces'
+import toast from 'react-hot-toast'
 import { IActiveProfile } from '../interfaces'
-import { SaveButton } from '../SaveButton'
+import { ProfileButtons } from '../ProfileButtons'
 import AddressSection from './AddressSection'
 import PersonalInfoSection from './PersonalInfoSection'
-import toast from 'react-hot-toast'
 
 export default function ActiveProfile({
 	user,
@@ -69,7 +69,7 @@ export default function ActiveProfile({
 
 			<AddressSection formData={formData} onChange={handleChange} />
 
-			<SaveButton changed={changed} onSave={handleSave} />
+			<ProfileButtons changed={changed} onSave={handleSave} />
 		</div>
 	)
 }
