@@ -3,8 +3,8 @@
 import { Button } from '@/components/UI/button'
 import { ArrowRight, Pencil } from 'lucide-react'
 import Link from 'next/link'
-import AlertOnDelete from '../AlertOnDelete'
-import { ISubcategory } from '../interface'
+import { ISubcategory } from '../../interface'
+import AlertOnDelete from '../../AlertOnDelete'
 
 export default function Subcategory({
 	parentCategoryName,

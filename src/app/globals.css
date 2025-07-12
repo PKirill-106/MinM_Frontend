@@ -166,6 +166,9 @@ body::-webkit-scrollbar-thumb {
 	hr {
 		@apply border-b w-full opacity-20;
 	}
+	strong {
+		@apply font-bold text-accent
+	}
 }
 
 @layer components {

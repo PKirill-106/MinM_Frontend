@@ -4,15 +4,15 @@ import {
 	deleteCategory,
 	updateCategory,
 } from '@/lib/services/categoryServices'
-import { ICategory, ICreateCategory, IUpdateCategory } from '@/types/Interfaces'
+import { ICategory } from '@/types/Interfaces'
 import { ArrowRight, Pencil } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Button } from '../UI/button'
+import CategoryModal from './modal/category-modal/CategoryModal'
 import AlertOnDelete from './AlertOnDelete'
-import CategoryModal from './category/CategoryModal'
 
 interface Props {
 	categories: ICategory[]

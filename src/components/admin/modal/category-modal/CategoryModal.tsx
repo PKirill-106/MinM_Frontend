@@ -6,14 +6,9 @@ import { Input } from '@/components/UI/input'
 import { Textarea } from '@/components/UI/textarea'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '../../UI/select'
-import { ICategoryModal } from '../interface'
+import { ICategoryModal } from '../../interface'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/UI/select'
+
 
 export default function CategoryModal({
 	type,

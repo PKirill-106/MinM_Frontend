@@ -26,7 +26,7 @@ import { ICreateProductVariant, IProductColor } from '@/types/Interfaces'
 import { X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { IProductForm } from '../interface'
+import { IProductForm } from '../../interface'
 
 const ReactQuill = dynamic(() => import('react-quill-new'), {
 	ssr: false,

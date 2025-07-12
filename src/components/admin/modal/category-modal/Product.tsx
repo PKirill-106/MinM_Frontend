@@ -1,8 +1,8 @@
 'use client'
 import { Button } from '@/components/UI/button'
 import Image from 'next/image'
-import AlertOnDelete from '../AlertOnDelete'
-import { IAdminProduct } from '../interface'
+import { IAdminProduct } from '../../interface'
+import AlertOnDelete from '../../AlertOnDelete'
 
 export default function Product({
 	product,

@@ -1,9 +1,10 @@
 import React from 'react'
-import { IImageUploader } from '../interface'
+
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { Button } from '@/components/UI/button'
 import SortableImage from './SortableImage'
+import { IImageUploader } from '../../interface'
 
 export default function ImageUploader({
 	images,

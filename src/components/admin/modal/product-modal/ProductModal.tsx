@@ -16,10 +16,10 @@ import {
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import 'react-quill-new/dist/quill.snow.css'
-import { IProductModal } from '../interface'
-import ModalHeader from '../ModalHeader'
 import ImageUploader from './ImageUploader'
 import ProductForm from './ProductForm'
+import { IProductModal } from '../../interface'
+import ModalHeader from '../ModalHeader'
 
 type Delta = any
 

@@ -5,13 +5,13 @@ import { useCategoryManagement } from '@/hooks/useCategoryManagement'
 import { useProductManagement } from '@/hooks/useProductManagement'
 import { ICategory, IProduct, IProductColor } from '@/types/Interfaces'
 import { useSession } from 'next-auth/react'
-import CategoryModal from './category/CategoryModal'
-import Product from './category/Product'
-import Subcategory from './category/Subcategory'
-import ProductModal from './product-modal/ProductModal'
 import { useState } from 'react'
 import ProductSearch from './ProductSearch'
 import ProductPagination from './ProductPagination'
+import Product from './modal/category-modal/Product'
+import ProductModal from './modal/product-modal/ProductModal'
+import CategoryModal from './modal/category-modal/CategoryModal'
+import Subcategory from './modal/category-modal/Subcategory'
 
 interface Props {
 	activeCategory: ICategory

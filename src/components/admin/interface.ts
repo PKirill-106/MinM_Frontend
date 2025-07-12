@@ -59,7 +59,7 @@ export interface ICategoryModal {
 	onSubmit: (formData: FormData, token: string) => void
 	accessToken: string
 	categoryData?: ICategory
-	activeCategory: ICategory
+	activeCategory?: ICategory
 	categories: ICategory[]
 }
 export interface IAlertOnDelete {

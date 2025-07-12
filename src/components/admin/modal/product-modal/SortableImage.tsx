@@ -3,8 +3,8 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { X } from 'lucide-react'
-import { ISortableImage } from '../interface'
 import Image from 'next/image'
+import { ISortableImage } from '../../interface'
 
 export default function SortableImage({ file, onRemove }: ISortableImage) {
 	const { attributes, listeners, setNodeRef, transform, transition } =
