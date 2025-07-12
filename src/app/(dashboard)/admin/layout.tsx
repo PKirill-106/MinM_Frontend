@@ -1,9 +1,9 @@
-import { Button } from '@/components/UI/button'
+import LogoutButton from '@/components/UI/LogoutButton'
 import {
 	Sidebar,
 	SidebarGroup,
 	SidebarMenuButton,
-	SidebarProvider
+	SidebarProvider,
 } from '@/components/UI/sidebar'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
@@ -17,14 +17,8 @@ export default async function AdminLayout({
 	if (!session || session.user.role !== 'Admin') {
 		return <p>У вас немає доступу</p>
 	}
-	const accessToken = (session as any)?.user.accessToken as string
-	const refreshToken = (session as any)?.user.refreshToken as string
-  const expiresAt = (session as any)?.user.expiresAt as string
-	// const handleLogout = (accessToken, refreshToken) => {
 
-	// }
-
-	return(
+	return (
 		<SidebarProvider>
 			<div className='container flex gap-10 md:grid md:grid-cols-4'>
 				<Sidebar className='md:col-span-1'>
@@ -38,9 +32,7 @@ export default async function AdminLayout({
 						<SidebarMenuButton asChild className='p-2 border-1'>
 							<Link href='/admin/discounts'>Знижки</Link>
 						</SidebarMenuButton>
-						{/* <SidebarMenuButton asChild className='p-2 border-1'>
-							<Button onClick={() => handleLogout(accessToken)}>Вийти з акаунту</Button>
-						</SidebarMenuButton> */}
+						<LogoutButton />
 					</SidebarGroup>
 				</Sidebar>
 				<main className='md:col-span-3'>{children}</main>
