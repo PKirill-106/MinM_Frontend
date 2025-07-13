@@ -1,3 +1,4 @@
+import { ICreateSeason, ISeason } from './../../types/Interfaces';
 import {
 	ICategory,
 	ICreateProductVariant,
@@ -95,4 +96,10 @@ export interface IProductPagination {
 	currentPage: number
 	totalPages: number
 	setCurrentPage: (page: number) => void
+}
+
+// ICreateSeason
+export interface ISeasonPageClient {
+	seasons: ISeason[]
+	products: IProduct[]
 }

@@ -130,6 +130,15 @@ export interface IUpdateDiscount {
 }
 
 // Season
+export interface ISeason {
+	id: string
+	name: string
+	slug: string
+	startDate: string
+	endDate: string
+	products: IProduct[]
+}
+
 export interface ICreateSeason {
 	name: string
 	startDate: string

@@ -1,6 +1,7 @@
 'use server'
 
-import { ICreateSeason, IUpdateSeason } from "@/types/Interfaces"
+import { ICreateSeason, IUpdateSeason } from '@/types/Interfaces'
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -8,7 +9,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export async function getAllSeasons() {
 	const res = await fetch(`${API_URL}/api/Season/GetAll`)
-	if (!res.ok) throw new Error(`Season GET ALL failed: ${res.status}`)
+	if (!res.ok && res.status !== 404)
+		throw new Error(`Season GET ALL failed: ${res.status}`)
 
 	const { data } = await res.json()
 
@@ -33,29 +35,37 @@ export async function getSeasonBySlug(slug: string) {
 	return data
 }
 
-export async function createSeason(seasonDate: ICreateSeason) {
+export async function createSeason(seasonData: ICreateSeason, token: string) {
 	const res = await fetch(`${API_URL}/api/Season/Create`, {
 		method: 'POST',
 		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(seasonDate),
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(seasonData),
 	})
 	if (!res.ok) throw new Error(`Season CREATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/seasons`)
 	const { data } = await res.json()
 
 	return data
 }
 
-export async function updateSeason(seasonDate: IUpdateSeason) {
+export async function updateSeason(seasonData: IUpdateSeason, token: string) {
 	const res = await fetch(`${API_URL}/api/Season/Update`, {
 		method: 'PUT',
 		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(seasonDate),
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(seasonData),
 	})
 	if (!res.ok) throw new Error(`Season UPDATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/seasons`)
 	const { data } = await res.json()
 
 	return data
