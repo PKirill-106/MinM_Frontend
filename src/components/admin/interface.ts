@@ -1,13 +1,14 @@
-import { ICreateSeason, ISeason } from './../../types/Interfaces';
 import {
 	ICategory,
 	ICreateProductVariant,
+	IDiscount,
 	IProduct,
 	IProductColor,
 	IProductImage,
 } from '@/types/Interfaces'
 import { DragEndEvent } from '@dnd-kit/core'
 import { Dispatch, RefObject, SetStateAction } from 'react'
+import { ISeason } from './../../types/Interfaces'
 
 export interface IProductModal {
 	type: 'create' | 'update'
@@ -98,8 +99,11 @@ export interface IProductPagination {
 	setCurrentPage: (page: number) => void
 }
 
-// ICreateSeason
 export interface ISeasonPageClient {
 	seasons: ISeason[]
+	products: IProduct[]
+}
+export interface IDiscountPageClient {
+	discounts: IDiscount[]
 	products: IProduct[]
 }

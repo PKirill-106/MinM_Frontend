@@ -73,7 +73,7 @@ export interface ICreateCategory {
 	name: string
 	description: string
 	parentCategoryId?: string
-	image: (File | string)
+	image: File | string
 }
 
 export interface IUpdateCategory extends ICreateCategory {
@@ -110,6 +110,10 @@ export interface ICategoryItem {
 }
 
 // Discount
+export interface IDiscount extends ISeason {
+	discountPercentage: number
+}
+
 export interface ICreateDiscount {
 	name: string
 	discountPercentage: number
@@ -119,14 +123,8 @@ export interface ICreateDiscount {
 	productIds: string[]
 }
 
-export interface IUpdateDiscount {
+export interface IUpdateDiscount extends ICreateDiscount {
 	id: string
-	name: string
-	discountPercentage: number
-	startDate: string
-	endDate: string
-	removeAfterExpiration: boolean
-	productIds: string[]
 }
 
 // Season

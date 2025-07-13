@@ -1,6 +1,7 @@
 'use server'
 
-import { ICreateDiscount, IUpdateDiscount } from "@/types/Interfaces"
+import { ICreateDiscount, IUpdateDiscount } from '@/types/Interfaces'
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -8,7 +9,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export async function getAllDiscounts() {
 	const res = await fetch(`${API_URL}/api/Discount/GetAll`)
-	if (!res.ok) throw new Error(`Discount GET ALL failed: ${res.status}`)
+
+	if (!res.ok && res.status !== 404)
+		throw new Error(`Discount GET ALL failed: ${res.status}`)
 
 	const { data } = await res.json()
 
@@ -24,29 +27,43 @@ export async function getDiscountById(id: string) {
 	return data
 }
 
-export async function createDiscount(discountDate: ICreateDiscount) {
+export async function createDiscount(
+	discountDate: ICreateDiscount,
+	token: string
+) {
 	const res = await fetch(`${API_URL}/api/Discount/Create`, {
 		method: 'POST',
 		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
 		body: JSON.stringify(discountDate),
 	})
 	if (!res.ok) throw new Error(`Discount CREATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/discounts`)
 	const { data } = await res.json()
 
 	return data
 }
 
-export async function updateDiscount(discountDate: IUpdateDiscount) {
+export async function updateDiscount(
+	discountDate: IUpdateDiscount,
+	token: string
+) {
 	const res = await fetch(`${API_URL}/api/Discount/Update`, {
 		method: 'PUT',
 		credentials: 'include',
-		headers: { 'Content-Type': 'application/json' },
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
 		body: JSON.stringify(discountDate),
 	})
 	if (!res.ok) throw new Error(`Discount UPDATE failed: ${res.status}`)
 
+	revalidatePath(`/admin/discounts`)
 	const { data } = await res.json()
 
 	return data
