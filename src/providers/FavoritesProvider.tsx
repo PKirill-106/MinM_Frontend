@@ -4,6 +4,11 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { getLocalFavorites, saveLocalFavorites } from '@/lib/localFavorites'
 import { IFavoritesContext } from '@/types/Interfaces'
+import {
+	addProductToWishList,
+	getAllProductsFromWishList,
+	removeProductFromWishList,
+} from '@/lib/services/wishlistService'
 
 const FavoritesContext = createContext<IFavoritesContext | null>(null)
 
@@ -16,17 +21,42 @@ export const FavoritesProvider = ({
 	const [favorites, setFavorites] = useState<string[]>([])
 	const [favCount, setFavCount] = useState(0)
 
+	const isAuthenticated = !!session?.user
+
 	useEffect(() => {
 		const loadFavorites = async () => {
-			if (session?.user) {
-				// const serverFavorites = await getFavorites()
-				// setFavorites(serverFavorites)
+			if (isAuthenticated) {
+				try {
+					const serverFavorites = await getAllProductsFromWishList()
+					const ids = serverFavorites.map(p => p.id)
+					setFavorites(ids)
+				} catch (err) {
+					console.error('Failed to load server wishlist:', err)
+				}
 			} else {
 				setFavorites(getLocalFavorites())
 			}
 		}
+
 		loadFavorites()
-	}, [session])
+	}, [isAuthenticated])
+
+	useEffect(() => {
+		const migrateFavorites = async () => {
+			if (!isAuthenticated) return
+			const localFavorites = getLocalFavorites()
+			if (!localFavorites.length) return
+
+			try {
+				await Promise.all(localFavorites.map(id => addProductToWishList(id)))
+				localStorage.removeItem('favorites')
+			} catch (err) {
+				console.error('Migration failed:', err)
+			}
+		}
+
+		migrateFavorites()
+	}, [isAuthenticated])
 
 	const triggerAnimation = () => {
 		setFavCount(prev => prev + 1)
@@ -37,11 +67,16 @@ export const FavoritesProvider = ({
 
 	const addFavorite = async (productId: string) => {
 		if (favorites.includes(productId)) return
+
 		const updated = [...favorites, productId]
 		setFavorites(updated)
 
-		if (session?.user) {
-			// await addFavoriteToServer(productId)
+		if (isAuthenticated) {
+			try {
+				await addProductToWishList(productId)
+			} catch (err) {
+				console.error('Failed to add to wishlist:', err)
+			}
 		} else {
 			saveLocalFavorites(updated)
 		}
@@ -53,8 +88,12 @@ export const FavoritesProvider = ({
 		const updated = favorites.filter(id => id !== productId)
 		setFavorites(updated)
 
-		if (session?.user) {
-			// await removeFavoriteFromServer(productId)
+		if (isAuthenticated) {
+			try {
+				await removeProductFromWishList(productId)
+			} catch (err) {
+				console.error('Failed to remove from wishlist:', err)
+			}
 		} else {
 			saveLocalFavorites(updated)
 		}
