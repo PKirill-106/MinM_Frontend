@@ -1,86 +1,32 @@
 'use client'
-import {
-	createCategory,
-	deleteCategory,
-	updateCategory,
-} from '@/lib/services/categoryServices'
+import { useCategoryManagement } from '@/hooks/useCategoryManagement'
 import { ICategory } from '@/types/Interfaces'
 import { ArrowRight, Pencil } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
-import toast from 'react-hot-toast'
 import { Button } from '../UI/button'
-import CategoryModal from './modal/category-modal/CategoryModal'
 import AlertOnDelete from './AlertOnDelete'
+import CategoryModal from './modal/category-modal/CategoryModal'
 
 interface Props {
 	categories: ICategory[]
 }
 
 export default function ClientProductsPage({ categories }: Props) {
-	const [isModalOpen, setModalOpen] = useState(false)
-	const [modalType, setModalType] = useState<'create' | 'update'>('create')
-	const [editingCategory, setEditingCategory] = useState<ICategory | null>(null)
-	const [deleteOption, setDeleteOption] = useState<
-		'CascadeDelete' | 'ReassignToParent' | 'Orphan' | null
-	>(null)
-
-	const openCreate = () => {
-		setModalType('create')
-		setEditingCategory(null)
-		setModalOpen(true)
-	}
-
-	const openEdit = (prod: ICategory) => {
-		setModalType('update')
-		setEditingCategory(prod)
-		setModalOpen(true)
-	}
-
-	const closeModal = () => setModalOpen(false)
+	const {
+		isCategoryModalOpen,
+		modalType,
+		editingCategory,
+		openCreateCategory,
+		openEditCategory,
+		handleSubmitCategory,
+		handleDeleteCategory,
+		setCategoryModalOpen,
+		setDeleteOption,
+	} = useCategoryManagement()
 
 	const { data: session } = useSession()
 	const accessToken = (session as any)?.accessToken as string
-
-	const handleSubmitCategory = useCallback(
-		async (formData: FormData, token: string) => {
-			if (!token) {
-				console.error('No access token available')
-				return
-			}
-
-			try {
-				if (modalType === 'create') {
-					await createCategory(formData, token)
-				} else {
-					await updateCategory(formData, token)
-				}
-				setModalOpen(false)
-				toast.success(
-					`Категорію ${modalType === 'create' ? 'створено' : 'оновлено'}`
-				)
-			} catch (err) {
-				toast.error('Сталася помилка')
-				console.error('Submit failed:', err)
-			}
-		},
-		[modalType]
-	)
-
-	const handleDeleteCategory = async (categoryId: string, token: string) => {
-		try {
-			const payload = {
-				categoryId,
-				option: deleteOption ?? 'CascadeDelete',
-			}
-			await deleteCategory(payload, token)
-			toast.success('Категорію видалено')
-		} catch (err) {
-			toast.error('Сталася помилка')
-			console.error('Delete failed:', err)
-		}
-	}
 
 	return (
 		<div className='flex flex-col w-full'>
@@ -101,7 +47,7 @@ export default function ClientProductsPage({ categories }: Props) {
 										variant='outline'
 										size='icon'
 										className='text-accent hover:bg-muted ml-4 p-2 rounded-sm'
-										onClick={() => openEdit(cat)}
+										onClick={() => openEditCategory(cat)}
 										title='Редагувати категорію'
 									>
 										<Pencil size={18} />
@@ -119,15 +65,15 @@ export default function ClientProductsPage({ categories }: Props) {
 					<h3>Немає жодної категорії</h3>
 				)}
 
-				<Button className='mt-4 w-full rounded-md' onClick={openCreate}>
+				<Button className='mt-4 w-full rounded-md' onClick={openCreateCategory}>
 					+
 				</Button>
 			</div>
 
 			<CategoryModal
 				type={modalType}
-				isOpen={isModalOpen}
-				onClose={closeModal}
+				isOpen={isCategoryModalOpen}
+				onClose={() => setCategoryModalOpen(false)}
 				onSubmit={handleSubmitCategory}
 				accessToken={accessToken}
 				categoryData={editingCategory || undefined}
