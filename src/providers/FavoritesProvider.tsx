@@ -1,14 +1,15 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { getLocalFavorites, saveLocalFavorites } from '@/lib/localFavorites'
-import { IFavoritesContext } from '@/types/Interfaces'
+import { IFavoritesContext, IProduct } from '@/types/Interfaces'
 import {
 	addProductToWishList,
 	getAllProductsFromWishList,
 	removeProductFromWishList,
 } from '@/lib/services/wishlistService'
+import { useApi } from '@/hooks/useApi'
 
 const FavoritesContext = createContext<IFavoritesContext | null>(null)
 
@@ -17,46 +18,80 @@ export const FavoritesProvider = ({
 }: {
 	children: React.ReactNode
 }) => {
-	const { data: session } = useSession()
+	const { data: session, status } = useSession()
+	const hasMigrated = useRef(false)
 	const [favorites, setFavorites] = useState<string[]>([])
 	const [favCount, setFavCount] = useState(0)
 
+	const { apiFetch } = useApi()
+
 	const isAuthenticated = !!session?.user
 
-	useEffect(() => {
-		const loadFavorites = async () => {
-			if (isAuthenticated) {
-				try {
-					const serverFavorites = await getAllProductsFromWishList()
-					const ids = serverFavorites.map(p => p.id)
-					setFavorites(ids)
-				} catch (err) {
-					console.error('Failed to load server wishlist:', err)
-				}
-			} else {
-				setFavorites(getLocalFavorites())
+	const loadFavorites = async () => {
+		if (isAuthenticated) {
+			try {
+				const serverFavorites = await apiFetch(token =>
+					getAllProductsFromWishList(token)
+				)
+				const ids = serverFavorites.map((p: IProduct) => p.id)
+				setFavorites(ids)
+			} catch (err) {
+				console.error('Failed to load server wishlist:', err)
 			}
+		} else {
+			setFavorites(getLocalFavorites())
 		}
+	}
 
+	const migrateFavorites = async () => {
+		if (status !== 'authenticated' || hasMigrated.current) return
+
+		const localFavorites = getLocalFavorites()
+		if (!localFavorites.length) return
+
+		try {
+			const productsFromServer = await apiFetch(token =>
+				getAllProductsFromWishList(token)
+			)
+
+			const serverProductIds: string[] = productsFromServer.map(
+				(product: IProduct) => product.id
+			)
+
+			const toMigrate = localFavorites.filter(
+				id => !serverProductIds.includes(id)
+			)
+
+			if (!toMigrate.length) {
+				localStorage.removeItem('favorites')
+				hasMigrated.current = true
+				return
+			}
+
+			await Promise.all(
+				toMigrate.map(id => apiFetch(token => addProductToWishList(id, token)))
+			)
+
+			localStorage.removeItem('favorites')
+			hasMigrated.current = true
+
+			const refreshedProducts = await apiFetch(token =>
+				getAllProductsFromWishList(token)
+			)
+			const refreshedIds = refreshedProducts.map((p: IProduct) => p.id)
+			setFavorites(refreshedIds)
+		} catch (err) {
+			console.error('Migration failed:', err)
+		}
+	}
+
+	useEffect(() => {
 		loadFavorites()
 	}, [isAuthenticated])
 
 	useEffect(() => {
-		const migrateFavorites = async () => {
-			if (!isAuthenticated) return
-			const localFavorites = getLocalFavorites()
-			if (!localFavorites.length) return
-
-			try {
-				await Promise.all(localFavorites.map(id => addProductToWishList(id)))
-				localStorage.removeItem('favorites')
-			} catch (err) {
-				console.error('Migration failed:', err)
-			}
-		}
-
 		migrateFavorites()
-	}, [isAuthenticated])
+	}, [status])
 
 	const triggerAnimation = () => {
 		setFavCount(prev => prev + 1)
@@ -73,7 +108,7 @@ export const FavoritesProvider = ({
 
 		if (isAuthenticated) {
 			try {
-				await addProductToWishList(productId)
+				await apiFetch(token => addProductToWishList(productId, token))
 			} catch (err) {
 				console.error('Failed to add to wishlist:', err)
 			}
@@ -90,7 +125,7 @@ export const FavoritesProvider = ({
 
 		if (isAuthenticated) {
 			try {
-				await removeProductFromWishList(productId)
+				await apiFetch(token => removeProductFromWishList(productId, token))
 			} catch (err) {
 				console.error('Failed to remove from wishlist:', err)
 			}

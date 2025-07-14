@@ -3,8 +3,9 @@ import Button from '@/components/UI/MyButton'
 import { Heart } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { IProductCart } from '../../interfaces'
+import FavoriteButton from '@/components/FavoriteButton'
 
-export default function ProductCart({ amount }: IProductCart) {
+export default function ProductCart({ amount, productId }: IProductCart) {
 	const [count, setCount] = useState(1)
 
 	const handleDecrement = useCallback(() => {
@@ -38,9 +39,14 @@ export default function ProductCart({ amount }: IProductCart) {
 				</button>
 			</div>
 			<Button text='В КОШИК' variant='cart' />
-			<button className='hidden md:flex'>
-				<Heart className='link-size link-hover cursor-pointer' />
-			</button>
+
+			<div className='relative hidden md:flex'>
+				<FavoriteButton
+					productId={productId}
+					heartClassName='link-size link-hover cursor-pointer'
+					buttonClassName='hidden md:flex'
+				/>
+			</div>
 		</div>
 	)
 }

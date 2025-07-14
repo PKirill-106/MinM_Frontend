@@ -4,64 +4,95 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-export const getAllProductsFromWishList = async (): Promise<
-	{ id: string }[]
-> => {
-	const res = await fetch(`${API_URL}/GetAllProductsFromWishList`, {
-		method: 'GET',
-		credentials: 'include',
-	})
-	if (!res.ok) throw new Error('Failed to fetch wishlist')
-	return res.json()
-}
-
-export const getProductFromWishList = async (
-	productId: string
-): Promise<{ id: string }> => {
+export async function getAllProductsFromWishList(token: string) {
 	const res = await fetch(
-		`${API_URL}/GetProductFromWishList?productId=${productId}`,
+		`${API_URL}/api/WhisList/GetAllProductsFromWishList`,
 		{
 			method: 'GET',
 			credentials: 'include',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
+	)
+	if (!res.ok && res.status !== 404) throw new Error('Failed to fetch wishlist')
+
+	const { data } = await res.json()
+
+	return data
+}
+
+export async function getProductFromWishList(token: string) {
+	const res = await fetch(
+		`${API_URL}/api/WhisList/GetProductFromWishList?productId=${token}`,
+		{
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
 		}
 	)
 	if (!res.ok) throw new Error('Product not in wishlist')
 	return res.json()
 }
 
-export const addProductToWishList = async (
-	productId: string
-): Promise<void> => {
-	await fetch(`${API_URL}/AddProductToWishList`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'include', // важно, чтобы отправлялись куки сессии
-		body: JSON.stringify({ productId }),
-	})
+export async function addProductToWishList(productId: string, token: string) {
+	const res = await fetch(
+		`${API_URL}/api/WhisList/AddProductToWishList?productId=${productId}`,
+		{
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
+	)
+
+	if (!res.ok) throw new Error(`Add to wishlist failed: ${res.status}`)
+
+	const { data } = await res.json()
+
+	return data
 }
 
-export const updateWishList = async (productIds: string[]): Promise<void> => {
-	await fetch(`${API_URL}/UpdateWishList`, {
+export async function updateWishList(wishlistItemId: string[], token: string) {
+	const res = await fetch(`${API_URL}/api/WhisList/UpdateWishList`, {
 		method: 'PUT',
+		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
 		},
-		credentials: 'include',
-		body: JSON.stringify(productIds),
+		body: JSON.stringify(wishlistItemId),
 	})
+
+	if (!res.ok) throw new Error(`Add to wishlist failed: ${res.status}`)
+
+	const { data } = await res.json()
+
+	return data
 }
 
-export const removeProductFromWishList = async (
-	productId: string
-): Promise<void> => {
-	await fetch(`${API_URL}/RemoveWishList`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'include',
-		body: JSON.stringify({ productId }),
-	})
+export async function removeProductFromWishList(
+	wishlistItemId: string,
+	token: string
+) {
+	const res = await fetch(
+		`${API_URL}/api/WhisList/RemoveWishList?whishListItemId=${wishlistItemId}`,
+		{
+			method: 'DELETE',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		}
+	)
+	
+	if (!res.ok) throw new Error(`Add to wishlist failed: ${res.status}`)
+
+	const { data } = await res.json()
+
+	return data
 }

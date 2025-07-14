@@ -4,7 +4,17 @@ import { useFavorites } from '@/providers/FavoritesProvider'
 import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-export default function FavoriteButton({ productId }: { productId: string }) {
+export interface IFavoriteButton {
+	productId: string
+	heartClassName: string
+	buttonClassName: string
+}
+
+export default function FavoriteButton({
+	productId,
+	heartClassName,
+	buttonClassName,
+}: IFavoriteButton) {
 	const { isFavorite, addFavorite, removeFavorite } = useFavorites()
 	const [animate, setAnimate] = useState(false)
 
@@ -28,12 +38,10 @@ export default function FavoriteButton({ productId }: { productId: string }) {
 	return (
 		<button
 			onClick={handleClick}
-			className={`absolute top-0 right-0 p-2 md:p-3 lg:p-4 hover:text-red-500 transition cursor-pointer ${
-				animate ? 'scale-120' : ''
-			}`}
+			className={`${buttonClassName} ${animate ? 'scale-120' : ''}`}
 		>
 			<Heart
-				className={`h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9 2xl:h-10 2xl:w-10 ${
+				className={`${heartClassName} ${
 					isFavorite(productId) ? 'fill-red-500 text-red-500' : ''
 				}`}
 			/>

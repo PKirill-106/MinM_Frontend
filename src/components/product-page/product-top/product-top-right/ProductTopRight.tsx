@@ -6,6 +6,7 @@ import ProductVariants from './ProductVariants'
 import GetRating from './Rating'
 import ShippingPayment from './ShippingPayment'
 import { IProductTopProps } from '../../interfaces'
+import FavoriteButton from '@/components/FavoriteButton'
 
 export default function ProductTopRight({
 	product,
@@ -62,12 +63,17 @@ export default function ProductTopRight({
 						) : (
 							<h1>{currentVariant.price} грн</h1>
 						)}
-						<button className='flex md:hidden'>
-							<Heart className='h-6 w-6 link-hover cursor-pointer' />
-						</button>
+						<FavoriteButton
+							productId={product.id}
+							heartClassName='h-6 w-6 link-hover cursor-pointer'
+							buttonClassName='flex md:hidden'
+						/>
 					</div>
 
-					<ProductCart amount={currentVariant.unitsInStock} />
+					<ProductCart
+						amount={currentVariant.unitsInStock}
+						productId={product.id}
+					/>
 				</div>
 
 				<div className='mt-4 lg:mt-8'>
