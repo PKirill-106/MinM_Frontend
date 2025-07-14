@@ -86,12 +86,6 @@ export async function signInUser(credentials: {
 
 export async function logout(accessToken: string, refreshToken: string) {
 	try {
-		console.log(
-			'[logout endpoint] accessToken: ',
-			accessToken,
-			'refreshToken: ',
-			refreshToken
-		)
 		const res = await fetch(`${API_URL}/api/User/Logout`, {
 			method: 'POST',
 			credentials: 'include',

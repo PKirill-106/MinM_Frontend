@@ -1,7 +1,7 @@
 'use client'
 import { IInputProps } from '@/types/Interfaces'
 import { Check } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { transliterate as tr, slugify } from 'transliteration'
 
@@ -9,6 +9,7 @@ export default function Input({ text }: IInputProps) {
 	const id = slugify(tr(text))
 	const searchParams = useSearchParams()
 	const router = useRouter()
+	const pathname = usePathname()
 
 	const isChecked = searchParams.get(id) === 'true'
 
@@ -19,7 +20,8 @@ export default function Input({ text }: IInputProps) {
 		} else {
 			params.set(id, 'true')
 		}
-		router.push(`?${params.toString()}`)
+		params.delete('page') // reset page to 1 on filter change
+		router.push(`${pathname}?${params.toString()}`)
 	}
 
 	return (

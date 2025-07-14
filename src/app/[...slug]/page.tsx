@@ -25,6 +25,7 @@ export default async function CategoryPage({
 	const PRODUCTS_PER_PAGE = 12
 	const page = parseInt((await searchParams).page || '1', 10)
 
+
 	const { slug = [] } = await params
 	const { sort = 'suggested', sezon, akciya, novinki } = await searchParams
 
@@ -37,8 +38,8 @@ export default async function CategoryPage({
 	const activeSubcategory = categories.find(
 		cat => slugify(cat.name) === subcategorySlug && cat.parentCategoryId
 	)
-	let filteredProducts = products
 
+	let filteredProducts = products
 	if (activeSubcategory) {
 		filteredProducts = products.filter(
 			p => p.categoryId === activeSubcategory.id
@@ -83,6 +84,7 @@ export default async function CategoryPage({
 			default:
 				return products // suggested
 		}
+		
 	}
 	filteredProducts = sortProducts(filteredProducts, sort)
 
