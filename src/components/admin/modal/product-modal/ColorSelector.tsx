@@ -17,27 +17,22 @@ import { Input } from '@/components/UI/input'
 import { IProductColor } from '@/types/Interfaces'
 import { X } from 'lucide-react'
 import React, { useCallback, useRef, useState } from 'react'
+import { IColorSelector } from '../../interface'
 
 const ColorChip = React.memo(
 	({ color, onRemove }: { color: IProductColor; onRemove: () => void }) => (
 		<div className='flex items-center gap-2 px-2 py-1 rounded-md border text-sm'>
 			<div
-				className='w-6 h-6 rounded-xs'
+				className='w-6 h-6 rounded-sm border'
 				style={{ backgroundColor: color.colorHex }}
 			/>
 			<span>{color.name}</span>
 			<Button size='icon' variant='ghost' onClick={onRemove}>
-				<X className='w-4 h-4' />
+				<X className='w-6 h-6' />
 			</Button>
 		</div>
 	)
 )
-
-export interface IColorSelector {
-	colors: IProductColor[]
-	selectedColors: IProductColor[]
-	setSelectedColors: (colors: IProductColor[]) => void
-}
 
 export default function ColorSelector({
 	colors,
@@ -114,10 +109,10 @@ export default function ColorSelector({
 										key={color.colorHex}
 										checked={isSelected}
 										onCheckedChange={() => toggleColor(color)}
-										className='flex items-center gap-2'
+										className='flex gap-2'
 									>
 										<div
-											className='w-4 h-4 rounded-full border'
+											className='w-6 h-6 rounded-sm border'
 											style={{ backgroundColor: color.colorHex }}
 										/>
 										<span>{color.name}</span>

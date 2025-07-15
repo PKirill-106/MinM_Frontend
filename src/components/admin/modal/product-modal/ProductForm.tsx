@@ -1,18 +1,10 @@
 'use client'
 import { Button } from '@/components/UI/button'
-import { Input } from '@/components/UI/input'
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/UI/select'
-import { ICreateProductVariant } from '@/types/Interfaces'
 import dynamic from 'next/dynamic'
 import { IProductForm } from '../../interface'
+import CategorySelector from './CategorySelector'
 import ColorSelector from './ColorSelector'
+import FormInput from './FormInput'
 import Variant from './Variant'
 
 const ReactQuill = dynamic(() => import('react-quill-new'), {
@@ -43,133 +35,42 @@ export default function ProductForm({
 	const addVariant = () =>
 		setVariants([...variants, { name: '', price: 0, unitsInStock: 0 }])
 
-	const removeVariant = (index: number) =>
-		setVariants(variants.filter((_, i) => i !== index))
-
-	const updateVariant = (
-		index: number,
-		field: keyof ICreateProductVariant,
-		value: string | number
-	) => {
-		const updated = variants.map((v, i) =>
-			i === index
-				? {
-						...v,
-						[field]: field === 'name' ? (value as string) : Number(value),
-				  }
-				: v
-		)
-		setVariants(updated)
-	}
-
 	return (
-		<div>
-			<span className='mb-2'>Назва продукту</span>
-			<Input
+		<div className='flex flex-col gap-4'>
+			<FormInput
+				title='Назва продукту'
 				value={name}
 				onChange={e => setName(e.target.value)}
 				placeholder='Назва продукту'
-				required
+				isRequired={true}
 			/>
 
-			<span className='mb-2'>Опис продукту</span>
-			<ReactQuill
-				theme='snow'
-				value={descriptionDelta}
-				onChange={setDescriptionDelta}
-				modules={modules}
-			/>
+			<div>
+				<span className='mb-2'>Опис продукту</span>
+				<ReactQuill
+					theme='snow'
+					value={descriptionDelta}
+					onChange={setDescriptionDelta}
+					modules={modules}
+				/>
+			</div>
 
-			<span className='mb-2'>Артикул</span>
-			<Input
+			<FormInput
+				title='Артикул'
 				value={sku}
 				onChange={e => setSku(e.target.value)}
 				placeholder='SKU'
-				required
+				isRequired={true}
 			/>
-			{subcategories.length > 0 && parentCatId ? (
-				<>
-					<span className='mb-2'>Категорія</span>
-					<Select
-						value={parentCatId}
-						onValueChange={val => {
-							setParentCatId(val)
-							setCategoryId(val)
-						}}
-					>
-						<SelectTrigger>
-							<SelectValue>
-								{parentCatId
-									? categories.find(c => c.id === parentCatId)?.name
-									: categoryId
-									? categories.find(c => c.id === categoryId)?.name
-									: 'Оберіть категорію'}
-							</SelectValue>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								{categories
-									.filter(c => c.parentCategoryId === null)
-									.map(c => (
-										<SelectItem key={c.id} value={c.id}>
-											{c.name}
-										</SelectItem>
-									))}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
 
-					<span>Підкатегорія</span>
-					<Select value={categoryId} onValueChange={setCategoryId}>
-						<SelectTrigger>
-							<SelectValue>
-								{categoryId
-									? categories.find(c => c.id === categoryId)?.name
-									: 'Оберіть підкатегорію'}
-							</SelectValue>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								{subcategories.map(c => (
-									<SelectItem key={c.id} value={c.id}>
-										{c.name}
-									</SelectItem>
-								))}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</>
-			) : (
-				<>
-					<span className='mb-2'>Категорія</span>
-					<Select
-						value={categoryId}
-						onValueChange={val => {
-							setParentCatId(val)
-							setCategoryId(val)
-						}}
-					>
-						<SelectTrigger>
-							<SelectValue>
-								{categoryId
-									? categories.find(c => c.id === categoryId)?.name
-									: 'Оберіть категорію'}
-							</SelectValue>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								{categories
-									.filter(c => c.parentCategoryId === null)
-									.map(c => (
-										<SelectItem key={c.id} value={c.id}>
-											{c.name}
-										</SelectItem>
-									))}
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</>
-			)}
+			<CategorySelector
+				categories={categories}
+				subcategories={subcategories}
+				parentCatId={parentCatId}
+				categoryId={categoryId}
+				setParentCatId={setParentCatId}
+				setCategoryId={setCategoryId}
+			/>
 
 			<div className='mt-4'>
 				<div className='flex justify-between items-center'>
@@ -188,8 +89,7 @@ export default function ProductForm({
 						key={idx}
 						v={v}
 						idx={idx}
-						updateVariant={updateVariant}
-						removeVariant={removeVariant}
+						setVariants={setVariants}
 						variants={variants}
 					/>
 				))}
