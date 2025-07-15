@@ -133,37 +133,38 @@ export default function ProductForm({
 				placeholder='SKU'
 				required
 			/>
-
-			<span className='mb-2'>Категорія</span>
-			<Select
-				value={parentCatId}
-				onValueChange={val => {
-					setParentCatId(val)
-					setCategoryId(val)
-				}}
-			>
-				<SelectTrigger>
-					<SelectValue>
-						{parentCatId
-							? categories.find(c => c.id === parentCatId)?.name
-							: 'Оберіть підкатегорію'}
-					</SelectValue>
-				</SelectTrigger>
-				<SelectContent>
-					<SelectGroup>
-						{categories
-							.filter(c => c.parentCategoryId === null)
-							.map(c => (
-								<SelectItem key={c.id} value={c.id}>
-									{c.name}
-								</SelectItem>
-							))}
-					</SelectGroup>
-				</SelectContent>
-			</Select>
-
-			{subcategories.length > 0 && parentCatId && (
+			{subcategories.length > 0 && parentCatId ? (
 				<>
+					<span className='mb-2'>Категорія</span>
+					<Select
+						value={parentCatId}
+						onValueChange={val => {
+							setParentCatId(val)
+							setCategoryId(val)
+						}}
+					>
+						<SelectTrigger>
+							<SelectValue>
+								{parentCatId
+									? categories.find(c => c.id === parentCatId)?.name
+									: categoryId
+									? categories.find(c => c.id === categoryId)?.name
+									: 'Оберіть категорію'}
+							</SelectValue>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{categories
+									.filter(c => c.parentCategoryId === null)
+									.map(c => (
+										<SelectItem key={c.id} value={c.id}>
+											{c.name}
+										</SelectItem>
+									))}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+
 					<span>Підкатегорія</span>
 					<Select value={categoryId} onValueChange={setCategoryId}>
 						<SelectTrigger>
@@ -180,6 +181,36 @@ export default function ProductForm({
 										{c.name}
 									</SelectItem>
 								))}
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+				</>
+			) : (
+				<>
+					<span className='mb-2'>Категорія</span>
+					<Select
+						value={categoryId}
+						onValueChange={val => {
+							setParentCatId(val)
+							setCategoryId(val)
+						}}
+					>
+						<SelectTrigger>
+							<SelectValue>
+								{categoryId
+									? categories.find(c => c.id === categoryId)?.name
+									: 'Оберіть категорію'}
+							</SelectValue>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								{categories
+									.filter(c => c.parentCategoryId === null)
+									.map(c => (
+										<SelectItem key={c.id} value={c.id}>
+											{c.name}
+										</SelectItem>
+									))}
 							</SelectGroup>
 						</SelectContent>
 					</Select>
