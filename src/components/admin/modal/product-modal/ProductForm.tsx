@@ -27,6 +27,7 @@ import { X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { IProductForm } from '../../interface'
+import Variant from './Variant'
 
 const ReactQuill = dynamic(() => import('react-quill-new'), {
 	ssr: false,
@@ -230,54 +231,13 @@ export default function ProductForm({
 					</Button>
 				</div>
 				{variants.map((v, idx) => (
-					<div
-						key={idx}
-						className='flex gap-2 justify-between items-center my-2'
-					>
-						<div className='basis-1/3'>
-							<span className='mb-2'>
-								Об'єм<span className='text-transparent-text'>, мл</span>
-							</span>
-							<Input
-								value={v.name}
-								onChange={e => updateVariant(idx, 'name', e.target.value)}
-								placeholder="Об'єм, мл"
-							/>
-						</div>
-						<div className='basis-1/3'>
-							<span className='mb-2'>
-								Ціна<span className='text-transparent-text'>, грн</span>
-							</span>
-							<Input
-								type='number'
-								value={v.price}
-								onChange={e => updateVariant(idx, 'price', e.target.value)}
-								placeholder='Ціна'
-							/>
-						</div>
-						<div className='basis-1/3'>
-							<span className='mb-2'>Кіль-сть</span>
-							<Input
-								type='number'
-								value={v.unitsInStock}
-								onChange={e =>
-									updateVariant(idx, 'unitsInStock', e.target.value)
-								}
-								placeholder='Кіль-сть на складі'
-							/>
-						</div>
-						{variants.length > 1 && (
-							<Button
-								variant='outline'
-								size='sm'
-								type='button'
-								onClick={() => removeVariant(idx)}
-								className='translate-y-3'
-							>
-								<X className='link-size' />
-							</Button>
-						)}
-					</div>
+					<Variant
+						v={v}
+						idx={idx}
+						updateVariant={updateVariant}
+						removeVariant={removeVariant}
+						variants={variants}
+					/>
 				))}
 			</div>
 
