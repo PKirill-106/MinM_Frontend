@@ -21,6 +21,11 @@ export interface IProductModal {
 	accessToken: string
 	colors: IProductColor[]
 }
+export interface IColorSelector {
+	colors: IProductColor[]
+	selectedColors: IProductColor[]
+	setSelectedColors: (colors: IProductColor[]) => void
+}
 export interface IProductForm {
 	name: string
 	setName: (val: string) => void
@@ -40,6 +45,12 @@ export interface IProductForm {
 	colors: IProductColor[]
 	selectedColors: IProductColor[]
 	setSelectedColors: (colors: IProductColor[]) => void
+}
+export interface IVariant {
+	v: ICreateProductVariant
+	idx: number
+	setVariants: (val: ICreateProductVariant[]) => void
+	variants: ICreateProductVariant[]
 }
 export interface ISortableImage {
 	file: IProductImage
