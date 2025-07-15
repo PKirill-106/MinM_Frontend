@@ -1,18 +1,5 @@
 'use client'
 import { Button } from '@/components/UI/button'
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/UI/dialog'
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuTrigger,
-} from '@/components/UI/dropdown-menu'
 import { Input } from '@/components/UI/input'
 import {
 	Select,
@@ -22,11 +9,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/UI/select'
-import { ICreateProductVariant, IProductColor } from '@/types/Interfaces'
-import { X } from 'lucide-react'
+import { ICreateProductVariant } from '@/types/Interfaces'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
 import { IProductForm } from '../../interface'
+import ColorSelector from './ColorSelector'
 import Variant from './Variant'
 
 const ReactQuill = dynamic(() => import('react-quill-new'), {
@@ -54,11 +40,6 @@ export default function ProductForm({
 	selectedColors,
 	setSelectedColors,
 }: IProductForm) {
-	const [newColor, setNewColor] = useState<IProductColor>({
-		name: '',
-		colorHex: '#000000',
-	})
-
 	const addVariant = () =>
 		setVariants([...variants, { name: '', price: 0, unitsInStock: 0 }])
 
@@ -79,34 +60,6 @@ export default function ProductForm({
 				: v
 		)
 		setVariants(updated)
-	}
-
-	const addColor = () => {
-		if (
-			newColor.name.trim() &&
-			!selectedColors.some(c => c.colorHex === newColor.colorHex)
-		) {
-			setSelectedColors([...selectedColors, newColor])
-			setNewColor({ name: '', colorHex: '#000000' })
-		}
-	}
-
-	const removeColor = (index: number) => {
-		setSelectedColors(selectedColors.filter((_, i) => i !== index))
-	}
-
-	const toggleColor = (color: IProductColor) => {
-		if (selectedColors.some(c => c.colorHex === color.colorHex)) {
-			setSelectedColors(
-				selectedColors.filter(c => c.colorHex !== color.colorHex)
-			)
-		} else {
-			setSelectedColors([...selectedColors, color])
-		}
-	}
-
-	const updateNewColor = (field: keyof IProductColor, value: string) => {
-		setNewColor(prev => ({ ...prev, [field]: value }))
 	}
 
 	return (
@@ -218,7 +171,7 @@ export default function ProductForm({
 				</>
 			)}
 
-			<div>
+			<div className='mt-4'>
 				<div className='flex justify-between items-center'>
 					<label>Варіанти:</label>
 					<Button
@@ -232,6 +185,7 @@ export default function ProductForm({
 				</div>
 				{variants.map((v, idx) => (
 					<Variant
+						key={idx}
 						v={v}
 						idx={idx}
 						updateVariant={updateVariant}
@@ -241,101 +195,11 @@ export default function ProductForm({
 				))}
 			</div>
 
-			<div className='mt-6 space-y-4'>
-				<div className='flex items-center justify-between'>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant='outline' size='sm'>
-								Оберіть колір
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent className='max-h-60 overflow-y-auto w-56'>
-							{colors.length > 0 ? (
-								colors.map(color => {
-									const isSelected = selectedColors.some(
-										selected => selected.colorHex === color.colorHex
-									)
-
-									return (
-										<DropdownMenuCheckboxItem
-											key={color.colorHex}
-											checked={isSelected}
-											onCheckedChange={() => toggleColor(color)}
-											className='flex items-center gap-2'
-										>
-											<div
-												className='w-4 h-4 rounded-full border'
-												style={{ backgroundColor: color.colorHex }}
-											/>
-											<span>{color.name}</span>
-										</DropdownMenuCheckboxItem>
-									)
-								})
-							) : (
-								<p className='px-2 py-1 text-sm text-muted-foreground'>
-									Кольори не знайдено
-								</p>
-							)}
-						</DropdownMenuContent>
-					</DropdownMenu>
-
-					<Dialog>
-						<DialogTrigger asChild>
-							<Button variant='outline' size='sm'>
-								+ Додати
-							</Button>
-						</DialogTrigger>
-						<DialogContent>
-							<DialogHeader>
-								<DialogTitle>Новий колір</DialogTitle>
-							</DialogHeader>
-							<div className='flex flex-col gap-4'>
-								<Input
-									value={newColor.name}
-									onChange={e => updateNewColor('name', e.target.value)}
-									placeholder='Назва нового кольору'
-								/>
-								<input
-									type='color'
-									value={newColor.colorHex}
-									onChange={e => updateNewColor('colorHex', e.target.value)}
-									className='h-10 w-20 rounded border self-start'
-								/>
-								<Button onClick={addColor}>Додати</Button>
-							</div>
-						</DialogContent>
-					</Dialog>
-				</div>
-
-				{/* Выбранные цвета */}
-				{selectedColors.length > 0 && (
-					<div className='flex flex-wrap gap-2'>
-						{selectedColors.map((color, idx) => (
-							<div
-								key={idx}
-								className='flex items-center gap-2 px-2 py-1 rounded-full border text-sm'
-							>
-								<div
-									className='w-4 h-4 rounded-full border'
-									style={{ backgroundColor: color.colorHex }}
-								/>
-								<span>{color.name}</span>
-								<Button
-									size='icon'
-									variant='ghost'
-									onClick={() => removeColor(idx)}
-								>
-									<X className='w-4 h-4' />
-								</Button>
-							</div>
-						))}
-					</div>
-				)}
-
-				{selectedColors.length === 0 && (
-					<p className='text-muted-foreground text-sm'>Кольори не вибрані</p>
-				)}
-			</div>
+			<ColorSelector
+				colors={colors}
+				selectedColors={selectedColors}
+				setSelectedColors={setSelectedColors}
+			/>
 		</div>
 	)
 }
