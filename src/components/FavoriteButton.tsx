@@ -1,14 +1,9 @@
 'use client'
 
 import { useFavorites } from '@/providers/FavoritesProvider'
+import { IFavoriteButton } from '@/types/Interfaces'
 import { Heart } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-export interface IFavoriteButton {
-	productId: string
-	heartClassName: string
-	buttonClassName: string
-}
 
 export default function FavoriteButton({
 	productId,
@@ -31,8 +26,6 @@ export default function FavoriteButton({
 
 		setAnimate(true)
 		setTimeout(() => setAnimate(false), 300)
-
-		setTimeout(() => window.dispatchEvent(new Event('favorites-changed')), 400)
 	}
 
 	return (

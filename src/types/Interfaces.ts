@@ -50,6 +50,7 @@ export interface IApiError {
 	message?: string
 }
 
+// Favorites
 export interface IFavoritesContext {
 	favorites: string[]
 	addFavorite: (productId: string) => Promise<void>
@@ -57,6 +58,64 @@ export interface IFavoritesContext {
 	isFavorite: (productId: string) => boolean
 	favCount: number
 	triggerAnimation: () => void
+}
+
+export interface IFilteredFavoriteGrid {
+	products: IProduct[]
+	categories: ICategory[]
+	initialFavoriteIds: string[]
+}
+
+export interface IFavoriteButton {
+	productId: string
+	heartClassName: string
+	buttonClassName: string
+}
+
+// Cart
+export interface ICartItem {
+	id: string
+	variantId: string
+	quantity: number
+}
+
+export type CartOperation = (
+	productId: string,
+	variantId: string,
+	quantity: number
+) => Promise<void>
+
+export type VariantUpdate = (
+	productId: string,
+	oldVariantId: string,
+	newVariantId: string,
+) => Promise<void>
+
+export interface ICartContext {
+	cartProducts: ICartItem[]
+	addToCart: CartOperation
+	removeFromCart: (productId: string, variantId: string) => Promise<void>
+	updateQuantity: CartOperation
+	isInCart: (productId: string) => boolean
+	isVariantInCart: (productId: string, variantId: string) => boolean
+	cartCount: number
+	triggerAnimation: () => void
+	updateVariant: VariantUpdate
+}
+
+export interface ICartList {
+	products: IProduct[]
+	categories: ICategory[]
+}
+
+export interface ICartItemProps {
+	product: IProduct
+	cartItem: ICartItem
+}
+
+export interface ICartButton {
+	productId: string
+	initialVariantId: string
 }
 
 // Category
@@ -239,12 +298,6 @@ export interface IFilterSelectGroup {
 	activeCategory: string
 	activeSubcategory: string
 	colors: IProductColor[]
-}
-
-export interface IFilteredFavoriteGrid {
-	products: IProduct[]
-	categories: ICategory[]
-	initialFavoriteIds: string[]
 }
 
 export interface IBreadcrumbs {

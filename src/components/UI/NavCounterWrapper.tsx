@@ -1,5 +1,6 @@
 'use client'
 
+import { useCart } from '@/providers/CartProvider'
 import { useFavorites } from '@/providers/FavoritesProvider'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
@@ -9,18 +10,26 @@ interface INavCounterWrapper {
 	type: 'favorites' | 'cart'
 }
 
-export default function NavCounterWrapper({ children, type }: INavCounterWrapper) {
+export default function NavCounterWrapper({
+	children,
+	type,
+}: INavCounterWrapper) {
 	const { favorites } = useFavorites()
-  
-  let link = ''
-  if(type === 'favorites'){
-    link = '/favorites'
-  }
+	const { cartProducts } = useCart()
+
+	const products = type === 'favorites' ? favorites : cartProducts
+
+	let link = ''
+	if (type === 'favorites') {
+		link = '/favorites'
+	} else if (type === 'cart') {
+		link = '/cart'
+	}
 
 	return (
 		<Link href={link} className='relative'>
 			<motion.div
-				key={favorites.length}
+				key={products.length}
 				initial={{ scale: 0.9, opacity: 0 }}
 				animate={{ scale: 1, opacity: 1 }}
 				exit={{ scale: 0.9, opacity: 0 }}
@@ -30,7 +39,7 @@ export default function NavCounterWrapper({ children, type }: INavCounterWrapper
 			</motion.div>
 
 			<AnimatePresence>
-				{favorites.length > 0 && (
+				{products.length > 0 && (
 					<motion.div
 						key='count'
 						className='absolute -bottom-2 -right-2 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'
@@ -39,7 +48,7 @@ export default function NavCounterWrapper({ children, type }: INavCounterWrapper
 						exit={{ scale: 0 }}
 						transition={{ type: 'spring', stiffness: 300, damping: 20 }}
 					>
-						{favorites.length}
+						{products.length}
 					</motion.div>
 				)}
 			</AnimatePresence>

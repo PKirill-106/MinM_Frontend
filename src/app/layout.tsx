@@ -14,6 +14,7 @@ import { authOptions } from '@/lib/auth'
 import AuthSessionProvider from '@/providers/SessionProvider'
 import { FavoritesProvider } from '@/providers/FavoritesProvider'
 import SessionHandler from '@/components/SessionHandler'
+import CartProvider from '@/providers/CartProvider'
 
 const montserrat = Montserrat({
 	variable: '--font-montserrat',
@@ -60,16 +61,18 @@ export default async function RootLayout({
 				className={`${montserrat.variable} ${roboto.variable} min-h-screen antialiased`}
 			>
 				<AuthSessionProvider session={session}>
-					<FavoritesProvider>
-						<SessionHandler />
-						<Navbar categories={categories} products={products} />
-						<Breadcrumbs categories={categories} products={products} />
-						<Toaster position='top-center' />
-						{/* ТУТ Сдвиг */}
-						<main className='main-section flex-1'>{children}</main> 
-						<Footer categories={categories} />
-						<CookiesConsent />
-					</FavoritesProvider>
+					<CartProvider>
+						<FavoritesProvider>
+							<SessionHandler />
+							<Navbar categories={categories} products={products} />
+							<Breadcrumbs categories={categories} products={products} />
+							<Toaster position='top-center' />
+							{/* ТУТ Сдвиг */}
+							<main className='main-section flex-1'>{children}</main>
+							<Footer categories={categories} />
+							<CookiesConsent />
+						</FavoritesProvider>
+					</CartProvider>
 				</AuthSessionProvider>
 			</body>
 		</html>

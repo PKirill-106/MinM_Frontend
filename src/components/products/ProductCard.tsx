@@ -4,6 +4,7 @@ import { ShoppingBag } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import FavoriteButton from '../FavoriteButton'
+import CartButton from '../cart/CartButton'
 
 export default function ProductCard({ product, categories }: IProductCard) {
 	const category = categories.find(cat => cat.id === product.categoryId)
@@ -51,9 +52,10 @@ export default function ProductCard({ product, categories }: IProductCard) {
 							heartClassName='h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9 2xl:h-10 2xl:w-10'
 							buttonClassName='absolute top-0 right-0 p-2 md:p-3 lg:p-4 hover:text-red-500 transition cursor-pointer'
 						/>
-						<button className='text-accent hover:text-button-text transition duration-200 cursor-pointer'>
-							<ShoppingBag className='h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 xl:h-9 xl:w-9 2xl:h-10 2xl:w-10' />
-						</button>
+						<CartButton
+							productId={product.id}
+							initialVariantId={product.productVariants[0].id}
+						/>
 					</div>
 				</div>
 			</div>

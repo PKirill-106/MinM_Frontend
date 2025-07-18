@@ -33,7 +33,7 @@ export async function getProductFromWishList(token: string) {
 			},
 		}
 	)
-	if (!res.ok) throw new Error('Product not in wishlist')
+	if (!res.ok) throw new Error('Product is not in wishlist')
 	return res.json()
 }
 
@@ -67,7 +67,7 @@ export async function updateWishList(wishlistItemId: string[], token: string) {
 		body: JSON.stringify(wishlistItemId),
 	})
 
-	if (!res.ok) throw new Error(`Add to wishlist failed: ${res.status}`)
+	if (!res.ok) throw new Error(`Update wishlist failed: ${res.status}`)
 
 	const { data } = await res.json()
 
@@ -90,7 +90,7 @@ export async function removeProductFromWishList(
 		}
 	)
 	
-	if (!res.ok) throw new Error(`Add to wishlist failed: ${res.status}`)
+	if (!res.ok) throw new Error(`Remove from wishlist failed: ${res.status}`)
 
 	const { data } = await res.json()
 

@@ -96,12 +96,11 @@ export default function Navbar({ categories, products }: INavbarProps) {
 					</Tooltip>
 
 					<Tooltip content='Кошик' isShoppingBag={true}>
-						<Link
-							href=''
-							className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:text-button-text md:bg-button md:hover:bg-accent rounded-md hover-active-bg hover:text-button group'
-						>
-							<ShoppingBag className='link-size cursor-pointer transition-transform group-hover:scale-110' />
-						</Link>
+						<NavCounterWrapper type='cart'>
+							<div className='md:relative md:-translate-x-2 md:p-1.5 lg:p-2 xl:p-3 transition-all duration-400 md:text-button-text md:bg-button md:hover:bg-accent rounded-md hover-active-bg hover:text-button group'>
+								<ShoppingBag className='link-size cursor-pointer transition-transform group-hover:scale-110' />
+							</div>
+						</NavCounterWrapper>
 					</Tooltip>
 
 					<div className='md:hidden flex items-center'>

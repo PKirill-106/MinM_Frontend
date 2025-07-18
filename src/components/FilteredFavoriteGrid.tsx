@@ -10,7 +10,6 @@ export default function FilteredFavoriteGrid({
 }: IProductGrid) {
 	const { favorites } = useFavorites()
 
-
 	const favoriteProducts = products.filter(product =>
 		favorites.includes(product.id)
 	)
