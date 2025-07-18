@@ -73,6 +73,7 @@ export default function ProductTopRight({
 					<ProductCart
 						amount={currentVariant.unitsInStock}
 						productId={product.id}
+						variantId={currentVariant.id}
 					/>
 				</div>
 

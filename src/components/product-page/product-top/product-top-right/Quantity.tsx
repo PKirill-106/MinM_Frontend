@@ -1,12 +1,7 @@
 'use client'
+import { IQuantity } from '@/types/Interfaces'
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
-export interface IQuantity {
-	quantity?: number
-	amount: number
-	onChange?: (newQuantity: number) => void
-}
 
 export default function Quantity({ quantity, amount, onChange }: IQuantity) {
 	const isControlled = quantity !== undefined && typeof onChange === 'function'

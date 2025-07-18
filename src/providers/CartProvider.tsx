@@ -7,7 +7,12 @@ import {
 	getAllProductsFromCart,
 	removeProductFromCart,
 } from '@/lib/services/cartServices'
-import { ICartContext, ICartItem, IProduct, VariantUpdate } from '@/types/Interfaces'
+import {
+	ICartContext,
+	ICartItem,
+	IProduct,
+	VariantUpdate,
+} from '@/types/Interfaces'
 import { useSession } from 'next-auth/react'
 import React, {
 	createContext,
@@ -173,7 +178,7 @@ export default function CartProvider({
 	const updateVariant: VariantUpdate = async (
 		productId,
 		oldVariantId,
-		newVariantId,
+		newVariantId
 	) => {
 		const updated = cartProducts.map(item => {
 			if (item.id === productId && item.variantId === oldVariantId) {
@@ -189,20 +194,16 @@ export default function CartProvider({
 
 		if (!isAuthenticated) {
 			saveLocalCart(updated)
-		} 
+		}
 		// else {
-			
+
 		// }
 
 		triggerAnimation()
 	}
 
-
-
 	const isInCart = (productId: string) =>
-		cartProducts.some(
-			item => item.id === productId
-		)
+		cartProducts.some(item => item.id === productId)
 	const isVariantInCart = (productId: string, variantId: string) =>
 		cartProducts.some(
 			item => item.id === productId && item.variantId === variantId

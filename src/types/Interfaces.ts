@@ -293,6 +293,12 @@ export interface IProductCard {
 	categories: ICategory[]
 }
 
+export interface IQuantity {
+	quantity?: number
+	amount: number
+	onChange?: (newQuantity: number) => void
+}
+
 export interface IFilterSelectGroup {
 	categories: ICategory[]
 	activeCategory: string

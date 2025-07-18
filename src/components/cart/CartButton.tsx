@@ -7,16 +7,19 @@ export default function CartButton({
 	productId,
 	initialVariantId,
 }: ICartButton) {
-	const { isInCart, addToCart, removeFromCart } = useCart()
+	const { cartProducts, isInCart, addToCart, removeFromCart } = useCart()
 	const [animate, setAnimate] = useState(false)
 
 	useEffect(() => {
 		isInCart(productId)
 	}, [productId])
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		if (isInCart(productId)) {
-			removeFromCart(productId, initialVariantId)
+			const itemsToRemove = cartProducts.filter(item => item.id === productId)
+			await Promise.all(
+				itemsToRemove.map(item => removeFromCart(item.id, item.variantId))
+			)
 		} else {
 			addToCart(productId, initialVariantId, 1)
 		}

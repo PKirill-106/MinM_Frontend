@@ -50,6 +50,7 @@ export interface IRating {
 export interface IProductCart {
 	amount: number
 	productId: string
+	variantId: string
 }
 export interface IProductVariants {
 	product: IProduct
