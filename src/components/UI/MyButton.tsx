@@ -1,7 +1,8 @@
 import { IButtonProps } from '@/types/Interfaces'
 import { Instagram, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import { useCallback } from 'react'
+import AnimatedButton from './AnimatedButton'
 
 export default function Button({ text, variant, onClick, href }: IButtonProps) {
 	const baseClasses: string =
@@ -12,6 +13,17 @@ export default function Button({ text, variant, onClick, href }: IButtonProps) {
 		instagram:
 			'py-2 px-4 md:py-3 md:px-5 lg:py-5 lg:px-6 gap-2 rounded-md bg-accent text-white hover:bg-button hover:text-button-text active:bg-button active:text-button-text',
 	}
+
+	const wrappedOnClick = useCallback(async () => {
+		try {
+			if (onClick) {
+				await onClick()
+			}
+			return 'success'
+		} catch {
+			return 'error'
+		}
+	}, [onClick])
 
 	if (href) {
 		return (
@@ -27,14 +39,12 @@ export default function Button({ text, variant, onClick, href }: IButtonProps) {
 	}
 
 	return (
-		<button
-			onClick={onClick}
-			className={`${baseClasses} ${variantClasses[variant]} `}
-		>
-			{text}
-			{variant === 'cart' && (
-				<ShoppingBag className='h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7' />
-			)}
-		</button>
+		<AnimatedButton
+			text={text}
+			icon={<ShoppingBag className='h-5 w-5 md:w-6 md:h-6 lg:w-7 lg:h-7' />}
+			variant={variant}
+			mode='full-cycle'
+			onClick={wrappedOnClick}
+		/>
 	)
 }

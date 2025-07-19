@@ -1,4 +1,4 @@
-import { ICartItem } from '@/types/Interfaces'
+import { ICartItem } from "@/types/Interfaces"
 
 export const getLocalCart = (): ICartItem[] => {
 	if (typeof window === 'undefined') return []
@@ -12,9 +12,14 @@ export const getLocalCart = (): ICartItem[] => {
 
 export const saveLocalCart = (cart: ICartItem[]) => {
 	localStorage.setItem('cartProducts', JSON.stringify(cart))
+	window.dispatchEvent(new Event('cartProducts-changed'))
 }
 
-export const addToCart = (id: string, variantId: string, quantity: number) => {
+export const addToCart = (
+	id: string,
+	variantId: string,
+	quantity: number
+) => {
 	const current = getLocalCart()
 	const index = current.findIndex(
 		item => item.id === id && item.variantId === variantId

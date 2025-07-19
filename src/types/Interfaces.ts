@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { HTMLMotionProps } from 'framer-motion'
+import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 export interface ISignUpUser {
 	email: string
@@ -88,7 +89,7 @@ export type CartOperation = (
 export type VariantUpdate = (
 	productId: string,
 	oldVariantId: string,
-	newVariantId: string,
+	newVariantId: string
 ) => Promise<void>
 
 export interface ICartContext {
@@ -365,4 +366,16 @@ export interface IModal {
 	onClose: () => void
 	children: ReactNode
 	isInput?: boolean
+}
+
+export type ButtonModeType = 'full-cycle' | 'simple-cycle'
+export type ButtonVariantType = 'cart' | 'instagram' | 'custom'
+
+export interface IAnimatedButton
+	extends Omit<HTMLMotionProps<'button'>, 'onClick'> {
+	text: string
+	icon?: React.ReactNode
+	variant?: ButtonVariantType
+	mode?: ButtonModeType
+	onClick: () => Promise<'success' | 'error' | void>
 }
