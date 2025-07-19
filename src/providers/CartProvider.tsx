@@ -8,6 +8,7 @@ import {
 	removeProductFromCart,
 } from '@/lib/services/cartServices'
 import {
+	CartOperation,
 	ICartContext,
 	ICartItem,
 	IProduct,
@@ -99,30 +100,38 @@ export default function CartProvider({
 		}, 1500)
 	}
 
-	const addToCart = async (
-		productId: string,
-		variantId: string,
-		quantity: number
-	) => {
-		let updated: ICartItem[]
-		updated = [...cartProducts, { id: productId, variantId, quantity }]
+	const addToCart: CartOperation = async (productId, variantId, quantity) => {
+		const existingIndex = cartProducts.findIndex(
+			item => item.id === productId && item.variantId === variantId
+		)
 
-		setCartProducts(updated)
+		let updatedCart: ICartItem[]
+
+		if (existingIndex !== -1) {
+			updatedCart = cartProducts.map((item, index) =>
+				index === existingIndex
+					? { ...item, quantity: item.quantity + quantity }
+					: item
+			)
+		} else {
+			updatedCart = [...cartProducts, { id: productId, variantId, quantity }]
+		}
+
+		setCartProducts(updatedCart)
 
 		if (isAuthenticated) {
-			// try {
-			// 	await apiFetch(token =>
-			// 		addProductToCart(productId, variantId, quantity, token)
-			// 	)
-			// } catch (err) {
-			// 	console.error('Failed to add to cart:', err)
-			// }
+			try {
+				await apiFetch(token => addProductToCart(productId, token, quantity))
+			} catch (err) {
+				console.error('Failed to add product:', err)
+			}
 		} else {
-			saveLocalCart(updated)
+			saveLocalCart(updatedCart)
 		}
 
 		triggerAnimation()
 	}
+
 
 	const removeFromCart = async (productId: string, variantId: string) => {
 		const updated = cartProducts.filter(
