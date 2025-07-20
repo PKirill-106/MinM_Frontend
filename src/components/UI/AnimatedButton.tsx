@@ -2,9 +2,10 @@
 
 import { cn } from '@/lib/utils'
 import { ButtonVariantType, IAnimatedButton } from '@/types/Interfaces'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, easeInOut } from 'framer-motion'
 import { Check, LoaderCircle, X } from 'lucide-react'
 import { useState } from 'react'
+
 
 export default function AnimatedButton({
 	text,
@@ -12,7 +13,6 @@ export default function AnimatedButton({
 	variant = 'custom',
 	mode = 'full-cycle',
 	onClick,
-	className,
 	...rest
 }: IAnimatedButton) {
 	const [status, setStatus] = useState<
@@ -40,14 +40,29 @@ export default function AnimatedButton({
 		}
 	}
 
+	const bounceScale = {
+		animate: {
+			scale: [1, 1.3, 0.9, 1.15, 1],
+			transition: { duration: 0.6, ease: easeInOut },
+		},
+	}
+
 	const getStatusIcon = () => {
 		switch (status) {
 			case 'loading':
 				return <LoaderCircle className='animate-spin' strokeWidth={3} />
 			case 'success':
-				return <Check className='animate-bounce' strokeWidth={3} />
+				return (
+					<motion.div key={status} {...bounceScale}>
+						<Check strokeWidth={3} />
+					</motion.div>
+				)
 			case 'error':
-				return <X className='animate-bounce' />
+				return (
+					<motion.div key={status} {...bounceScale}>
+						<X strokeWidth={3} />
+					</motion.div>
+				)
 			default:
 				return icon || null
 		}
@@ -71,7 +86,11 @@ export default function AnimatedButton({
 			className={cn(
 				'inline-flex items-center justify-center text-base lg:text-xl transition-all duration-300 cursor-pointer gap-2 relative',
 				variantClasses[variant],
-				className
+				status === 'success'
+					? 'bg-green-300! text-green-950!'
+					: status === 'error'
+					? 'bg-red-500! text-red-100!'
+					: ''
 			)}
 			onClick={handleClick}
 			whileTap={{ scale: 0.95 }}
