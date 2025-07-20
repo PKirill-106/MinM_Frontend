@@ -1,12 +1,12 @@
 'use client'
-import { Check, Heart, X } from 'lucide-react'
+import FavoriteButton from '@/components/FavoriteButton'
+import { Check, X } from 'lucide-react'
 import { useState } from 'react'
+import { IProductTopProps } from '../../interfaces'
 import ProductCart from './ProductCart'
 import ProductVariants from './ProductVariants'
 import GetRating from './Rating'
 import ShippingPayment from './ShippingPayment'
-import { IProductTopProps } from '../../interfaces'
-import FavoriteButton from '@/components/FavoriteButton'
 
 export default function ProductTopRight({
 	product,
@@ -51,7 +51,7 @@ export default function ProductTopRight({
 				</div>
 				<div className='flex items-center gap-3 lg:gap-5 flex-wrap mt-4'>
 					<div className='flex items-center justify-between w-full md:w-auto'>
-						{currentVariant.discountPrice ? (
+						{product.isDiscounted ? (
 							<div className='flex items-center'>
 								<h1 className='text-accent lg:min-w-37 xl:min-w-50'>
 									{currentVariant.discountPrice} грн

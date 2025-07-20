@@ -24,6 +24,8 @@ export default function ProductCard({ product, categories }: IProductCard) {
 
 	const productUrl = `/product/${product.slug}`
 
+	const firstVariant = product.productVariants[0]
+
 	return (
 		<div className='relative flex flex-col bg-white max-w-90 overflow-hidden rounded-lg shadow-sm hover:scale-105 hover:shadow-lg transition-all duration-300'>
 			<Link href={productUrl} className='mb-1'>
@@ -44,8 +46,23 @@ export default function ProductCard({ product, categories }: IProductCard) {
 					</Link>
 				</div>
 
-				<div className='flex justify-between items-center pt-2 md:pt-3 lg:pt-4 xl:pt-6'>
-					<p className='price '>{product.productVariants[0].price} грн</p>
+				<div
+					className={`flex justify-between  pt-2 md:pt-3 lg:pt-4 xl:pt-6 ${
+						firstVariant.discountPrice ? 'items-end' : 'items-center'
+					}`}
+				>
+					{product.isDiscounted ? (
+						<div className='flex flex-col items-left'>
+							<p className='line-through text-transparent-text'>
+								{firstVariant.price} грн
+							</p>
+							<p className='price text-accent lg:min-w-37 xl:min-w-50'>
+								{firstVariant.discountPrice} грн
+							</p>
+						</div>
+					) : (
+						<p className='price'>{firstVariant.price} грн</p>
+					)}{' '}
 					<div className='flex gap-3 lg:gap:4 xl:gap-5'>
 						<FavoriteButton
 							productId={product.id}
@@ -54,8 +71,8 @@ export default function ProductCard({ product, categories }: IProductCard) {
 						/>
 						<CartButton
 							productId={product.id}
-							initialVariantId={product.productVariants[0].id}
-							unitsInStock={product.productVariants[0].unitsInStock}
+							initialVariantId={firstVariant.id}
+							unitsInStock={firstVariant.unitsInStock}
 						/>
 					</div>
 				</div>

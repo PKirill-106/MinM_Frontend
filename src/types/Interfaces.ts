@@ -84,6 +84,7 @@ export interface ICartItem {
 	productVariantId: string
 	quantity: number
 }
+
 export interface IUpdateCartItem {
 	id: string
 	productVariantId: string

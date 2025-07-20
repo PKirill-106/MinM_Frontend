@@ -26,7 +26,9 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 			? imgSrc
 			: '/prod/product-image-unavailable.png'
 
-	const totalPrice = variant.price * cartItem.quantity
+	const displayPrice = product.isDiscounted ? variant.discountPrice : variant.price
+
+	const totalPrice = displayPrice * cartItem.quantity
 
 	return (
 		<div className='flex items-center gap-4 justify-center'>
@@ -44,7 +46,9 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 						<div className='w-full flex gap-4 justify-between items-start'>
 							<p>{product.name}</p>
 							<Button
-								onClick={() => removeFromCart(cartItem!.id!, product.id, variant.id)}
+								onClick={() =>
+									removeFromCart(cartItem!.id!, product.id, variant.id)
+								}
 								variant='destructive'
 								className='p-0 m-0'
 							>
@@ -53,10 +57,7 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 						</div>
 						<div className='flex flex-col md:flex-row items-start md:items-end justify-between gap-4'>
 							<div className='hidden md:flex gap-4 items-center order-1 md:order-0 w-full md:w-auto'>
-								<SelectVariant
-									cartItem={cartItem}
-									product={product}
-								/>
+								<SelectVariant cartItem={cartItem} product={product} />
 								<Quantity
 									quantity={cartItem.quantity}
 									amount={variant.unitsInStock}
@@ -70,15 +71,27 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 									}
 								/>
 							</div>
-							<p className='price order-0 md:order-1 gap-4'>{totalPrice} грн</p>
+							<div className='order-0 md:order-1 flex flex-col items-center'>
+								{product.isDiscounted ? (
+									<>
+										<h3 className='text-md/5 md:text-lg/6 lg:text-lg/7 xl:text-xl/7 line-through text-transparent-text '>
+											{variant.price * cartItem.quantity} грн
+										</h3>
+										<span
+											className={`cart-price ${totalPrice && 'text-accent'}`}
+										>
+											{totalPrice} грн
+										</span>
+									</>
+								) : (
+									<p className='cart-price'>{totalPrice} грн</p>
+								)}{' '}
+							</div>
 						</div>
 					</div>
 				</div>
 				<div className='flex flex-col w-full h-full md:hidden gap-4 order-1'>
-					<SelectVariant
-						cartItem={cartItem}
-						product={product}
-					/>
+					<SelectVariant cartItem={cartItem} product={product} />
 					<Quantity
 						quantity={cartItem.quantity}
 						amount={variant.unitsInStock}
