@@ -8,6 +8,12 @@ import CartItem from './CartItem'
 export default function CartList({ products }: ICartList) {
 	const { cartProducts } = useCart()
 
+	if (cartProducts.length === 0) {
+		return (
+			<h3 className='flex justify-center my-30'>Відсутні товари в кошику</h3>
+		)
+	}
+
 	return (
 		<div>
 			<div className='flex flex-col gap-6'>
