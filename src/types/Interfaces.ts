@@ -83,7 +83,8 @@ export interface ICartItem {
 export type CartOperation = (
 	productId: string,
 	variantId: string,
-	quantity: number
+	quantity: number,
+	maxAvailable: number
 ) => Promise<void>
 
 export type VariantUpdate = (
@@ -117,6 +118,7 @@ export interface ICartItemProps {
 export interface ICartButton {
 	productId: string
 	initialVariantId: string
+	unitsInStock: number
 }
 
 // Category

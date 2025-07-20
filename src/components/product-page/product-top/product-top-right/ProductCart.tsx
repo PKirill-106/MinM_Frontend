@@ -16,7 +16,7 @@ export default function ProductCart({
 
 	const handleAddToCart = async () => {
 		if (!variantId) return
-		await addToCart(productId, variantId, quantity)
+		await addToCart(productId, variantId, quantity, amount)
 	}
 
 	return (

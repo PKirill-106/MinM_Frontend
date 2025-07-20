@@ -22,6 +22,7 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
+import toast from 'react-hot-toast'
 
 const CartContext = createContext<ICartContext | null>(null)
 
@@ -100,17 +101,30 @@ export default function CartProvider({
 		}, 1500)
 	}
 
-	const addToCart: CartOperation = async (productId, variantId, quantity) => {
-		const existingIndex = cartProducts.findIndex(
+	const addToCart: CartOperation = async (
+		productId,
+		variantId,
+		quantity,
+		maxAvailable
+	) => {
+		const existingItem = cartProducts.find(
 			item => item.id === productId && item.variantId === variantId
 		)
 
+		const currentQuantity = existingItem?.quantity ?? 0
+		const newTotalQuantity = currentQuantity + quantity
+
+		if (newTotalQuantity > maxAvailable) {
+			toast.error('Недостатньо товару')
+			throw new Error('Cannot add more than available stock.')
+		}
+
 		let updatedCart: ICartItem[]
 
-		if (existingIndex !== -1) {
-			updatedCart = cartProducts.map((item, index) =>
-				index === existingIndex
-					? { ...item, quantity: item.quantity + quantity }
+		if (existingItem) {
+			updatedCart = cartProducts.map(item =>
+				item.id === productId && item.variantId === variantId
+					? { ...item, quantity: newTotalQuantity }
 					: item
 			)
 		} else {
@@ -120,18 +134,18 @@ export default function CartProvider({
 		setCartProducts(updatedCart)
 
 		if (isAuthenticated) {
-			try {
-				await apiFetch(token => addProductToCart(productId, token, quantity))
-			} catch (err) {
-				console.error('Failed to add product:', err)
-			}
+			// try {
+			// 	await apiFetch(token => addProductToCart(productId, token, quantity))
+			// } catch (err) {
+			// 	console.error('Failed to add product:', err)
+			// }
 		} else {
 			saveLocalCart(updatedCart)
 		}
 
 		triggerAnimation()
+		toast.success('Продукт додано')
 	}
-
 
 	const removeFromCart = async (productId: string, variantId: string) => {
 		const updated = cartProducts.filter(

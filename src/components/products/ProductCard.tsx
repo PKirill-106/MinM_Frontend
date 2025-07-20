@@ -55,6 +55,7 @@ export default function ProductCard({ product, categories }: IProductCard) {
 						<CartButton
 							productId={product.id}
 							initialVariantId={product.productVariants[0].id}
+							unitsInStock={product.productVariants[0].unitsInStock}
 						/>
 					</div>
 				</div>

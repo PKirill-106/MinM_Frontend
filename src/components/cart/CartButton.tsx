@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 export default function CartButton({
 	productId,
 	initialVariantId,
+	unitsInStock,
 }: ICartButton) {
 	const { cartProducts, isInCart, addToCart, removeFromCart } = useCart()
 	const [animate, setAnimate] = useState(false)
@@ -21,7 +22,7 @@ export default function CartButton({
 				itemsToRemove.map(item => removeFromCart(item.id, item.variantId))
 			)
 		} else {
-			addToCart(productId, initialVariantId, 1)
+			addToCart(productId, initialVariantId, 1, unitsInStock)
 		}
 
 		setAnimate(true)
