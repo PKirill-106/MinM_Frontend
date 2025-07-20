@@ -1,4 +1,4 @@
-import { ICartItem } from "@/types/Interfaces"
+import { ICartItem } from '@/types/Interfaces'
 
 export const getLocalCart = (): ICartItem[] => {
 	if (typeof window === 'undefined') return []
@@ -15,14 +15,10 @@ export const saveLocalCart = (cart: ICartItem[]) => {
 	window.dispatchEvent(new Event('cartProducts-changed'))
 }
 
-export const addToCart = (
-	id: string,
-	variantId: string,
-	quantity: number
-) => {
+export const addToCart = (id: string, productVariantId: string, quantity: number) => {
 	const current = getLocalCart()
 	const index = current.findIndex(
-		item => item.id === id && item.variantId === variantId
+		item => item.productId === id && item.productVariantId === productVariantId
 	)
 
 	let updated: ICartItem[]
@@ -30,7 +26,7 @@ export const addToCart = (
 		current[index].quantity += quantity
 		updated = [...current]
 	} else {
-		updated = [...current, { id, variantId, quantity }]
+		updated = [...current, { productId: id, productVariantId, quantity }]
 	}
 
 	saveLocalCart(updated)
@@ -43,14 +39,14 @@ export const removeFromCart = (
 ) => {
 	let current = getLocalCart()
 	const index = current.findIndex(
-		item => item.id === id && item.variantId === variantId
+		item => item.productId === id && item.productVariantId === variantId
 	)
 
 	if (index === -1) return
 
 	if (removeCompletely || current[index].quantity <= 1) {
 		current = current.filter(
-			item => !(item.id === id && item.variantId === variantId)
+			item => !(item.productId === id && item.productVariantId === variantId)
 		)
 	} else {
 		current[index].quantity -= 1
@@ -66,7 +62,7 @@ export const updateCartQuantity = (
 ) => {
 	const current = getLocalCart()
 	const index = current.findIndex(
-		item => item.id === id && item.variantId === variantId
+		item => item.productId === id && item.productVariantId === variantId
 	)
 
 	if (index === -1) return
@@ -82,13 +78,13 @@ export const updateCartQuantity = (
 
 export const isInCart = (id: string, variantId: string): boolean => {
 	return getLocalCart().some(
-		item => item.id === id && item.variantId === variantId
+		item => item.productId === id && item.productVariantId === variantId
 	)
 }
 
 export const getQuantity = (id: string, variantId: string): number => {
 	const item = getLocalCart().find(
-		item => item.id === id && item.variantId === variantId
+		item => item.productId === id && item.productVariantId === variantId
 	)
 	return item?.quantity ?? 0
 }

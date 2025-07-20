@@ -11,12 +11,18 @@ export default function ProductCart({
 	productId,
 	variantId,
 }: IProductCart) {
-	const { addToCart } = useCart()
+	const { cartProducts, addToCart } = useCart()
 	const [quantity, setQuantity] = useState(1)
+
+	const cartItem = cartProducts.find(
+		cartProduct => cartProduct.productId === productId
+	)
+
+	const cartItemId = cartItem?.id
 
 	const handleAddToCart = async () => {
 		if (!variantId) return
-		await addToCart(productId, variantId, quantity, amount)
+		await addToCart(productId, variantId, quantity, amount, cartItemId!)
 	}
 
 	return (

@@ -5,14 +5,15 @@ import { getLocalCart, saveLocalCart } from '@/lib/localCart'
 import {
 	addProductToCart,
 	getAllProductsFromCart,
+	migrateProductToCart,
 	removeProductFromCart,
+	updateProductInCart,
 } from '@/lib/services/cartServices'
 import {
 	CartOperation,
 	ICartContext,
 	ICartItem,
-	IProduct,
-	VariantUpdate,
+	IGetCartItem,
 } from '@/types/Interfaces'
 import { useSession } from 'next-auth/react'
 import React, {
@@ -33,7 +34,7 @@ export default function CartProvider({
 }) {
 	const { data: session, status } = useSession()
 	const hasMigrated = useRef(false)
-	const [cartProducts, setCartProducts] = useState<ICartItem[]>([])
+	const [cartProducts, setCartProducts] = useState<IGetCartItem[]>([])
 	const [cartCount, setCartCount] = useState(0)
 
 	const { apiFetch } = useApi()
@@ -42,7 +43,7 @@ export default function CartProvider({
 	const loadCart = async () => {
 		if (isAuthenticated) {
 			try {
-				const serverCart = await apiFetch(token =>
+				const serverCart: IGetCartItem[] = await apiFetch(token =>
 					getAllProductsFromCart(token)
 				)
 				setCartProducts(serverCart)
@@ -61,30 +62,35 @@ export default function CartProvider({
 		if (!localCart.length) return
 
 		try {
-			const serverCart: IProduct[] = await apiFetch(token =>
+			const serverCart: IGetCartItem[] = await apiFetch(token =>
 				getAllProductsFromCart(token)
 			)
-			const serverIds = serverCart.map(item => item.id)
+			const serverKeys = new Set(
+				serverCart.map(item => `${item.productId}_${item.productVariantId}`)
+			)
 
 			const toMigrate = localCart.filter(
-				localItem => !serverIds.includes(localItem.id)
+				localItem =>
+					!serverKeys.has(
+						`${localItem.productId}_${localItem.productVariantId}`
+					)
 			)
 
-			await Promise.all(
-				toMigrate.map(item =>
-					apiFetch(token => addProductToCart(item.id, token, item.quantity))
-				)
-			)
+			if (toMigrate.length > 0) {
+				console.log('localCart: ', localCart)
+				console.log('toMigrate: ', toMigrate)
+				await apiFetch(token => migrateProductToCart(toMigrate, token))
+			}
 
 			localStorage.removeItem('cartProducts')
 			hasMigrated.current = true
 
-			const refreshed = await apiFetch(token => getAllProductsFromCart(token))
-			setCartProducts(refreshed)
+			await loadCart()
 		} catch (err) {
 			console.error('Cart migration failed:', err)
 		}
 	}
+
 
 	useEffect(() => {
 		loadCart()
@@ -103,12 +109,15 @@ export default function CartProvider({
 
 	const addToCart: CartOperation = async (
 		productId,
-		variantId,
+		productVariantId,
 		quantity,
-		maxAvailable
+		maxAvailable,
+		itemId
 	) => {
 		const existingItem = cartProducts.find(
-			item => item.id === productId && item.variantId === variantId
+			item =>
+				item.productId === productId &&
+				item.productVariantId === productVariantId
 		)
 
 		const currentQuantity = existingItem?.quantity ?? 0
@@ -123,22 +132,40 @@ export default function CartProvider({
 
 		if (existingItem) {
 			updatedCart = cartProducts.map(item =>
-				item.id === productId && item.variantId === variantId
+				item.productId === productId &&
+				item.productVariantId === productVariantId
 					? { ...item, quantity: newTotalQuantity }
 					: item
 			)
 		} else {
-			updatedCart = [...cartProducts, { id: productId, variantId, quantity }]
+			updatedCart = [...cartProducts, { productId, productVariantId, quantity }]
 		}
 
 		setCartProducts(updatedCart)
 
 		if (isAuthenticated) {
-			// try {
-			// 	await apiFetch(token => addProductToCart(productId, token, quantity))
-			// } catch (err) {
-			// 	console.error('Failed to add product:', err)
-			// }
+			try {
+				const addProductData = {
+					productId: productId,
+					productVariantId: productVariantId,
+					quantity: quantity,
+				}
+				const updateProductData = {
+					id: itemId!,
+					productVariantId: productVariantId,
+					quantity: newTotalQuantity,
+				}
+				if (existingItem) {
+					await apiFetch(token => updateProductInCart(updateProductData, token))
+				} else {
+					await apiFetch(token => addProductToCart(addProductData, token))
+				}
+				await loadCart()
+			} catch (err) {
+				console.error('Failed to sync with server:', err)
+				toast.error('Не вдалося синхронізувати з сервером')
+				setCartProducts(cartProducts)
+			}
 		} else {
 			saveLocalCart(updatedCart)
 		}
@@ -147,16 +174,21 @@ export default function CartProvider({
 		toast.success('Продукт додано')
 	}
 
-	const removeFromCart = async (productId: string, variantId: string) => {
+	const removeFromCart = async (
+		itemId: string,
+		productId: string,
+		variantId: string
+	) => {
 		const updated = cartProducts.filter(
-			item => !(item.id === productId && item.variantId === variantId)
+			item =>
+				!(item.productId === productId && item.productVariantId === variantId)
 		)
 
 		setCartProducts(updated)
 
 		if (isAuthenticated) {
 			try {
-				await apiFetch(token => removeProductFromCart(productId, token))
+				await apiFetch(token => removeProductFromCart(itemId, token))
 			} catch (err) {
 				console.error('Failed to remove from cart:', err)
 			}
@@ -164,22 +196,31 @@ export default function CartProvider({
 			saveLocalCart(updated)
 		}
 
+		await loadCart()
 		triggerAnimation()
 	}
 
-	const updateQuantity = async (
-		productId: string,
-		variantId: string,
-		quantity: number
+	const updateCartItem = async (
+		itemId: string,
+		newVariantId: string,
+		newQuantity: number
 	) => {
-		if (quantity <= 0) {
-			await removeFromCart(productId, variantId)
+		if (newQuantity <= 0) {
+			await apiFetch(token => removeProductFromCart(itemId, token))
+			const filtered = cartProducts.filter(item => item.id !== itemId)
+			setCartProducts(filtered)
+			if (!isAuthenticated) saveLocalCart(filtered)
+			triggerAnimation()
 			return
 		}
 
 		const updated = cartProducts.map(item =>
-			item.id === productId && item.variantId === variantId
-				? { ...item, quantity }
+			item.id === itemId
+				? {
+						...item,
+						productVariantId: newVariantId,
+						quantity: newQuantity,
+				  }
 				: item
 		)
 
@@ -187,49 +228,33 @@ export default function CartProvider({
 
 		if (isAuthenticated) {
 			try {
-				await apiFetch(token => addProductToCart(productId, token, quantity))
+				await apiFetch(token =>
+					updateProductInCart(
+						{
+							id: itemId,
+							productVariantId: newVariantId,
+							quantity: newQuantity,
+						},
+						token
+					)
+				)
 			} catch (err) {
-				console.error('Failed to update quantity:', err)
+				console.error('Failed to update cart item on server:', err)
 			}
 		} else {
 			saveLocalCart(updated)
 		}
 
-		triggerAnimation()
-	}
-
-	const updateVariant: VariantUpdate = async (
-		productId,
-		oldVariantId,
-		newVariantId
-	) => {
-		const updated = cartProducts.map(item => {
-			if (item.id === productId && item.variantId === oldVariantId) {
-				return {
-					...item,
-					variantId: newVariantId,
-				}
-			}
-			return item
-		})
-
-		setCartProducts(updated)
-
-		if (!isAuthenticated) {
-			saveLocalCart(updated)
-		}
-		// else {
-
-		// }
-
+		await loadCart()
 		triggerAnimation()
 	}
 
 	const isInCart = (productId: string) =>
-		cartProducts.some(item => item.id === productId)
+		cartProducts.some(item => item.productId === productId)
 	const isVariantInCart = (productId: string, variantId: string) =>
 		cartProducts.some(
-			item => item.id === productId && item.variantId === variantId
+			item =>
+				item.productId === productId && item.productVariantId === variantId
 		)
 
 	return (
@@ -238,12 +263,11 @@ export default function CartProvider({
 				cartProducts,
 				addToCart,
 				removeFromCart,
-				updateQuantity,
+				updateCartItem,
 				isInCart,
 				isVariantInCart,
 				cartCount,
 				triggerAnimation,
-				updateVariant,
 			}}
 		>
 			{children}

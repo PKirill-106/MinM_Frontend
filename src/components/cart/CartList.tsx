@@ -5,18 +5,18 @@ import { ICartList } from '@/types/Interfaces'
 import React from 'react'
 import CartItem from './CartItem'
 
-export default function CartList({ products, categories }: ICartList) {
+export default function CartList({ products }: ICartList) {
 	const { cartProducts } = useCart()
 
 	return (
 		<div>
 			<div className='flex flex-col gap-6'>
 				{cartProducts.map(cartItem => {
-					const product = products.find(p => p.id === cartItem.id)
+					const product = products.find(p => p.id === cartItem.productId)
 					if (!product) return null
 					return (
 						<CartItem
-							key={`${cartItem.id}-${cartItem.variantId}`}
+							key={`${cartItem.productId}-${cartItem.productVariantId}`}
 							product={product}
 							cartItem={cartItem}
 						/>

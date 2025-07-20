@@ -1,5 +1,7 @@
 'use client'
-import React, { useState } from 'react'
+import { useCart } from '@/providers/CartProvider'
+import { IGetCartItem, IProduct } from '@/types/Interfaces'
+import { useState } from 'react'
 import {
 	Select,
 	SelectContent,
@@ -7,27 +9,34 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '../UI/select'
-import { ICartItem, IProduct, IProductVariant } from '@/types/Interfaces'
-import { useCart } from '@/providers/CartProvider'
 
 export interface ISelectVariant {
-	variant: IProductVariant
-	cartItem: ICartItem
+	cartItem: IGetCartItem
 	product: IProduct
 }
 
 export default function SelectVariant({
-	variant,
 	cartItem,
 	product,
 }: ISelectVariant) {
-	const { updateVariant } = useCart()
+	const { updateCartItem } = useCart()
 
-	const [selectedVariantId, setSelectedVariantId] = useState(cartItem.variantId)
+	const [selectedVariantId, setSelectedVariantId] = useState(
+		cartItem.productVariantId
+	)
 
 	const handleVariantChange = (newId: string) => {
 		setSelectedVariantId(newId)
-		updateVariant(cartItem.id, variant.id, newId)
+
+		const newVariant = product.productVariants.find(v => v.id === newId)
+		if (!newVariant) return
+
+		updateCartItem(
+			cartItem.id!,
+			newId,
+			cartItem.quantity,
+			newVariant.unitsInStock
+		)
 	}
 
 	return (

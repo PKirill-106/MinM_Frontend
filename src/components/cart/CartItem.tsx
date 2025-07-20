@@ -8,9 +8,11 @@ import { Button } from '../UI/button'
 import SelectVariant from './SelectVariant'
 
 export default function CartItem({ product, cartItem }: ICartItemProps) {
-	const { removeFromCart, updateQuantity } = useCart()
+	const { removeFromCart, updateCartItem } = useCart()
 
-	const variant = product.productVariants.find(v => v.id === cartItem.variantId)
+	const variant = product.productVariants.find(
+		v => v.id === cartItem.productVariantId
+	)
 
 	if (!variant) {
 		return (
@@ -42,7 +44,7 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 						<div className='w-full flex gap-4 justify-between items-start'>
 							<p>{product.name}</p>
 							<Button
-								onClick={() => removeFromCart(cartItem!.id, variant.id)}
+								onClick={() => removeFromCart(cartItem!.id!, product.id, variant.id)}
 								variant='destructive'
 								className='p-0 m-0'
 							>
@@ -52,7 +54,6 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 						<div className='flex flex-col md:flex-row items-start md:items-end justify-between gap-4'>
 							<div className='hidden md:flex gap-4 items-center order-1 md:order-0 w-full md:w-auto'>
 								<SelectVariant
-									variant={variant}
 									cartItem={cartItem}
 									product={product}
 								/>
@@ -60,7 +61,12 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 									quantity={cartItem.quantity}
 									amount={variant.unitsInStock}
 									onChange={newQuantity =>
-										updateQuantity(product.id, variant.id, newQuantity)
+										updateCartItem(
+											cartItem.id!,
+											variant.id,
+											newQuantity,
+											variant.unitsInStock
+										)
 									}
 								/>
 							</div>
@@ -70,7 +76,6 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 				</div>
 				<div className='flex flex-col w-full h-full md:hidden gap-4 order-1'>
 					<SelectVariant
-						variant={variant}
 						cartItem={cartItem}
 						product={product}
 					/>
@@ -78,7 +83,12 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 						quantity={cartItem.quantity}
 						amount={variant.unitsInStock}
 						onChange={newQuantity =>
-							updateQuantity(product.id, variant.id, newQuantity)
+							updateCartItem(
+								cartItem.id!,
+								variant.id,
+								newQuantity,
+								variant.unitsInStock
+							)
 						}
 					/>
 				</div>

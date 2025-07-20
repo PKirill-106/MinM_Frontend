@@ -1,5 +1,5 @@
 import { HTMLMotionProps } from 'framer-motion'
-import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 export interface ISignUpUser {
 	email: string
@@ -74,9 +74,19 @@ export interface IFavoriteButton {
 }
 
 // Cart
+export interface IGetCartItem extends ICartItem {
+	id?: string
+	addedAt?: string
+}
+
 export interface ICartItem {
+	productId: string
+	productVariantId: string
+	quantity: number
+}
+export interface IUpdateCartItem {
 	id: string
-	variantId: string
+	productVariantId: string
 	quantity: number
 }
 
@@ -84,7 +94,8 @@ export type CartOperation = (
 	productId: string,
 	variantId: string,
 	quantity: number,
-	maxAvailable: number
+	maxAvailable: number,
+	itemId?: string,
 ) => Promise<void>
 
 export type VariantUpdate = (
@@ -94,25 +105,33 @@ export type VariantUpdate = (
 ) => Promise<void>
 
 export interface ICartContext {
-	cartProducts: ICartItem[]
+	cartProducts: IGetCartItem[]
 	addToCart: CartOperation
-	removeFromCart: (productId: string, variantId: string) => Promise<void>
-	updateQuantity: CartOperation
+	removeFromCart: (
+		itemId: string,
+		productId: string,
+		variantId: string
+	) => Promise<void>
+	updateCartItem: (
+		itemId: string,
+		productVariantId: string,
+		quantity: number,
+		unitsInStock?: number
+	) => Promise<void>
+
 	isInCart: (productId: string) => boolean
 	isVariantInCart: (productId: string, variantId: string) => boolean
 	cartCount: number
 	triggerAnimation: () => void
-	updateVariant: VariantUpdate
 }
 
 export interface ICartList {
 	products: IProduct[]
-	categories: ICategory[]
 }
 
 export interface ICartItemProps {
 	product: IProduct
-	cartItem: ICartItem
+	cartItem: IGetCartItem
 }
 
 export interface ICartButton {
