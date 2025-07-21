@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useCallback } from 'react'
 import AnimatedButton from './AnimatedButton'
 
-export default function Button({ text, variant, onClick, href }: IButtonProps) {
+export default function Button({ text, variant, onClick, href, className }: IButtonProps) {
 	const baseClasses: string =
 		'button-text inline-flex text-base lg:text-xl justify-center items-center transition-all duration-300 cursor-pointer'
 
@@ -28,7 +28,9 @@ export default function Button({ text, variant, onClick, href }: IButtonProps) {
 	if (href) {
 		return (
 			<Link href={href} target='_blank'>
-				<button className={`${baseClasses} ${variantClasses[variant]}`}>
+				<button
+					className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+				>
 					{variant === 'instagram' && (
 						<Instagram className='h-4 w-4 lg:h-5 md:w-5' />
 					)}

@@ -346,6 +346,7 @@ export interface IButtonProps {
 	variant: 'cart' | 'instagram'
 	onClick?: () => void
 	href?: string
+	className?: string
 }
 
 export interface IInputProps {
