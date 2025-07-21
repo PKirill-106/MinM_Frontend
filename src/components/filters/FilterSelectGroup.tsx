@@ -33,6 +33,13 @@ export default function FilterSelectGroup({
 		[categories, activeCategory]
 	)
 
+	const hasSubcategories: boolean = useMemo(
+		() =>
+			categories.filter(c => c.parentCategoryId === activeCategoryObj?.id)
+				.length > 0,
+		[categories, activeCategory]
+	)
+
 	const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
 		activeCategoryObj?.id ?? null
 	)
@@ -43,12 +50,15 @@ export default function FilterSelectGroup({
 		}
 	}, [activeCategoryObj?.id])
 
-	const handleCategorySelect = useCallback((categoryId: string) => {
-		const category = categories.find(c => c.id === categoryId)
-		if (category) {
-			router.push(`/catalog/${category.slug}`)
-		}
-	}, [categories, router])
+	const handleCategorySelect = useCallback(
+		(categoryId: string) => {
+			const category = categories.find(c => c.id === categoryId)
+			if (category) {
+				router.push(`/catalog/${category.slug}`)
+			}
+		},
+		[categories, router]
+	)
 
 	const handleSubcategorySelect = useCallback(
 		(subcategoryId: string) => {
@@ -62,11 +72,13 @@ export default function FilterSelectGroup({
 		[categories, router]
 	)
 
-	const filteredSubcategories = useMemo(() =>
-		selectedCategoryId
-			? categories.filter(cat => cat.parentCategoryId === selectedCategoryId)
-			: []
-	, [categories, selectedCategoryId])
+	const filteredSubcategories = useMemo(
+		() =>
+			selectedCategoryId
+				? categories.filter(cat => cat.parentCategoryId === selectedCategoryId)
+				: [],
+		[categories, selectedCategoryId]
+	)
 
 	return (
 		<div className='flex flex-col md:flex-row md:items-center gap-5 mb-6'>
@@ -77,7 +89,7 @@ export default function FilterSelectGroup({
 				onSelect={handleCategorySelect}
 				activeSlug={activeCategory}
 			/>
-			{selectedCategoryId && (
+			{selectedCategoryId && hasSubcategories && (
 				<Select
 					variant='subcat'
 					options={filteredSubcategories}
