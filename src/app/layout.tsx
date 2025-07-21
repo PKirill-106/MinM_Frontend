@@ -28,6 +28,9 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
 	metadataBase: new URL('http://localhost:3000'),
+	icons: {
+		icon: '/favicon.svg',
+	},
 	title: 'M in M | Професійна нігтьова продукція',
 	description:
 		'Інтернет-магазин професійних гель-лаків, баз, топів, гелів для нарощування та аксесуарів для манікюру. Якісна продукція для нігтів.',

@@ -5,11 +5,21 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Обране | M in M Nails',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description:
 		'Перегляньте ваші обрані товари в інтернет-магазині M in M Nails',
 	openGraph: {
 		title: 'Обране | M in M Nails',
 		description: 'Ваш список обраних товарів для манікюру',
+		images: [
+			{
+				url: '/M-in-M-logo_Thubnail.jpg',
+				width: 1200,
+				height: 630,
+			},
+		],
 	},
 }
 

@@ -30,13 +30,11 @@ export async function generateMetadata({
 	const description =
 		descriptionText.slice(0, 160) + (descriptionText.length > 160 ? '...' : '')
 
-
-	const image =
-		product.productImages?.[0]?.filePath ??
-		'/prod/product-image-unavailable.png'
-
 	return {
 		title,
+		icons: {
+			icon: '/favicon.svg',
+		},
 		description,
 		openGraph: {
 			title,

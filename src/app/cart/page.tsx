@@ -3,13 +3,23 @@ import { getAllProducts } from '@/lib/services/productServices'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Кошик  | M in M Nails',
+	title: 'Кошик  | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description:
 		'Ваш кошик з товарами для манікюру. Готові до оформлення замовлення',
 	openGraph: {
-		title: 'Кошик  | M in M Nails',
+		title: 'Кошик  | M in M',
 		description:
 			'Ваш кошик з товарами для манікюру. Готові до оформлення замовлення',
+		images: [
+			{
+				url: '/M-in-M-logo_Thubnail.jpg',
+				width: 1200,
+				height: 630,
+			},
+		],
 	},
 }
 

@@ -5,6 +5,9 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Про нас | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description:
 		'M-in-M — це більше, ніж продукція для манікюру. Це перевірений інструмент, який дозволяє творити з упевненістю, досягати професійного результату з легкістю та задоволенням.',
 	openGraph: {

@@ -1,9 +1,11 @@
 import Button from '@/components/UI/MyButton'
-import { Instagram, Mail, MapPin, PhoneCall, User, Vibrate } from 'lucide-react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Контакти | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	openGraph: {
 		title: 'Контакти | M in M',
 	},

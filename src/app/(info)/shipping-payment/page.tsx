@@ -2,8 +2,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Доставка і оплата | M in M',
-	description:
-		'Умови доставки та способи оплати в інтернет-магазині M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
+	description: 'Умови доставки та способи оплати в інтернет-магазині M in M',
 	openGraph: {
 		title: 'Доставка і оплата | M in M',
 		description:

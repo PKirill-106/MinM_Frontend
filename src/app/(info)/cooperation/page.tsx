@@ -2,9 +2,12 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Співпраця | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description:
 		'Пропозиції співпраці для магазинів, блогерів та партнерів. Станьте частиною команди M in M Nails',
-		openGraph: {
+	openGraph: {
 		title: 'Співпраця | M in M',
 		description:
 			'Запрошуємо до співпраці магазини, блогерів та інших партнерів у сфері нігтьового сервісу',

@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Договір оферти | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description: 'Публічний договір оферти інтернет-магазину M in M Nails',
 	openGraph: {
 		title: 'Договір оферти | M in M',

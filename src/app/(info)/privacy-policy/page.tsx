@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Політика конфіденційності | M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
 	description:
 		'Як ми збираємо, використовуємо та захищаємо ваші персональні дані',
 	openGraph: {

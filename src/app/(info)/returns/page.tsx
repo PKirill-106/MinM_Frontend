@@ -2,8 +2,10 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
 	title: 'Обмін та повернення | M in M',
-	description:
-		'Умови повернення та обміну товарів у інтернет-магазині M in M',
+	icons: {
+		icon: '/favicon.svg',
+	},
+	description: 'Умови повернення та обміну товарів у інтернет-магазині M in M',
 	openGraph: {
 		title: 'Обмін та повернення | M in M',
 		description: '14 днів на повернення товару. Умови та процедура повернення',
