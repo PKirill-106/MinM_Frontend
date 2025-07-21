@@ -2,7 +2,7 @@
 import { IInputProps } from '@/types/Interfaces'
 import { Check } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { transliterate as tr, slugify } from 'transliteration'
 
 export default function Input({ text }: IInputProps) {
@@ -13,7 +13,7 @@ export default function Input({ text }: IInputProps) {
 
 	const isChecked = searchParams.get(id) === 'true'
 
-	const handleChange = () => {
+	const handleChange = useCallback(() => {
 		const params = new URLSearchParams(searchParams)
 		if (isChecked) {
 			params.delete(id)
@@ -22,7 +22,7 @@ export default function Input({ text }: IInputProps) {
 		}
 		params.delete('page') // reset page to 1 on filter change
 		router.push(`${pathname}?${params.toString()}`)
-	}
+	}, [id, isChecked, pathname, router, searchParams])
 
 	return (
 		<label

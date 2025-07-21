@@ -1,7 +1,7 @@
 'use client'
 
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Swiper as SwiperType } from 'swiper/types'
 import ImageModal from './ImageModal'
 import MainImage from './MainImage'
@@ -19,23 +19,27 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 		setIsModalOpen(true)
 	}, [])
 
-	const handlePrev = () => {
+	const handlePrev = useCallback(() => {
 		if (selectedImageIndex > 0) {
 			const newIndex = selectedImageIndex - 1
 			setSelectedImageIndex(newIndex)
 			swiperRef.current?.slideTo(newIndex)
 		}
-	}
+	}, [selectedImageIndex])
 
-	const handleNext = () => {
+	const handleNext = useCallback(() => {
 		if (selectedImageIndex < product.productImages.length - 1) {
 			const newIndex = selectedImageIndex + 1
 			setSelectedImageIndex(newIndex)
 			swiperRef.current?.slideTo(newIndex)
 		}
-	}
+	}, [selectedImageIndex])
 
-	const isImages = product.productImages.length > 0
+	const isImages = useMemo(
+		() => product.productImages.length > 0,
+		[product.productImages]
+	)
+
 
 	const circleArrowClass = 'h-8 w-8 md:h-6 md:w-6 lg:h-7 lg:w-7 xl:h-8 xl:w-8'
 
@@ -50,13 +54,12 @@ export default function ProductTopLeft({ product }: IProductTopLeftProps) {
 						productName={product.name}
 					/>
 				) : (
-					<div
-						className='relative w-full aspect-square rounded-xl overflow-hidden cursor-pointer'
-					>
+					<div className='relative w-full aspect-square rounded-xl overflow-hidden cursor-pointer'>
 						<Image
 							src='/prod/product-image-unavailable.png'
 							alt='no images'
 							fill
+							priority
 							className='object-cover'
 						/>
 					</div>

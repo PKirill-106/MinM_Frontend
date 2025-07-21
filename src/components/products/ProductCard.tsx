@@ -34,6 +34,7 @@ export default function ProductCard({ product, categories }: IProductCard) {
 						src={imageUrl}
 						alt={product.name}
 						fill
+						priority
 						className='object-cover'
 					/>
 				</div>

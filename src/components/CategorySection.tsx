@@ -35,6 +35,7 @@ export default function CategorySection({
 									}
 									alt={category.name}
 									fill
+									priority
 									className='object-cover'
 								/>
 							</div>

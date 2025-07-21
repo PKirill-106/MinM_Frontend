@@ -39,6 +39,7 @@ export default function CartItem({ product, cartItem }: ICartItemProps) {
 							src={validSrc}
 							alt={product.name}
 							fill
+							priority
 							className='object-cover rounded-sm'
 						/>
 					</div>

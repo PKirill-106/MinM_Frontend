@@ -1,7 +1,7 @@
 'use client'
 import { ICategory, ISelectProps } from '@/types/Interfaces'
 import { ChevronRight } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 type SelectOption = {
 	id?: string
@@ -22,16 +22,16 @@ export default function Select({
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const selectRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				selectRef.current &&
-				!selectRef.current.contains(event.target as Node)
-			) {
-				setIsOpen(false)
-			}
+	const handleClickOutside = useCallback((event: MouseEvent) => {
+		if (
+			selectRef.current &&
+			!selectRef.current.contains(event.target as Node)
+		) {
+			setIsOpen(false)
 		}
+	}, [])
 
+	useEffect(() => {
 		document.addEventListener('mousedown', handleClickOutside)
 
 		return () => {
@@ -61,7 +61,7 @@ export default function Select({
 		}
 	}, [activeSlug, activeId, options, variant])
 
-	const getSelectOptions = (): SelectOption[] => {
+	const getSelectOptions = useCallback((): SelectOption[] => {
 		switch (variant) {
 			case 'cat':
 				return options.filter(
@@ -88,10 +88,25 @@ export default function Select({
 			default:
 				return []
 		}
-	}
+	}, [options, variant])
 
-	const selectOptions = getSelectOptions()
-	const selectedOption = selectOptions.find(opt => opt.name === selected)
+	const selectOptions = useMemo(() => getSelectOptions(), [getSelectOptions])
+	const selectedOption = useMemo(
+		() => selectOptions.find(opt => opt.name === selected),
+		[selectOptions, selected]
+	)
+
+	const handleOptionClick = useCallback(
+		(option: SelectOption) => {
+			setIsOpen(false)
+			setSelected(option.name)
+			if (option.id) {
+				onSelect?.(option.id)
+			}
+		},
+		[onSelect]
+	)
+
 
 	return (
 		<div
@@ -122,11 +137,7 @@ export default function Select({
 							className='px-2 py-1 lg:px-4 lg:py-2 hover:bg-gray-100 cursor-pointer'
 							onClick={e => {
 								e.stopPropagation()
-								setIsOpen(false)
-								setSelected(option.name)
-								if (option.id) {
-									onSelect?.(option.id)
-								}
+								handleOptionClick(option)
 							}}
 						>
 							<div className='flex gap-2'>
