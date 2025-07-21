@@ -1,6 +1,18 @@
 import AboutMiddle from '@/components/static-pages/about/AboutMiddle'
 import AboutTop from '@/components/static-pages/about/AboutTop'
 import AboutWhyUs from '@/components/static-pages/about/AboutWhyUs'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Про нас | M in M',
+	description:
+		'M-in-M — це більше, ніж продукція для манікюру. Це перевірений інструмент, який дозволяє творити з упевненістю, досягати професійного результату з легкістю та задоволенням.',
+	openGraph: {
+		title: 'Про нас | M in M',
+		description:
+			'M-in-M — це більше, ніж продукція для манікюру. Це перевірений інструмент, який дозволяє творити з упевненістю, досягати професійного результату з легкістю та задоволенням.',
+	},
+}
 
 export default function About() {
 	return (

@@ -1,10 +1,49 @@
 import ProductGrid from '@/components/products/ProductGrid'
 import { getAllCategories } from '@/lib/services/categoryServices'
-import { getAllColors, getAllProducts } from '@/lib/services/productServices'
-import { ICategory, IProduct, IProductColor } from '@/types/Interfaces'
+import { getAllProducts } from '@/lib/services/productServices'
+import { ICategory, IProduct } from '@/types/Interfaces'
+import { Metadata } from 'next'
 import ProductFilters from '../../components/filters/ProductFilters'
 import PaginationControls from '../../components/PaginationControls'
-import { slugify } from 'transliteration'
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { slug?: string[] }
+}): Promise<Metadata> {
+	const categories: ICategory[] = await getAllCategories()
+	const { slug = [] } = await params
+	const categorySlug = slug[1] ?? null
+	const subcategorySlug = slug[2] ?? null
+
+	const activeCategory = categories.find(
+		cat => cat.slug === categorySlug && !cat.parentCategoryId
+	)
+	const activeSubcategory = categories.find(
+		cat => cat.slug === subcategorySlug && cat.parentCategoryId
+	)
+
+	const title = activeSubcategory?.name
+		? `${activeSubcategory.name} | M in M`
+		: activeCategory?.name
+		? `${activeCategory.name} | M in M`
+		: 'Каталог товарів | M in M'
+
+	const description = activeSubcategory?.description
+		? activeSubcategory.description
+		: activeCategory?.description
+		? activeCategory.description
+		: 'Широкий вибір товарів для манікюру та педикюру у інтернет-магазині M in M Nails'
+
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+		},
+	}
+}
 
 export default async function CategoryPage({
 	params,
@@ -25,7 +64,6 @@ export default async function CategoryPage({
 	const PRODUCTS_PER_PAGE = 12
 	const page = parseInt((await searchParams).page || '1', 10)
 
-
 	const { slug = [] } = await params
 	const { sort = 'suggested', sezon, akciya, novinki } = await searchParams
 
@@ -33,10 +71,10 @@ export default async function CategoryPage({
 	const subcategorySlug = slug[2] ?? null
 
 	const activeCategory = categories.find(
-		cat => slugify(cat.name) === categorySlug && !cat.parentCategoryId
+		cat => cat.slug === categorySlug && !cat.parentCategoryId
 	)
 	const activeSubcategory = categories.find(
-		cat => slugify(cat.name) === subcategorySlug && cat.parentCategoryId
+		cat => cat.slug === subcategorySlug && cat.parentCategoryId
 	)
 
 	let filteredProducts = products
@@ -84,7 +122,6 @@ export default async function CategoryPage({
 			default:
 				return products // suggested
 		}
-		
 	}
 	filteredProducts = sortProducts(filteredProducts, sort)
 

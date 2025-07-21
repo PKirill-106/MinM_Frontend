@@ -1,3 +1,16 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Доставка і оплата | M in M',
+	description:
+		'Умови доставки та способи оплати в інтернет-магазині M in M',
+	openGraph: {
+		title: 'Доставка і оплата | M in M',
+		description:
+			"Доставка Новою Поштою, кур'єром або самовивіз. Оплата карткою або при отриманні",
+	},
+}
+
 export default function ShippingPayment() {
 	return (
 		<section className='container py-10'>

@@ -1,6 +1,17 @@
 import FilteredFavoriteGrid from '@/components/FilteredFavoriteGrid'
 import { getAllCategories } from '@/lib/services/categoryServices'
 import { getAllProducts } from '@/lib/services/productServices'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Обране | M in M Nails',
+	description:
+		'Перегляньте ваші обрані товари в інтернет-магазині M in M Nails',
+	openGraph: {
+		title: 'Обране | M in M Nails',
+		description: 'Ваш список обраних товарів для манікюру',
+	},
+}
 
 export default async function FavoritePage() {
 	const products = await getAllProducts()

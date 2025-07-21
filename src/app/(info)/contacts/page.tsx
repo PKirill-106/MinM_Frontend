@@ -1,3 +1,12 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Контакти | M in M',
+	openGraph: {
+		title: 'Контакти | M in M',
+	},
+}
+
 export default function Contacts() {
 	return (
 		<section className='container py-10'>

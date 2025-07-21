@@ -27,19 +27,40 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-	title: 'M in M',
-	description: 'Premium nail care services for flawless results',
+	metadataBase: new URL('http://localhost:3000'),
+	title: 'M in M | Професійна нігтьова продукція',
+	description:
+		'Інтернет-магазин професійних гель-лаків, баз, топів, гелів для нарощування та аксесуарів для манікюру. Якісна продукція для нігтів.',
 	keywords: [
-		'nail care',
-		'manicure',
-		'pedicure',
-		'beauty',
+		'гель лаки',
+		'бази для манікюру',
+		'топи для нігтів',
+		'гелі для нарощування',
+		'професійна нігтьова продукція',
+		'M in M Nails',
+		'магазин для нігтьового сервісу',
+		'український бренд манікюру',
+		'польський бренд манікюру',
+		'якісні матеріали для нігтів',
+		'інструменти для майстрів манікюру',
 		'M in M',
 		'M-in-M',
 		'MinM',
 		'minm',
 		'm-in-m',
 	],
+	openGraph: {
+		title: 'M in M | Професійна нігтьова продукція',
+		description:
+			'Купити якісні гель-лаки, бази, топи та гелі для нарощування нігтів у інтернет-магазині M in M Nails',
+		images: [
+			{
+				url: '/M-in-M-logo_Thubnail.jpg',
+				width: 1200,
+				height: 630,
+			},
+		],
+	},
 }
 
 export const viewport: Viewport = {

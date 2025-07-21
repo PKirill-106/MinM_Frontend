@@ -1,3 +1,18 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Договір оферти | M in M',
+	description: 'Публічний договір оферти інтернет-магазину M in M Nails',
+	openGraph: {
+		title: 'Договір оферти | M in M',
+		description: 'Офіційні умови покупки товарів у нашому інтернет-магазині',
+	},
+	alternates: {
+		canonical: '/offer-agreement',
+	},
+}
+
+
 export default function OfferAgreement() {
 	return (
 		<section className='container py-10'>
