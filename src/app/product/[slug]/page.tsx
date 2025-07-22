@@ -7,7 +7,7 @@ import { ICategory, IProduct } from '@/types/Interfaces'
 import { Metadata } from 'next'
 
 type PropsType = {
-	params: { slug: string }
+	params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({

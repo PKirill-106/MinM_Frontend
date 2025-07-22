@@ -19,7 +19,9 @@ export default function CartButton({
 		if (isInCart(productId)) {
 			const itemsToRemove = cartProducts.filter(item => item.id === productId)
 			await Promise.all(
-				itemsToRemove.map(item => removeFromCart(item.id, item.variantId))
+				itemsToRemove.map(item =>
+					removeFromCart(item.id!, productId, item.productVariantId)
+				)
 			)
 		} else {
 			addToCart(productId, initialVariantId, 1, unitsInStock)

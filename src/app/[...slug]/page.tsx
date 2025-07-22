@@ -6,11 +6,20 @@ import { Metadata } from 'next'
 import ProductFilters from '../../components/filters/ProductFilters'
 import PaginationControls from '../../components/PaginationControls'
 
+type PageProps = {
+	params: Promise<{ slug?: string[] }>
+	searchParams: Promise<{
+		sort?: string
+		sezon?: string
+		akciya?: string
+		novinki?: string
+		page?: string
+	}>
+}
+
 export async function generateMetadata({
 	params,
-}: {
-	params: { slug?: string[] }
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
 	const categories: ICategory[] = await getAllCategories()
 	const { slug = [] } = await params
 	const categorySlug = slug[1] ?? null
@@ -48,19 +57,7 @@ export async function generateMetadata({
 	}
 }
 
-export default async function CategoryPage({
-	params,
-	searchParams,
-}: {
-	params: Promise<{ slug?: string[] }>
-	searchParams: Promise<{
-		sort?: string
-		sezon?: string
-		akciya?: string
-		novinki?: string
-		page?: string
-	}>
-}) {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
 	const products: IProduct[] = await getAllProducts()
 	const categories: ICategory[] = await getAllCategories()
 
