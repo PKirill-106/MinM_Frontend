@@ -5,12 +5,8 @@ import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-// if (process.env.NODE_ENV === 'development') {
-// 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-// }
-
 export async function getAllProducts() {
-	const res = await fetch(`${API_URL}/api/Product/GetAll`, {
+	const res = await fetch(`${API_URL}/Product/GetAll`, {
 		method: 'GET',
 	})
 
@@ -23,7 +19,7 @@ export async function getAllProducts() {
 	return data
 }
 export async function getProductBySlug(slug: string) {
-	const res = await fetch(`${API_URL}/api/Product/${slug}`, {
+	const res = await fetch(`${API_URL}/Product/${slug}`, {
 		method: 'GET',
 	})
 
@@ -41,7 +37,7 @@ export async function createProduct(
 	token: string,
 	slug: string | undefined
 ) {
-	const res = await fetch(`${API_URL}/api/Product/Create`, {
+	const res = await fetch(`${API_URL}/Product/Create`, {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -65,7 +61,7 @@ export async function updateProduct(
 	token: string,
 	slug: string | undefined
 ) {
-	const res = await fetch(`${API_URL}/api/Product/Update`, {
+	const res = await fetch(`${API_URL}/Product/Update`, {
 		method: 'PUT',
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -85,7 +81,7 @@ export async function deleteProduct(
 	token: string,
 	slug: string | undefined
 ) {
-	const res = await fetch(`${API_URL}/api/Product/Delete?id=${productId.id}`, {
+	const res = await fetch(`${API_URL}/Product/Delete?id=${productId.id}`, {
 		method: 'DELETE',
 		headers: { Authorization: `Bearer ${token}` },
 		body: JSON.stringify(productId),
@@ -97,7 +93,7 @@ export async function deleteProduct(
 }
 
 export async function getAllColors() {
-	const res = await fetch(`${API_URL}/api/Product/GetAllColors`, {
+	const res = await fetch(`${API_URL}/Product/GetAllColors`, {
 		method: 'GET',
 	})
 
